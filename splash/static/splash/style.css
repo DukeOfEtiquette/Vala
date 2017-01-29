@@ -1,0 +1,116 @@
+/* list table */
+  #taskList{
+    list-style: none;
+    display: table;
+    border-collapse: collapse;
+  }
+  
+  .tableTitleRow{
+    font-weight: bold;
+    border-bottom: solid 2px black;
+    display: table-row;
+  }
+  
+  .tableRow{
+    display: table-row;
+  }
+  
+  .tableTitleRow, 
+  .tableRow{
+    border: 1px solid #dddddd;
+    text-align: left;
+  }
+  
+  .tableRow:nth-child(even) {
+    background-color: #dddddd;
+  }
+  
+  .tableCell{
+    display: table-cell;
+    width: 20%;
+    padding: 8px;
+  }
+
+/* content section */
+  #mainContent{
+    text-align:center;
+    width: 70%;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+
+/* Use a mono-spaced font if possible */
+  * {
+    font-family: arial, sans-serif;
+  }
+
+  .nav-bar {
+    text-align: center;
+  }
+
+/* Center the buttons in the navbar */
+.nav-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: inline-block;
+}
+
+/* Set the size and alignment of the text/buttons */
+.nav-bar li {
+  float: left;
+  font-size: 2em;
+}
+
+/* Control the spacing between text and the coloring */
+.nav-bar li a {
+  display: block;
+  color: cadetblue;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* On hover change the text to a horrid color */
+.nav-bar li a:hover {
+  color: #7ea05f;
+}
+
+/* Underline the text of whatever page we are on */
+.nav-bar .active {
+  text-decoration: underline;
+}
+
+/* Fill the whole div */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Center the greeting and set it to a not too terrible color */
+.greeting h1 {
+  color: cadetblue;
+  text-align: center;
+}
+
+/* Change the cursor on hover to signal to the user it is a clickable link */
+.click-row {
+  cursor: pointer;
+}
+
+/* Change the background color of the row to signal to the user it is a
+   clickable linke */
+.click-row:hover {
+  background: #7ea05f;
+}
+
+/* Align the navbar image to the far left */
+.nav-bar img {
+  width: 79px;
+  height: 79px;
+  position: absolute;
+  top: 0px;
+  left: 16px;
+}
