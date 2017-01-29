@@ -3,66 +3,66 @@
 <html lang="en">
 <head>
 
-  <!--Mmmmmmmmm yes, jQuery-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <meta charset="UTF-8">
+    <!--Mmmmmmmmm yes, jQuery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
 
-  <!--No idea why this doesn't work, should allow all CSS/JS/images in the
-      splash/static/splach directory to load-->
-  {% load staticfiles %}
+    <!--No idea why this doesn't work, should allow all CSS/JS/images in the
+        splash/static/splach directory to load-->
+    {% load staticfiles %}
 
-  <link rel="stylesheet" type="text/css" href="{% static 'splash/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'splash/style.css' %}" />
 
-  <!--A nice, simple, plain, unoriginal, to-the-point title-->
-  <title>Vala Splash</title>
+    <!--A nice, simple, plain, unoriginal, to-the-point title-->
+    <title>Vala Splash</title>
 
 </head>
 <body>
 
-  <!--Nav bar with image and some links -->
-  <div class="nav-bar">
+<!--Nav bar with image and some links -->
+<div class="nav-bar">
     <a href="#">
-      <img src="https://maxcdn.icons8.com/wp-content/uploads/2014/12/entering_heaven_alive.png">
+        <img src="https://maxcdn.icons8.com/wp-content/uploads/2014/12/entering_heaven_alive.png">
     </a>
     <ul>
-      <li><a class="active" href="#">Home</a></li>
-      <li><a href="#">Query</a></li>
-      <li><a href="#">New</a></li>
+        <li><a class="active" href="#">Home</a></li>
+        <li><a href="#">Query</a></li>
+        <li><a href="#">New</a></li>
     </ul>
     <hr>
-  </div>
+</div>
 
 
-  <section id="mainContent">
+<section id="mainContent">
     <!--Welcome message, eventually will populate with user name-->
     <div class="greeting">
-      <h1>Hello, Scientist!</h1>
+        <h1>Hello, Scientist!</h1>
     </div>
 
     <!--Plain title for the table of tasks/entries-->
     <div class="table-title">
-      <h3 style="text-decoration: underline;">Your Tasks</h3>
+        <h3 style="text-decoration: underline;">Your Tasks</h3>
     </div>
-    
+
     {% if entry_list %}
-      <ul id="taskList">
-          <li class='tableTitleRow'>
-            <span class='tableCell'> Project ID </span>
-            <span class='tableCell'> Creation Date </span>
-            <span class='tableCell'> Experiment Type </span>
-            <span class='tableCell'> Status </span>
-          </li>
-      {% for entry in entry_list %}
-          <li class='tableRow'>
-            <span class='tableCell'> {{ entry.projectID }} </span>
-            <span class='tableCell'> {{ entry.creationDate }} </span>
-            <span class='tableCell'> {{ entry.experimentType.string }} </span>
-            <span class='tableCell'> {{ entry.status.string }} </span>
-          </li>
-      {% endfor %}
-      </ul>
+        <ul id="taskList">
+            <li class='tableTitleRow'>
+                <span class='tableCell'> Project ID </span>
+                <span class='tableCell'> Creation Date </span>
+                <span class='tableCell'> Experiment Type </span>
+                <span class='tableCell'> Status </span>
+            </li>
+            {% for entry in entry_list %}
+                <li class='tableRow'>
+                    <span class='tableCell'> {{ entry.projectID }} </span>
+                    <span class='tableCell'> {{ entry.creationDate }} </span>
+                    <span class='tableCell'> {{ entry.experimentType.string }} </span>
+                    <span class='tableCell'> {{ entry.status.string }} </span>
+                </li>
+            {% endfor %}
+        </ul>
     {% else %}
-      <p>No polls are available.</p>
+        <p>No polls are available.</p>
     {% endif %}
 
 
@@ -71,30 +71,30 @@
     <p class="placeholder"></p>
 </section>
 
-  <script>
+<script>
     //Once document is ready...
     jQuery(document).ready(function($) {
 
-      //Add class to each row of table
-      $('.tableRow').each(function(){
-        $(this).addClass('click-row');
-      });
+        //Add class to each row of table
+        $('.tableRow').each(function(){
+            $(this).addClass('click-row');
+        });
 
 
-      //One row click, just change placeholder p tag with project #
-      $(".click-row").click(function() {
-        val = $(this).children("span:first").text();
-        $(".placeholder").text(val);
-      });
+        //One row click, just change placeholder p tag with project #
+        $(".click-row").click(function() {
+            val = $(this).children("span:first").text();
+            $(".placeholder").text(val);
+        });
 
-      //Change what nav bar item is selected
-      $(".nav-bar ul li").click(function(){
-        $(".nav-bar .active").removeClass('active');
-        $(this).addClass('active');
+        //Change what nav bar item is selected
+        $(".nav-bar ul li").click(function(){
+            $(".nav-bar .active").removeClass('active');
+            $(this).addClass('active');
 
-      });
+        });
     });
-  </script>
+</script>
 
 </body>
 </html>
