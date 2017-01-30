@@ -22,6 +22,7 @@
 
 # Mongo Explorer plugin:
 .idea/mongoSettings.xml
+.idea
 
 ## File-based project format:
 *.iws
@@ -133,4 +134,4 @@ ENV/
 
 # Rope project settings
 .ropeproject
-/data.sqlite3
+*.sqlite3
