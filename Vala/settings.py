@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'Vala.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'data.splite3'),
+        'NAME': os.path.join(BASE_DIR, 'data.sqlite3'),
     }
 }
 
