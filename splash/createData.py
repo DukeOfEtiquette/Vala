@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from models import ValaEntryStatus
-from models import ValaEntryExperimentType
-from models import ValaEntry
+from splash.models import ValaEntryStatus
+from splash.models import ValaEntryExperimentType
+from splash.models import ValaEntry
 
 veStatus0 = ValaEntryStatus(code="0", string="New")
 veStatus1 = ValaEntryStatus(code="1", string="Pending Review")
