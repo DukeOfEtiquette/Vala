@@ -14,7 +14,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'splash/style.css' %}" />
 
     <!--A nice, simple, plain, unoriginal, to-the-point title-->
-    <title>Vala Splash</title>
+    <title>{{ pageTitle }}</title>
+    {% block head %}
+    {% endblock %}
 
 </head>
 <body>
@@ -37,31 +39,6 @@
     {% block pageBody %}
     {% endblock %}
 </section>
-
-<script>
-    //Once document is ready...
-    jQuery(document).ready(function($) {
-
-        //Add class to each row of table
-        $('.tableRow').each(function(){
-            $(this).addClass('click-row');
-        });
-
-
-        //One row click, just change placeholder p tag with project #
-        $(".click-row").click(function() {
-            val = $(this).children("span:first").text();
-            $(".placeholder").text(val);
-        });
-
-        //Change what nav bar item is selected
-        $(".nav-bar ul li").click(function(){
-            $(".nav-bar .active").removeClass('active');
-            $(this).addClass('active');
-
-        });
-    });
-</script>
 
 </body>
 </html>

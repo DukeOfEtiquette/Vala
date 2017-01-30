@@ -1,5 +1,32 @@
 {% extends 'splash/_base.html' %}
 
+{% block head %}
+    <script>
+        //Once document is ready...
+        jQuery(document).ready(function($) {
+
+            //Add class to each row of table
+            $('.tableRow').each(function(){
+                $(this).addClass('click-row');
+            });
+
+
+            //One row click, just change placeholder p tag with project #
+            $(".click-row").click(function() {
+                val = $(this).children("span:first").text();
+                $(".placeholder").text(val);
+            });
+
+            //Change what nav bar item is selected
+            $(".nav-bar ul li").click(function(){
+                $(".nav-bar .active").removeClass('active');
+                $(this).addClass('active');
+
+            });
+        });
+    </script>
+{% endblock %}
+
 {% block pageBody %}
     <!--Welcome message, eventually will populate with user name-->
     <div class="greeting">
