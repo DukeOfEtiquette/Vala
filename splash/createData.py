@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.utils import timezone
 
 from splash.models import ValaEntryStatus
 from splash.models import ValaEntryExperimentType
@@ -35,7 +36,7 @@ ve1 = ValaEntry(
     hypothesis = "This is the first hypothesis",
     experimentType = ValaEntryExperimentType.objects.get(code=0),
     status = ValaEntryStatus.objects.get(code=0),
-    creationDate = datetime.now(),
+    creationDate = timezone.now(),
     projectID = "AA-012345",
     reviewer = "Head Scientist B"
 )
@@ -44,7 +45,7 @@ ve2 = ValaEntry(
     hypothesis = "This is the second hypothesis",
     experimentType = ValaEntryExperimentType.objects.get(code=4),
     status = ValaEntryStatus.objects.get(code=1),
-    creationDate = datetime.now(),
+    creationDate = timezone.now(),
     projectID = "BB-012345",
     reviewer = "Head Scientist K"
 )
@@ -53,7 +54,7 @@ ve3 = ValaEntry(
     hypothesis = "This is the second hypothesis",
     experimentType = ValaEntryExperimentType.objects.get(code=2),
     status = ValaEntryStatus.objects.get(code=2),
-    creationDate = datetime.now(),
+    creationDate = timezone.now(),
     projectID = "CC-012345",
     reviewer = "Head Scientist K"
 )
