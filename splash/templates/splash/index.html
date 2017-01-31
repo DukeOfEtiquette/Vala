@@ -3,14 +3,7 @@
 {% block head %}
     <script>
         //Once document is ready...
-        jQuery(document).ready(function($) {
-
-            //Add class to each row of table
-            $('.tableRow').each(function(){
-                $(this).addClass('click-row');
-            });
-
-
+        $( window ).on( "load", function() {
             //One row click, just change placeholder p tag with project #
             $(".click-row").click(function() {
                 val = $(this).children("span:first").text();
@@ -23,7 +16,15 @@
                 $(this).addClass('active');
 
             });
+
+            $(".click-row").click( function(){
+                val = $(this).children("span:first").text();
+                location = "/view/"+val;
+                console.log(locaton);
+                window.location.href = location;
+            });
         });
+
     </script>
 {% endblock %}
 
@@ -35,7 +36,7 @@
 
     <!--Plain title for the table of tasks/entries-->
     <div class="table-title">
-        <h3 style="text-decoration: underline;">Your Tasks</h3>
+        <h3 style="text-decoration: underline;">Your Entries</h3>
     </div>
 
     {% if entry_list %}
@@ -47,19 +48,15 @@
                 <span class='tableCell'> Status </span>
             </li>
             {% for entry in entry_list %}
-                <li class='tableRow'>
-                    <span class='tableCell'> {{ entry.projectID }} </span>
-                    <span class='tableCell'> {{ entry.creationDate }} </span>
-                    <span class='tableCell'> {{ entry.experimentType.name }} </span>
-                    <span class='tableCell'> {{ entry.status.text }} </span>
+                <li class='tableRow click-row'>
+                    <span class='tableCell'>{{ entry.projectID }} </span>
+                    <span class='tableCell'>{{ entry.creationDate }} </span>
+                    <span class='tableCell'>{{ entry.experimentType.name }} </span>
+                    <span class='tableCell'>{{ entry.status.text }} </span>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No polls are available.</p>
+        <p>No entries are available.</p>
     {% endif %}
 {% endblock %}
-
-    <!--For testing purposes, to make sure we are scraping the project
-        number on click-->
-    <p class="placeholder"></p>

@@ -106,11 +106,10 @@ table {
   background: #7ea05f;
 }
 
-/* Align the navbar image to the far left */
 .nav-bar img {
-  width: 79px;
-  height: 79px;
-  position: absolute;
-  top: 0px;
-  left: 16px;
+	width: 6%;
+	height: 8%;
+	position: absolute;
+	top: 3px;
+	left: 16px;
 }

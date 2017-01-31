@@ -7,7 +7,7 @@ from splash.models import ValaEntry
 
 veStatus0 = Status(code="0", text="New")
 veStatus1 = Status(code="1", text="Pending Review")
-veStatus2 = Status(code="2", text="Compleded")
+veStatus2 = Status(code="2", text="Completed")
 veStatus3 = Status(code="3", text="Deleted")
 
 veEntry0 = ExperimentType(code="0", name="AST")
