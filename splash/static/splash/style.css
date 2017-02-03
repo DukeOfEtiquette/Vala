@@ -1,53 +1,53 @@
 /* list table */
-  #taskList{
-    list-style: none;
-    display: table;
-    border-collapse: collapse;
-  }
-  
-  .tableTitleRow{
-    font-weight: bold;
-    border-bottom: solid 2px black;
-    display: table-row;
-  }
-  
-  .tableRow{
-    display: table-row;
-  }
-  
-  .tableTitleRow, 
-  .tableRow{
-    border: 1px solid #dddddd;
-    text-align: left;
-  }
-  
-  .tableRow:nth-child(even) {
-    background-color: #dddddd;
-  }
-  
-  .tableCell{
-    display: table-cell;
-    width: 20%;
-    padding: 8px;
-  }
+#taskList{
+  list-style: none;
+  display: table;
+  border-collapse: collapse;
+}
+
+.tableTitleRow{
+  font-weight: bold;
+  border-bottom: solid 2px black;
+  display: table-row;
+}
+
+.tableRow{
+  display: table-row;
+}
+
+.tableTitleRow,
+.tableRow{
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+.tableRow:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.tableCell{
+  display: table-cell;
+  width: 20%;
+  padding: 8px;
+}
 
 /* content section */
-  #mainContent{
-    text-align:center;
-    width: 70%;
-    margin-left:auto;
-    margin-right:auto;
-  }
+#mainContent{
+  text-align:center;
+  width: 70%;
+  margin-left:auto;
+  margin-right:auto;
+}
 
 
 /* Use a mono-spaced font if possible */
-  * {
-    font-family: arial, sans-serif;
-  }
+* {
+  font-family: arial, sans-serif;
+}
 
-  .nav-bar {
-    text-align: center;
-  }
+.nav-bar {
+  text-align: center;
+}
 
 /* Center the buttons in the navbar */
 .nav-bar ul {
@@ -76,11 +76,6 @@
 /* On hover change the text to a horrid color */
 .nav-bar li a:hover {
   color: #7ea05f;
-}
-
-/* Underline the text of whatever page we are on */
-.nav-bar .active {
-  text-decoration: underline;
 }
 
 /* Fill the whole div */
@@ -113,4 +108,62 @@ table {
   position: absolute;
   top: 0px;
   left: 16px;
+}
+/* Style the list */
+ul.tab {
+  list-style-type: none;
+  text-align:center;
+  width: 70%;
+  margin-left:auto;
+  margin-right:auto;
+  margin-bottom: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Float the list items side by side */
+ul.tab li {
+  float: left;
+  width: 20%;
+}
+
+/* Style the links inside the list items */
+ul.tab li a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {background-color: #ddd;}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+/* Underline the text of whatever page we are on */
+.nav-bar .active {
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 0px;
+  border: 1px solid #ccc;
+  border-top: none;
+  /*text-align:center;*/
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tabOption{
+  float: left;
 }
