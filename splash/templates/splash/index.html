@@ -119,7 +119,7 @@
 
 <form>
   <ul class="tab">
-    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'experiments')">Experiments</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'experiments')">Experiment</a></li>
     <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'notebooks')">Notebooks</a></li>
     <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'equipment')">Equipment</a></li>
     <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'files')">Files</a></li>
@@ -129,22 +129,18 @@
 
   <!-- Experiments -->
   <div id="experiments" class="tabcontent">
-    <div class="taboption">
-      Experiment Type <select name="experiment_type">
-                          <option value="AST">AST</option>
-                          <option value="MCDisso">Microcentrifuge Disso</option>
-                          <option value="DSC">Thermal Characterization (DSC)</option>
-                          <option value="Potency">Potency</option>
-                          <option value="EquilibriumSolubility">Equilibrium Solubility</option>
-                          <option value="PXRD">PXRD</option>
-                          <option value="NMR Characterization">NMR Characterization</option>
-                      </select>
-      </div>
+    Experiment Type <select name="experiment_type">
+                        <option value="AST">AST</option>
+                        <option value="MCDisso">Microcentrifuge Disso</option>
+                        <option value="DSC">Thermal Characterization (DSC)</option>
+                        <option value="Potency">Potency</option>
+                        <option value="EquilibriumSolubility">Equilibrium Solubility</option>
+                        <option value="PXRD">PXRD</option>
+                        <option value="NMR Characterization">NMR Characterization</option>
+                    </select>
+    <br>
 
-
-      <br>
-
-    Hypothesis/Goals/Question<br>
+    <p>Hypothesis/Goals/Question</p>
     <textarea name="hypothesis" rows="10" cols="50"></textarea>
     <input type="button" onclick="" value="SAVE"><br>
 

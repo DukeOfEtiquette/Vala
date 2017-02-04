@@ -156,14 +156,10 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 .tabcontent {
   display: none;
   padding: 6px 0px;
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc;*/
   border-top: none;
   /*text-align:center;*/
   width: 70%;
   margin-left: auto;
   margin-right: auto;
-}
-
-.tabOption{
-  float: left;
 }
