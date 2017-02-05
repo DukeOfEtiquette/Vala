@@ -3,6 +3,9 @@
   list-style: none;
   display: table;
   border-collapse: collapse;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tableTitleRow{
