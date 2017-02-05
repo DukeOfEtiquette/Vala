@@ -62,7 +62,7 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>No polls are available.</p>
+        <p>You have no projects to view.</p>
     {% endif %}
 
 
@@ -72,29 +72,95 @@
 </section>
 
 <script>
-    //Once document is ready...
-    jQuery(document).ready(function($) {
+  //Once document is ready...
+  jQuery(document).ready(function($) {
 
-        //Add class to each row of table
-        $('.tableRow').each(function(){
-            $(this).addClass('click-row');
-        });
+      //Add class to each row of table
+      $('.tableRow').each(function(){
+          $(this).addClass('click-row');
+      });
 
 
-        //One row click, just change placeholder p tag with project #
-        $(".click-row").click(function() {
-            val = $(this).children("span:first").text();
-            $(".placeholder").text(val);
-        });
+      //One row click, just change placeholder p tag with project #
+      $(".click-row").click(function() {
+          val = $(this).children("span:first").text();
+          $(".placeholder").text(val);
+      });
 
-        //Change what nav bar item is selected
-        $(".nav-bar ul li").click(function(){
-            $(".nav-bar .active").removeClass('active');
-            $(this).addClass('active');
+      //Change what nav bar item is selected
+      $(".nav-bar ul li").click(function(){
+          $(".nav-bar .active").removeClass('active');
+          $(this).addClass('active');
 
-        });
-    });
+      });
+  });
+
+  function openCity(evt, cityName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab, and add an "active" class to the link that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
 </script>
 
+<form>
+  <ul class="tab">
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'experiments')">Experiments</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'notebooks')">Notebooks</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'equipment')">Equipment</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'files')">Files</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'summary')">Summary</a></li>
+  </ul>
+
+
+  <!-- Experiments -->
+  <div id="experiments" class="tabcontent">
+    <div class="taboption">
+      Experiment Type <select name="experiment_type">
+                          <option value="AST">AST</option>
+                          <option value="MCDisso">Microcentrifuge Disso</option>
+                          <option value="DSC">Thermal Characterization (DSC)</option>
+                          <option value="Potency">Potency</option>
+                          <option value="EquilibriumSolubility">Equilibrium Solubility</option>
+                          <option value="PXRD">PXRD</option>
+                          <option value="NMR Characterization">NMR Characterization</option>
+                      </select>
+      </div>
+
+
+      <br>
+
+    Hypothesis/Goals/Question<br>
+    <textarea name="hypothesis" rows="10" cols="50"></textarea>
+    <input type="button" onclick="" value="SAVE"><br>
+
+    Key Scientist: <input type="text" name="scientist"><input type="submit" value="add"><br>
+  </div>
+
+
+
+    <!-- Notebooks & Pages -->
+  <div id="notebooks" class="tabcontent"></div>
+    <!-- Equipment -->
+  <div id="equipment" class="tabcontent"></div>
+    <!-- Add Files/Data -->
+  <div id="files" class="tabcontent"></div>
+    <!-- Finalize Project -->
+  <div id="summary" class="tabcontent"></div>
+</form>
 </body>
 </html>
