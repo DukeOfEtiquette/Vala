@@ -3,6 +3,9 @@
   list-style: none;
   display: table;
   border-collapse: collapse;
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tableTitleRow{
@@ -101,7 +104,6 @@ table {
   background: #7ea05f;
 }
 
-/* Align the navbar image to the far left */
 .nav-bar img {
   width: 79px;
   height: 79px;
@@ -113,25 +115,28 @@ table {
 ul.tab {
   list-style-type: none;
   text-align:center;
-  width: 70%;
-  margin-left:auto;
-  margin-right:auto;
+  width: 10%;
+  margin-left: 20%;
+  margin-right: 0%;
   margin-bottom: 0;
+  margin-top: 0;
   padding: 0;
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
+  display: inline-block;
 }
 
 /* Float the list items side by side */
 ul.tab li {
-  float: left;
-  width: 20%;
+  /*float: left;*/
+  /*width: 20%;*/
+  display: inline;
 }
 
 /* Style the links inside the list items */
 ul.tab li a {
-  display: inline-block;
+  display: block;
   color: black;
   text-align: center;
   padding: 14px 16px;
@@ -154,12 +159,13 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 
 /* Style the tab content */
 .tabcontent {
+  float: right;
   display: none;
   padding: 6px 0px;
-  /*border: 1px solid #ccc;*/
-  border-top: none;
+  border: 1px solid #ccc;
+  border-left: none;
   /*text-align:center;*/
-  width: 70%;
+  width: 69%;
   margin-left: auto;
   margin-right: auto;
 }
