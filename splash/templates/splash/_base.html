@@ -4,6 +4,7 @@
         <title>{{ pageTitle }}</title>
         <meta charset="UTF-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <!--<script type="text/javascript" src="static/splash/vala.splash.js"></script>-->
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'splash/style.css' %}" />
         {% block head %}
@@ -12,7 +13,7 @@
     <body>
 
 <header class="nav-bar">
-    <a href="#">
+    <a href="/admin">
         <img src="{% static 'img/entering_heaven_alive.png' %}">
     </a>
     <ul>
