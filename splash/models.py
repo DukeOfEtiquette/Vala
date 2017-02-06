@@ -3,6 +3,8 @@ from django.db import models
 class Status( models.Model ):
     code    = models.IntegerField()
     text    = models.CharField( max_length=64 )
+    class Meta:
+        verbose_name_plural = "Status"
 
 class ExperimentType( models.Model ):
     code    = models.IntegerField()
@@ -15,6 +17,8 @@ class ValaEntry( models.Model ):
     creationDate    = models.DateTimeField( 'Creation Date' )
     projectID       = models.CharField( max_length=16 )#STUB
     reviewer        = models.CharField( max_length=256 )#STUB
+    class Meta:
+        verbose_name_plural = "ValaEntries"
 
 class Scientist( models.Model ):
     valaEntry   = models.ForeignKey( "ValaEntry" )
@@ -23,6 +27,9 @@ class Scientist( models.Model ):
 class FileType( models.Model ):
     code    = models.IntegerField()
     type    = models.CharField( max_length=64 )
+    class Meta:
+        verbose_name_plural = "FileTypes"
+
 
 class File( models.Model ):
     valaEntry     = models.ForeignKey( "ValaEntry" )
