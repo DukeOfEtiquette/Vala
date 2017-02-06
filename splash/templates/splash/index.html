@@ -1,47 +1,6 @@
 {% extends 'splash/_base.html' %}
 
 {% block head %}
-    <script>
-        //Once document is ready...
-        $( window ).on( "load", function() {
-
-            //Change what nav bar item is selected
-            $(".nav-bar ul li").click(function(){
-                $(".nav-bar .active").removeClass('active');
-                $(this).addClass('active');
-
-            });
-
-            $(".click-row").click( function(){
-                val = $(this).children("span:first").text();
-                location = "/view/"+val;
-                console.log(locaton);
-                window.location.href = location;
-            });
-        });
-
-        function openCity(evt, cityName) {
-            // Declare all variables
-            var i, tabcontent, tablinks;
-
-            // Get all elements with class="tabcontent" and hide them
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-
-            // Get all elements with class="tablinks" and remove the class "active"
-            tablinks = document.getElementsByClassName("tablinks");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].className = tablinks[i].className.replace(" active", "");
-            }
-
-            // Show the current tab, and add an "active" class to the link that opened the tab
-            document.getElementById(cityName).style.display = "inline-block";
-            evt.currentTarget.className += " active";
-        }
-
-    </script>
 {% endblock %}
 
 {% block pageBody %}
@@ -81,38 +40,14 @@
     <p class="placeholder"></p>
 </section>
 
-<!--<script>
-  function openCity(evt, cityName) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the link that opened the tab
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
-</script>-->
-
 <form>
   <ul class="tab">
-    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'experiments')">Experiments</a></li>
-    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'notebooks')">Notebooks</a></li>
-    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'equipment')">Equipment</a></li>
-    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'files')">Files</a></li>
-    <li><a href="javascript:void(0)" class="tablinks" onclick="openCity(event, 'summary')">Summary</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'experiments')">Experiments</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'notebooks')">Notebooks</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'equipment')">Equipment</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'files')">Files</a></li>
+    <li><a href="javascript:void(0)" class="tablinks" onclick="openTab(event, 'summary')">Summary</a></li>
   </ul>
-
 
   <!-- Experiments -->
   <div id="experiments" class="tabcontent">
@@ -129,7 +64,7 @@
     </div>
 
 
-      <br>
+    <br>
 
     Hypothesis/Goals/Question<br>
     <textarea name="hypothesis" rows="10" cols="50"></textarea>
@@ -138,14 +73,45 @@
     Key Scientist: <input type="text" name="scientist"><input type="submit" value="add"><br>
   </div>
 
-
-
     <!-- Notebooks & Pages -->
   <div id="notebooks" class="tabcontent"></div>
     <!-- Equipment -->
-  <div id="equipment" class="tabcontent"></div>
+  <div id="equipment" class="tabcontent">
+    <h2>
+      Add Equipment
+    </h2>
+
+    {% if equip_list %}
+      <ul id="equipList">
+        <li class='tableTitleRow'>
+          <span class="tableCheck"> </span>
+          <span class='equipTableCell'> Equipment ID </span>
+          <span class='equipTableCell'> Name </span>
+          <span class='equipTableCell'> Location </span>
+        </li>
+        {% for equip in equip_list%}
+          <li class='tableRow'>
+            <span class="tableCheck"><input type="checkbox"></span>
+            <span class='equipTableCell'>{{ equip.equipmentID }} </span>
+            <span class='equipTableCell'>{{ equip.name }} </span>
+            <span class='equipTableCell'>{{ equip.location }} </span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No equipment available.</p>
+    {% endif %}
+
+  </div>
     <!-- Add Files/Data -->
-  <div id="files" class="tabcontent"></div>
+  <div id="files" class="tabcontent">
+    <h2>Add Project File(s)</h2>
+    <ul style="padding: 0"; class="file_list">
+      <li id="file1" style="list-style: none";>File: <input type="file"><button onclick="removeFile()" class="remove_file">X</button></li>
+    </ul>
+    <br>
+    <button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>
+  </div>
     <!-- Finalize Project -->
   <div id="summary" class="tabcontent"></div>
 </form>

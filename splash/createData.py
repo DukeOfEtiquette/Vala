@@ -4,6 +4,7 @@ from django.utils import timezone
 from splash.models import Status
 from splash.models import ExperimentType
 from splash.models import ValaEntry
+from splash.models import Equipment
 
 veStatus0 = Status(code="0", text="New")
 veStatus1 = Status(code="1", text="Pending Review")
@@ -62,3 +63,11 @@ ve3 = ValaEntry(
 ve1.save()
 ve2.save()
 ve3.save()
+
+equip1 = Equipment(valaEntry=ve1, equipmentID="1")
+equip2 = Equipment(valaEntry=ve2, equipmentID="2")
+equip3 = Equipment(valaEntry=ve3, equipmentID="3")
+
+equip1.save()
+equip2.save()
+equip3.save()

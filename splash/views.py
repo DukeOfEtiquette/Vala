@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .models import ValaEntry
+from .models import ValaEntry, Equipment
 
 
 def index(request):
@@ -12,6 +12,7 @@ class splashIndex(TemplateView):
     template_name = "splash/index.html"
     def get(self, request):
         entry_list = ValaEntry.objects.order_by('creationDate')
-        template_context = {'pageTitle' : "Vala Project Entry System", 'entry_list': entry_list}
+        equipment = Equipment.objects.all();
+        template_context = {'pageTitle' : "Vala Project Entry System", 'entry_list': entry_list, 'equip_list': equipment}
         return render(request, self.template_name, template_context)
 

@@ -48,3 +48,5 @@ class PageRange( models.Model):
 class Equipment( models.Model):
     valaEntry   = models.ForeignKey( "ValaEntry" )
     equipmentID = models.CharField( max_length=256 )#STUB
+    name        = models.CharField( max_length=256, default="goggles" ) #STUB
+    loc         = models.CharField( max_length=256, default="here" ) #STUB

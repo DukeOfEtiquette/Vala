@@ -8,6 +8,15 @@
   margin-right: auto;
 }
 
+#equipList{
+  list-style: none;
+  display: table;
+  border-collapse: collapse;
+  width: 70%;
+  margin-left: 0;
+  margin-right: auto;
+}
+
 .tableTitleRow{
   font-weight: bold;
   border-bottom: solid 2px black;
@@ -31,6 +40,17 @@
 .tableCell{
   display: table-cell;
   width: 20%;
+  padding: 8px;
+}
+
+.equipTableCell{
+  display: table-cell;
+  padding: 8px;
+}
+
+.tableCheck{
+  display: table-cell;
+  width: 1%;
   padding: 8px;
 }
 
@@ -162,9 +182,9 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   float: right;
   display: none;
   padding: 6px 0px;
-  border: 1px solid #ccc;
+  /*border: 1px solid #ccc;
   border-left: none;
-  /*text-align:center;*/
+  text-align:center;*/
   width: 69%;
   margin-left: auto;
   margin-right: auto;
@@ -172,4 +192,8 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 
 .tabOption{
   float: left;
+}
+
+.remove_file{
+  background: red;
 }
