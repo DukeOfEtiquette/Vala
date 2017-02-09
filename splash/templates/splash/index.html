@@ -2,7 +2,7 @@
 
 {% block head %}
   {% load static %}
-    <script type="text/javascript" src="{% splash/vala.splash.js %}"></script>
+    <script type="text/javascript" src="{% static 'splash/vala.splash.js' %}"></script>
 {% endblock %}
 
 {% block pageBody %}
@@ -108,11 +108,11 @@
     <!-- Add Files/Data -->
   <div id="files" class="tabcontent">
     <h2>Add Project File(s)</h2>
-    <ul style="padding: 0"; class="file_list">
-      <li id="file1" style="list-style: none";>File: <input type="file"><button onclick="removeFile()" class="remove_file">X</button></li>
+    <ul style="padding: 0"; id="file_list">
+      <li id="file1" style="list-style: none";>File: <input type="file"><button type="button" onclick="removeFile()" class="remove_file">X</button></li>
     </ul>
     <br>
-    <button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>
+    <button type="button" onclick="addFileButton()" id="add_file_button">Add Another File</button>
   </div>
     <!-- Finalize Project -->
   <div id="summary" class="tabcontent"></div>

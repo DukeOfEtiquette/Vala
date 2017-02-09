@@ -19,21 +19,29 @@ $( window ).on( "load", function() {
     });
 });
 
-function removeButton(){
+function removeFile(){
     var parent = document.getElementById("file_list");
     var child = document.getElementById("file1");
     parent.removeChild(child);
 }
 
-function addFileButton(evt){
-    var addButton = document.createElement("INPUT");
-    addButton.setAttribute("type", "file");
-    var x = document.getElementById("file_list");
-    x.prepend(addButton);
-    //var lineBreak = document.createElement("br");
-    //x.prepend(lineBreak);
+var nItem = 1;
 
-    openTab(evt, "files");
+function addFileButton(){
+    var fileItem = document.createElement('li');
+    fileItem.setAttribute("id", nItem.toString());
+    nItem++;
+
+    var str = "File: <input type=\'file\'><button type=\'button\' onclick=\'removeFile()\' class=\'remove_file\'>X</button>";
+    fileItem.innerHTML = str;
+
+    //var addButton = document.createElement("INPUT");
+    //addButton.setAttribute("type", "".concat("file", nItem.toString()));
+
+    var x = document.getElementById("file_list");
+    x.append(fileItem);
+
+    //openTab(evt, "files");
 }
 
 function openTab(evt, cityName) {
