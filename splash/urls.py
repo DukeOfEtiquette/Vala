@@ -16,8 +16,10 @@ Including another URLconf
 from django.conf.urls import url
 from . import views
 #from django.contrib import admin
+from views import editEntry
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
-    url(r'^$', views.splashIndex.as_view())
+    url(r'^edit/(?P<entry_id>[0-9]+)/$', editEntry.as_view()),
+    url(r'^$', views.splashIndex.as_view()),
 ]

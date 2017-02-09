@@ -53,6 +53,7 @@
 
   <!-- Experiments -->
   <div id="experiments" class="tabcontent">
+      <h2>Experiment</h2>
     <div class="taboption">
       Experiment Type <select name="experiment_type">
                           <option value="AST">AST</option>
@@ -66,17 +67,28 @@
     </div>
 
 
-    <br>
 
     Hypothesis/Goals/Question<br>
     <textarea name="hypothesis" rows="10" cols="50"></textarea>
     <input type="button" onclick="" value="SAVE"><br>
 
-    Key Scientist: <input type="text" name="scientist"><input type="submit" value="add"><br>
+    Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
   </div>
 
     <!-- Notebooks & Pages -->
-  <div id="notebooks" class="tabcontent"></div>
+  <div id="notebooks" class="tabcontent">
+    <h2>
+    Select Notebook Reference
+    </h2>
+    <select name="notebooks"> 
+        <option value="Select Notebook(s):">Select Notebook(s)</option>  </select>
+        <input type="submit" value="ADD"><br>
+    <select name="pages"> 
+        <option value="Select Page(s):">Select Pages</option>
+            <input type="submit" value="ADD">
+    </select>
+  </div>
+
     <!-- Equipment -->
   <div id="equipment" class="tabcontent">
     <h2>
