@@ -16,9 +16,20 @@ class splashIndex(TemplateView):
         template_context = {'pageTitle' : "Vala Project Entry System", 'entry_list': entry_list, 'equip_list': equipment}
         return render(request, self.template_name, template_context)
 
-
 class editEntry(TemplateView):
     template_name='splash/edit.html'
+    def get(self, request, entry_id):
+        template_context = {'entry_id': entry_id, 'pageTitle': "Edit Vala Entry" }
+        return render(request, self.template_name, template_context)
+
+class viewEntry(TemplateView):
+    template_name='splash/view.html'
+    def get(self, request, entry_id):
+        template_context = {'entry_id': entry_id, 'pageTitle': "Edit Vala Entry" }
+        return render(request, self.template_name, template_context)
+
+class reviewEntry(TemplateView):
+    template_name='splash/review.html'
     def get(self, request, entry_id):
         template_context = {'entry_id': entry_id, 'pageTitle': "Edit Vala Entry" }
         return render(request, self.template_name, template_context)
