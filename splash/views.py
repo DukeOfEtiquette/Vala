@@ -20,7 +20,11 @@ class editEntry(TemplateView):
     template_name='splash/edit.html'
     def get(self, request, entry_id):
         project_entry = ValaEntry.objects.get(projectID=entry_id)
-        template_context = {'entry_id': entry_id, 'pageTitle': "Edit Vala Entry", 'project_entry': project_entry}
+        equipment_list = Equipment.objects.all();
+        template_context = {'entry_id': entry_id,
+                            'pageTitle': "Edit Vala Entry",
+                            'project_entry': project_entry,
+                            'equipment_list': equipment_list}
         return render(request, self.template_name, template_context)
 
 class viewEntry(TemplateView):

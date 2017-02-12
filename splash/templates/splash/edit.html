@@ -7,17 +7,6 @@
 {% block pageBody %}
 
 <form>
-  {% if project_entry %}
-    <p>Hypo: {{ project_entry.hypothesis }}</p>
-    <p>ExperimentType: {{ project_entry.experimentType.name }}</p>
-    <p>Status: {{ project_entry.status.text }}</p>
-    <p>CreationDate: {{ project_entry.creationDate }}</p>
-    <p>ProjectID: {{ project_entry.projectID }}</p>
-    <p>Reviewer: {{ project_entry.reviewer }}</p>
-  {% else %}
-    <p>Project not found.</p>
-  {% endif %}
-
   <!-- Vertical NavBar -->
   <ul class="tab">
     <li><a href="javascript:void(0)" class="tablinks">Experiments</a></li>
@@ -75,25 +64,25 @@
       Add Equipment
     </h2>
 
-    {% if equip_list %}
-    <ul id="equipList">
-      <li class='tableTitleRow'>
-        <span class="tableCheck"> </span>
-        <span class='equipTableCell'> Equipment ID </span>
-        <span class='equipTableCell'> Name </span>
-        <span class='equipTableCell'> Location </span>
-      </li>
-      {% for equip in equip_list%}
-      <li class='tableRow'>
-        <span class="tableCheck"><input type="checkbox"></span>
-        <span class='equipTableCell'>{{ equip.equipmentID }} </span>
-        <span class='equipTableCell'>{{ equip.name }} </span>
-        <span class='equipTableCell'>{{ equip.location }} </span>
-      </li>
-      {% endfor %}
-    </ul>
+    {% if equipment_list %}
+      <table id="taskList" style="margin: 0px";>
+        <tr class='tableTitleRow'>
+          <th></th>
+          <th class=''> ID </th>
+          <th class=''> Name </th>
+          <th class=''> Location </th>
+        </tr>
+        {% for equipment in equipment_list %}
+          <tr class='tableRow'>
+            <td><input type="checkbox" /></td>
+            <td class=''>{{ equipment.equipmentID }} </td>
+            <td class=''>{{ equipment.name}} </td>
+            <td class=''>{{ equipment.loc }} </td>
+          </tr>
+        {% endfor %}
+      </table>
     {% else %}
-    <p>No equipment available.</p>
+      No equipment
     {% endif %}
 
   </div>

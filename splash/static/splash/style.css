@@ -199,3 +199,8 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 .remove_file{
   background: red;
 }
+
+th, td {
+  padding: 5px 33px 0px 3px;
+  white-space: nowrap;
+}
