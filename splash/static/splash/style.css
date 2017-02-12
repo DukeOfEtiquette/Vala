@@ -17,6 +17,10 @@
   margin-right: auto;
 }
 
+.table-title h3 {
+  text-align: center;
+}
+
 .tableTitleRow{
   font-weight: bold;
   border-bottom: solid 2px black;
@@ -56,7 +60,7 @@
 
 /* content section */
 #mainContent{
-  text-align:center;
+  /*text-align:center;*/
   width: 70%;
   margin-left:auto;
   margin-right:auto;
@@ -136,15 +140,13 @@ ul.tab {
   list-style-type: none;
   text-align:center;
   width: 10%;
-  margin-left: 20%;
-  margin-right: 0%;
-  margin-bottom: 0;
   margin-top: 0;
   padding: 0;
   overflow: hidden;
   border: 1px solid #ccc;
   background-color: #f1f1f1;
   display: inline-block;
+  float: left;
 }
 
 /* Float the list items side by side */
@@ -179,15 +181,15 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 
 /* Style the tab content */
 .tabcontent {
-  float: right;
+  float: left;
   display: none;
-  padding: 6px 0px;
-  /*border: 1px solid #ccc;
-  border-left: none;
-  text-align:center;*/
-  width: 69%;
-  margin-left: auto;
+  margin-left: 3%;
   margin-right: auto;
+}
+
+.tabcontent h2 {
+  margin-top: auto;
+  text-decoration: underline;
 }
 
 .tabOption{
