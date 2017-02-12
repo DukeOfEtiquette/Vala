@@ -26,26 +26,26 @@ def createData():
   veStatus3.save()
 
   veEntry0 = ExperimentType(
-    code="0",
+    code=0,
     name="AST",
   )
   veEntry1 = ExperimentType(
-    code="1",
+    code=1,
     name="Microcentrifuge Disso"
   )
   veEntry2 = ExperimentType(
-    code="2",
+    code=2,
     name="Thermal Characterization (DSC)"
   )
   veEntry3 = ExperimentType(
-    code="3",
+    code=3,
     name="Potency"
   )
   veEntry4 = ExperimentType(
-    code="4",
+    code=4,
     name="Equilibrium Solubility")
   veEntry5 = ExperimentType(
-    code="5",
+    code=5,
     name="PXRD"
   )
   veEntry6 = ExperimentType(

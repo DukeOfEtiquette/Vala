@@ -14,7 +14,7 @@ class ValaEntry( models.Model ):
     hypothesis      = models.CharField( max_length=1024 )
     experimentType  = models.ForeignKey( "ExperimentType" )
     status          = models.ForeignKey( "Status" )
-    creationDate    = models.DateTimeField( 'Creation Date' )
+    creationDate    = models.DateTimeField( auto_now_add=True, blank=True )
     projectID       = models.CharField( max_length=16 )#STUB
     reviewer        = models.CharField( max_length=256 )#STUB
     class Meta:
