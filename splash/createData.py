@@ -12,6 +12,9 @@ def deleteInstances():
   ValaEntry.objects.all().delete()
   Status.objects.all().delete()
   ExperimentType.objects.all().delete()
+  Equipment.objects.all().delete()
+  File.objects.all().delete()
+  FileType.objects.all().delete()
 
 
 def createData():
@@ -136,6 +139,7 @@ def createData():
     fileType      = ft0,
     description   = "Data file for an experiment",
     fileID        = "AABB123",
+    name          = "file1.csv",
   )
 
   file2 = File(
@@ -143,6 +147,7 @@ def createData():
     fileType      = ft1,
     description   = "Data descriptions",
     fileID        = "AABB223",
+    name          = "file2.xls",
   )
 
   file3 = File(
@@ -150,6 +155,7 @@ def createData():
     fileType      = ft3,
     description   = "secret codes",
     fileID        = "AABB123",
+    name          = "file3.txt",
   )
 
   file1.save()

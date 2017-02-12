@@ -185,6 +185,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   display: none;
   margin-left: 3%;
   margin-right: auto;
+  width: 70%;
 }
 
 .tabcontent h2 {
@@ -203,4 +204,35 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 th, td {
   padding: 5px 33px 0px 3px;
   white-space: nowrap;
+}
+
+.sub{
+  list-style-type: none;
+  border: 1px black;
+  padding-left: 0px;
+}
+
+.file_detail{
+  border: 1px solid black;
+  padding: 2px;
+}
+
+.file_item_header {
+  background-color: #dddddd;
+  padding: 5px;
+}
+
+.accordion ol{
+  list-style-type: none;
+  padding-left: 2px;
+}
+
+.file_detail_header{
+  text-decoration: underline;
+  margin: 0px;
+}
+
+.file_detail_content{
+  margin-top: 2px;
+  font-size: 1em;
 }

@@ -12,7 +12,11 @@ String.prototype.format = function() {
     str = str.replace(reg, arguments[i]);
   }
   return str;
-}
+};
+
+$(function() {
+   $('.sub').accordion();
+});
 
 $( window ).on( "load", function() {
     function removeButton(){

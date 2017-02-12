@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .models import ValaEntry, Equipment
+from .models import ValaEntry, Equipment, File
 
 
 '''def index(request):
@@ -21,10 +21,12 @@ class editEntry(TemplateView):
     def get(self, request, entry_id):
         project_entry = ValaEntry.objects.get(projectID=entry_id)
         equipment_list = Equipment.objects.all();
+        file_list = File.objects.filter(valaEntry=project_entry)
         template_context = {'entry_id': entry_id,
                             'pageTitle': "Edit Vala Entry",
                             'project_entry': project_entry,
-                            'equipment_list': equipment_list}
+                            'equipment_list': equipment_list,
+                            'file_list': file_list}
         return render(request, self.template_name, template_context)
 
 class viewEntry(TemplateView):

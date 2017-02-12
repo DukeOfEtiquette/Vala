@@ -6,6 +6,19 @@
 
 {% block pageBody %}
 
+  {% if file_list %}
+    {% for file in file_list %}
+      <p>ValaEntry ID: {{ file.valaEntry.projectID }}</p>
+      <p>fileType code: {{ file.fileType.code}}</p>
+      <p>fileType type: {{ file.fileType.type}}</p>
+      <p>description: {{ file.description}}</p>
+      <p>fileID: {{ file.fileID}}</p>
+      <p>name: {{ file.name}}</p>
+    {% endfor %}
+  {% else %}
+    <p>no files.... : (</p>
+  {% endif %}
+
 <form>
   <!-- Vertical NavBar -->
   <ul class="tab">
@@ -89,11 +102,32 @@
   <!-- Add Files/Data -->
   <div id="Files" class="tabcontent">
     <h2>Add Project File(s)</h2>
-    <ul style="padding: 0"; class="file_list">
-      <li id="file1" style="list-style: none";>File: <input type="file"><button onclick="removeFile()" class="remove_file">X</button></li>
-    </ul>
-    <br>
-    <button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>
+      <ol class="sub">
+        {% if file_list %}
+        {% for file in file_list %}
+        <li class="accordion">
+          <h3 class="file_item_header">{{ file.name }}</h3>
+          <div>
+            <ol>
+              <li class="file_detail">
+                <h4 class="file_detail_header">Description</h4>
+                <p class="file_detail_content">{{ file.description }}</p>
+              </li>
+              <li class="file_detail">
+                <h4 class="file_detail_header">File Type</h4>
+                <p class="file_detail_content">{{ file.fileType}}</p>
+              </li>
+              <li class="file_detail">
+                <h4 class="file_detail_header">File ID</h4>
+                <p class="file_detail_content">{{ file.fileID}}</p>
+              </li>
+            </ol>
+          </div>
+        </li>
+        {% endfor %}
+        {% endif %}
+      </ol>
+    <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
   </div>
   <!-- Finalize Project -->
   <div id="Summary" class="tabcontent"></div>
