@@ -85,7 +85,8 @@ $( function() {
         createProject();
     });
 
-    $( "#new-project" ).link().on( "click", function() {
+    $( "#new-project" ).on( "click", function() {
         dialog.dialog( "open" );
+        return false;
     });
 } );
