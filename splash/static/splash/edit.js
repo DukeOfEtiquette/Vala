@@ -118,8 +118,11 @@ $("document").ready(function() {
     });
 
     $( "#addEquipDialog" ).dialog({
+      draggable: true,
+      modal: true,
+      width: 500,
+      height: 300,
       autoOpen: false,
-      modal: true
     });
 
     return false;
