@@ -2,49 +2,11 @@
 
 
 {% block head %}
-  <script type="text/javascript" src="/static/splash/edit.js"></script>
+  <script type="text/javascript" src="/static/splash/edit.js"
+          xmlns="http://www.w3.org/1999/html"></script>
 {% endblock %}
 
 {% block pageBody %}
-
-<!--<ol class="sub">
-  {% if file_list %}
-    {% for file in file_list %}
-      <li class="accordion">
-        <h3 class="file_item_header">{{ file.name }}</h3>
-        <div>
-          <ol>
-            <li class="file_detail">
-              <h4 class="file_detail_header">Description</h4>
-              <p class="file_detail_content">{{ file.description }}</p>
-            </li>
-            <li class="file_detail">
-              <h4 class="file_detail_header">File Type</h4>
-              <p class="file_detail_content">{{ file.fileType}}</p>
-            </li>
-            <li class="file_detail">
-              <h4 class="file_detail_header">File ID</h4>
-              <p class="file_detail_content">{{ file.fileID}}</p>
-            </li>
-          </ol>
-        </div>
-      </li>
-    {% endfor %}
-  {% endif %}
-</ol>
-
-  {% if file_list %}
-    {% for file in file_list %}
-      <p>ValaEntry ID: {{ file.valaEntry.projectID }}</p>
-      <p>fileType code: {{ file.fileType.code}}</p>
-      <p>fileType type: {{ file.fileType.type}}</p>
-      <p>description: {{ file.description}}</p>
-      <p>fileID: {{ file.fileID}}</p>
-      <p>name: {{ file.name}}</p>
-    {% endfor %}
-  {% else %}
-    <p>no files.... : (</p>
-  {% endif %}-->
 
 <form>
   <!-- Vertical NavBar -->
@@ -104,26 +66,39 @@
       Add Equipment
     </h2>
 
-    {% if equipment_list %}
-      <table id="taskList" style="margin: 0px";>
-        <tr class='tableTitleRow'>
-          <th></th>
-          <th class=''> ID </th>
-          <th class=''> Name </th>
-          <th class=''> Location </th>
-        </tr>
+    <table id="taskList" style="margin: 0px";>
+      <tr class='tableTitleRow'>
+        <th></th>
+        <th> ID </th>
+        <th> Name </th>
+      </tr>
+    </table>
+
+    <button type="button" id="addEquipButt">Add Item</button>
+
+    <div id="addEquipDialog" title="Add Equipment">
+      {% if equipment_list %}
+        <table id="taskListDialog" style="margin: 0px";>
+          <tr class='tableTitleRow'>
+            <th></th>
+            <th> ID </th>
+            <th> Name </th>
+          </tr>
         {% for equipment in equipment_list %}
-          <tr class='tableRow'>
-            <td><input type="checkbox" /></td>
-            <td class=''>{{ equipment.equipmentID }} </td>
-            <td class=''>{{ equipment.name}} </td>
-            <td class=''>{{ equipment.loc }} </td>
+          <tr class='tableRowDialog'>
+            <td><input type='checkbox' value="" class="rowCheckbox"/></td>
+            <td class='equipID'>{{ equipment.equipmentID }} </td>
+            <td class='equipName'>{{ equipment.name}} </td>
           </tr>
         {% endfor %}
-      </table>
-    {% else %}
-      No equipment
-    {% endif %}
+        </table>
+      {% else %}
+        No equipment
+      {% endif %}
+
+      <button type="button" id="equipSubmit" onclick="equipSubmit()">Submit</button>
+    </div>
+
 
   </div>
   <!-- Add Files/Data -->

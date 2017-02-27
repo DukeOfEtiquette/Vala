@@ -1,11 +1,16 @@
 /* list table */
-#taskList{
+#taskList, #taskListDialog{
   list-style: none;
   display: table;
   border-collapse: collapse;
-  width: 70%;
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+#addEquipDialog {
+  height: 50px;
+  width: 50px;
 }
 
 #equipList{
@@ -23,17 +28,17 @@
   display: table-row;
 }
 
-.tableRow{
+.tableRow, .tableRowDialog{
   display: table-row;
 }
 
 .tableTitleRow,
-.tableRow{
+.tableRow, .tableRowDialog{
   border: 1px solid #dddddd;
   text-align: left;
 }
 
-.tableRow:nth-child(even) {
+.tableRow:nth-child(even), .tableRowDialog:nth-child(even) {
   background-color: #dddddd;
 }
 
@@ -218,5 +223,21 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
+#addEquipButt {
+  float: left;
+  margin-top: 5px;
+}
 
+#equipSubmit {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
 
+/*#addEquipDialog {
+  postion: absolute;
+  right: auto;
+  bottom: auto;
+  left: 500px;
+  top: 200px;
+}*/
