@@ -1,0 +1,35 @@
+IIIIIIIIII                                                  AAA               PPPPPPPPPPPPPPPPP   IIIIIIIIII
+I::::::::I                                                 A:::A              P::::::::::::::::P  I::::::::I
+I::::::::I                                                A:::::A             P::::::PPPPPP:::::P I::::::::I
+II::::::II                                               A:::::::A            PP:::::P     P:::::PII::::::II
+  I::::I     ooooooooooo   nnnn  nnnnnnnn               A:::::::::A             P::::P     P:::::P  I::::I  
+  I::::I   oo:::::::::::oo n:::nn::::::::nn            A:::::A:::::A            P::::P     P:::::P  I::::I  
+  I::::I  o:::::::::::::::on::::::::::::::nn          A:::::A A:::::A           P::::PPPPPP:::::P   I::::I  
+  I::::I  o:::::ooooo:::::onn:::::::::::::::n        A:::::A   A:::::A          P:::::::::::::PP    I::::I  
+  I::::I  o::::o     o::::o  n:::::nnnn:::::n       A:::::A     A:::::A         P::::PPPPPPPPP      I::::I  
+  I::::I  o::::o     o::::o  n::::n    n::::n      A:::::AAAAAAAAA:::::A        P::::P              I::::I  
+  I::::I  o::::o     o::::o  n::::n    n::::n     A:::::::::::::::::::::A       P::::P              I::::I  
+  I::::I  o::::o     o::::o  n::::n    n::::n    A:::::AAAAAAAAAAAAA:::::A      P::::P              I::::I  
+II::::::IIo:::::ooooo:::::o  n::::n    n::::n   A:::::A             A:::::A   PP::::::PP          II::::::II
+I::::::::Io:::::::::::::::o  n::::n    n::::n  A:::::A               A:::::A  P::::::::P          I::::::::I
+I::::::::I oo:::::::::::oo   n::::n    n::::n A:::::A                 A:::::A P::::::::P          I::::::::I
+IIIIIIIIII   ooooooooooo     nnnnnn    nnnnnnAAAAAAA                   AAAAAAAPPPPPPPPPP          IIIIIIIIII
+                                                                                                            
+
+
+To Use the IonAPI component you will need to add to extern this drectory and add the following to your Project settings
+file:
+
+    1.  INSTALLED_APPS = (
+            "...",
+            "rest_framework",
+            "IonAPI"'
+            )
+
+    2.  REST_FRAMEWORK = {
+            'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.QueryParameterVersioning',
+            'VERSION_PARAM': 'version',
+        }
+
+    3.  ION_API_CONFIG_LOC = os.path.join(BASE_DIR, 'api_config.py')
+
