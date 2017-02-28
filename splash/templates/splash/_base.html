@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ pageTitle }}</title>
+        <meta charset="UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'splash/style.css' %}" />
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+
+<header class="nav-bar">
+    <a href="#">
+        <img src="{% static 'img/entering_heaven_alive.png' %}">
+    </a>
+    <ul>
+        <li><a class="active" href="/">Home</a></li>
+        <li><a href="/query/">Query</a></li>
+        <li><a href="#" onclick="">New</a></li>
+    </ul>
+    <hr>
+</header>
+
+
+<section id="mainContent">
+    {% block pageBody %}
+    {% endblock %}
+</section>
+
+</body>
+</html>
