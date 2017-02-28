@@ -1,31 +1,8 @@
 {% extends 'splash/_base.html' %}
 
+
 {% block head %}
-    <script>
-        //Once document is ready...
-        $( window ).on( "load", function() {
-            //One row click, just change placeholder p tag with project #
-            $(".click-row").click(function() {
-                val = $(this).children("span:first").text();
-                $(".placeholder").text(val);
-            });
-
-            //Change what nav bar item is selected
-            $(".nav-bar ul li").click(function(){
-                $(".nav-bar .active").removeClass('active');
-                $(this).addClass('active');
-
-            });
-
-            $(".click-row").click( function(){
-                val = $(this).children("span:first").text();
-                location = "/view/"+val;
-                console.log(locaton);
-                window.location.href = location;
-            });
-        });
-
-    </script>
+  <script type="text/javascript" src="/static/splash/index.js"></script>
 {% endblock %}
 
 {% block pageBody %}
@@ -59,4 +36,5 @@
     {% else %}
         <p>No entries are available.</p>
     {% endif %}
+
 {% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'splash/_base.html' %}
+
+
+{% block head %}
+  <script type="text/javascript" src="/static/splash/edit.js"
+          xmlns="http://www.w3.org/1999/html"></script>
+{% endblock %}
+
+{% block pageBody %}
+
+<form>
+  <!-- Vertical NavBar -->
+  <ul class="tab">
+    <li><a href="javascript:void(0)" class="tablinks">Experiments</a></li>
+    <li><a href="javascript:void(0)" class="tablinks">Notebooks</a></li>
+    <li><a href="javascript:void(0)" class="tablinks">Equipment</a></li>
+    <li><a href="javascript:void(0)" class="tablinks">Files</a></li>
+    <li><a href="javascript:void(0)" class="tablinks">Summary</a></li>
+  </ul>
+
+  <!-- Experiments -->
+  <div id="Experiments" class="tabcontent">
+    <h2>Experiment</h2>
+    <div class="experiment_options">
+      Experiment Type <select class="experiment_type">
+        <option value="AST">AST</option>
+        <option value="Microcentrifuge Disso">Microcentrifuge Disso</option>
+        <option value="Thermal Characterization (DSC)">Thermal Characterization (DSC)</option>
+        <option value="Potency">Potency</option>
+        <option value="Equilibrium Solubility">Equilibrium Solubility</option>
+        <option value="PXRD">PXRD</option>
+        <option value="NMR Characterization">NMR Characterization</option>
+      </select>
+    </div>
+
+    <script>
+      $("document").ready(function() {
+          selectExperiment("{{ project_entry.experimentType.name }}");
+      });
+    </script>
+
+    <br>Hypothesis/Goals/Question<br>
+    <textarea class="hypothesis" rows="10" cols="50">{{ project_entry.hypothesis }}</textarea>
+    <input type="button" onclick="" value="SAVE"><br><br>
+
+    Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
+  </div>
+
+  <!-- Notebooks & Pages -->
+  <div id="Notebooks" class="tabcontent">
+    <h2>
+      Select Notebook Reference
+    </h2>
+    <select name="notebooks"> 
+      <option value="Select Notebook(s):">Select Notebook(s)</option>  </select>
+    <input type="submit" value="ADD"><br>
+    <select name="pages"> 
+      <option value="Select Page(s):">Select Pages</option>
+      <input type="submit" value="ADD">
+    </select>
+  </div>
+
+  <!-- Equipment -->
+  <div id="Equipment" class="tabcontent">
+    <h2>
+      Add Equipment
+    </h2>
+
+    <table id="taskList" style="margin: 0px";>
+      <tr class='tableTitleRow'>
+        <th></th>
+        <th> ID </th>
+        <th> Name </th>
+      </tr>
+    </table>
+
+    <button type="button" id="addEquipButt">Add Item</button>
+
+    <div id="addEquipDialog" title="Add Equipment">
+      {% if equipment_list %}
+        <table id="taskListDialog" style="margin: 0px";>
+          <tr class='tableTitleRow'>
+            <th></th>
+            <th> ID </th>
+            <th> Name </th>
+          </tr>
+        {% for equipment in equipment_list %}
+          <tr class='tableRowDialog'>
+            <td><input type='checkbox' value="" class="rowCheckbox"/></td>
+            <td class='equipID'>{{ equipment.equipmentID }} </td>
+            <td class='equipName'>{{ equipment.name}} </td>
+          </tr>
+        {% endfor %}
+        </table>
+      {% else %}
+        No equipment
+      {% endif %}
+
+      <button type="button" id="equipSubmit" onclick="equipSubmit()">Submit</button>
+    </div>
+
+
+  </div>
+  <!-- Add Files/Data -->
+  <div id="Files" class="tabcontent">
+    <h2>Add Project File(s)</h2>
+      <!--<ol class="sub">
+        {% if file_list %}
+        {% for file in file_list %}
+        <li class="accordion">
+          <h3 class="file_item_header">{{ file.name }}</h3>
+          <div>
+            <ol>
+              <li class="file_detail">
+                <h4 class="file_detail_header">Description</h4>
+                <p class="file_detail_content">{{ file.description }}</p>
+              </li>
+              <li class="file_detail">
+                <h4 class="file_detail_header">File Type</h4>
+                <p class="file_detail_content">{{ file.fileType}}</p>
+              </li>
+              <li class="file_detail">
+                <h4 class="file_detail_header">File ID</h4>
+                <p class="file_detail_content">{{ file.fileID}}</p>
+              </li>
+            </ol>
+          </div>
+        </li>
+        {% endfor %}
+        {% endif %}
+      </ol>-->
+    <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
+  </div>
+  <!-- Finalize Project -->
+  <div id="Summary" class="tabcontent"></div>
+</form>
+{% endblock %}

@@ -16,8 +16,14 @@ Including another URLconf
 from django.conf.urls import url
 from . import views
 #from django.contrib import admin
+from views import editEntry
+from views import viewEntry
+from views import reviewEntry
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
-    url(r'^$', views.splashIndex.as_view())
+    url(r'^edit/(?P<entry_id>[a-zA-Z]{2}-[0-9]+)/$', editEntry.as_view()),
+    url(r'^view/(?P<entry_id>[0-9]+)/$', viewEntry.as_view()),
+    url(r'^review/(?P<entry_id>[0-9]+)/$', reviewEntry.as_view()),
+    url(r'^$', views.splashIndex.as_view()),
 ]

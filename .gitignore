@@ -6,6 +6,7 @@
 # User-specific stuff:
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/*
 
 # Sensitive or high-churn files:
 .idea/dataSources/
@@ -15,12 +16,14 @@
 .idea/sqlDataSources.xml
 .idea/dynamic.xml
 .idea/uiDesigner.xml
+.idea/misc.xml
+.idea/vala.iml
 
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
 
-# Mongo Explorer plugin:
+# Mongo Explorer plugin
 .idea/mongoSettings.xml
 .idea
 
@@ -134,4 +137,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
 *.sqlite3
