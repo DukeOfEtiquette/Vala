@@ -70,22 +70,22 @@ $( function() {
         height: 400,
         width: 350,
         modal: true,
-        buttons: {
-            "Create": createProject(),
-            Cancel: function() {
-                dialog.dialog( "close" );
-            }
-        },
-        close: function() {
-            form[ 0 ].reset();
-            allFields.removeClass( "ui-state-error" );
-        }
+        //buttons: {
+        //    "Create": createProject(),
+        //    Cancel: function() {
+        //        dialog.dialog( "close" );
+        //    }
+        //},
+        //close: function() {
+        //    form[ 0 ].reset();
+        //    allFields.removeClass( "ui-state-error" );
+        //}
     });
 
-    form = dialog.find( "form" ).on( "submit", function( event ) {
-        event.preventDefault();
-        createProject();
-    });
+    //form = dialog.find( "form" ).on( "submit", function( event ) {
+    //    event.preventDefault();
+    //    createProject();
+    //});
 
     $( "#new-project" ).on( "click", function() {
         dialog.dialog( "open" );

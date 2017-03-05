@@ -11,12 +11,12 @@ class ExperimentType( models.Model ):
     name    = models.CharField( max_length=64 )
 
 class ValaEntry( models.Model ):
-    hypothesis      = models.CharField( max_length=1024 )
-    experimentType  = models.ForeignKey( "ExperimentType" )
+    hypothesis      = models.CharField( max_length=1024, null=True )
+    experimentType  = models.ForeignKey( "ExperimentType", null=True )
     status          = models.ForeignKey( "Status" )
     creationDate    = models.DateTimeField( auto_now_add=True, blank=True )
-    projectID       = models.CharField( max_length=16 )#STUB
-    reviewer        = models.CharField( max_length=256 )#STUB
+    projectID       = models.CharField( max_length=16, )#STUB
+    reviewer        = models.CharField( max_length=256, null=True)#STUB
     class Meta:
         verbose_name_plural = "ValaEntries"
 

@@ -19,11 +19,13 @@ from . import views
 from views import editEntry
 from views import viewEntry
 from views import reviewEntry
+from views import new_project
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     url(r'^edit/(?P<entry_id>[a-zA-Z]{2}-[0-9]+)/$', editEntry.as_view()),
     url(r'^view/(?P<entry_id>[0-9]+)/$', viewEntry.as_view()),
     url(r'^review/(?P<entry_id>[0-9]+)/$', reviewEntry.as_view()),
+    url(r'^new_project/$', new_project.as_view()),
     url(r'^$', views.splashIndex.as_view()),
 ]

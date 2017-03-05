@@ -2,7 +2,27 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from .models import ValaEntry, Equipment, File
+from models import Status
 from .forms import NewProject
+
+
+class new_project(TemplateView):
+  # if this is a POST request we need to process the form data
+  def post(self, request):
+    # create a form instance and populate it with data from the request:
+    form = NewProject(request.POST)
+    # check whether it's valid:
+    if form.is_valid():
+      newID=form.cleaned_data.get('project_id')
+      status = Status.objects.get(text='New')
+      newVala = ValaEntry(status=status,projectID=newID)
+      newVala.save()
+      # process the data in form.cleaned_data as required
+      # ...
+      # redirect to a new URL:
+      return HttpResponseRedirect('/edit/'+newID)
+
+
 
 '''def index(request):
     entry_list = ValaEntry.objects.order_by('creationDate')
@@ -20,16 +40,6 @@ class splashIndex(TemplateView):
     template_context = {'pageTitle': "Vala Project Entry System", 'entry_list': entry_list, 'equip_list': equipment,
                         'form': form, }
     return render(request, self.template_name, template_context)
-
-  def post(self, request):
-    form = NewProject(request.POST)
-    # check whether it's valid:
-    if form.is_valid():
-      # process the data in form.cleaned_data as required
-      # ...
-      # redirect to a new URL:
-      return HttpResponseRedirect('/edit/'+form.project_id)
-
 
 class editEntry(TemplateView):
   template_name = 'splash/edit.html'
