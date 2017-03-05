@@ -34,9 +34,7 @@
   <!-- Modal Content -->
     <form action="/new-project/" method="post">
         <fieldset>
-            {% csrf_token %}
             {{ form }}
-            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
         </fieldset>
     </form>
 </div>

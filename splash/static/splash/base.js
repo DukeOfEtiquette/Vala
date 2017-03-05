@@ -62,7 +62,7 @@ $( function() {
         // ajax call to some url
         // do some stuff
         // json
-        return valid;
+        //return valid;
     }
 
     dialog = $( "#dialog-form" ).dialog({
