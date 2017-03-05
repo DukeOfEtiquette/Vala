@@ -32,15 +32,27 @@
 <!-- The Modal -->
 <div id="dialog-form" title="Create New Project">
   <!-- Modal Content -->
-  <form>
-    <fieldset>
-      <label for="project">Enter Project ID:</label>
-      <input type="text" name="project_number" id="project_id" value="br051" class="text ui-widget-content ui-corner-all">
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-    </fieldset>
-  </form>
+    <form action="/new-project/" method="post">
+        <fieldset>
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+    </form>
 </div>
+
+{#<!-- The Modal -->#}
+{#<div action="/new-project/" method= "post" id="dialog-form" title="Create New Project">#}
+{#  <!-- Modal Content -->#}
+{#  <form>#}
+{#    <fieldset>#}
+{#      <label for="project_id">Project ID:</label>#}
+{#      <input type="text" name="project_number" id="project_id" value="" class="text ui-widget-content ui-corner-all">#}
+{#      <!-- Allow form submission with keyboard without duplicating the dialog button -->#}
+{#      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">#}
+{#    </fieldset>#}
+{#  </form>#}
+{#</div>#}
 
 
 
