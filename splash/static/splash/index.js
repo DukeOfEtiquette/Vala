@@ -21,9 +21,11 @@ $(window).on("load", function () {
     var reg = new RegExp('^[A-z]{2}-[0-9]+$');
     eval = value.match(reg);
     if( eval ){
-      $('#id_project_id').css('border','3px solid green')
+      $('#id_project_id').css('border','3px solid green');
+        $('#create-project').prop('disabled', false);
     }else{
       $('#id_project_id').css('border','3px solid red')
+        $('#create-project').prop('disabled', true);
     }
   })
 });

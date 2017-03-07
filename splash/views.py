@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from .models import ValaEntry, Equipment, File
@@ -17,12 +18,10 @@ class new_project(TemplateView):
       status = Status.objects.get(text='New')
       newVala = ValaEntry(status=status,projectID=newID)
       newVala.save()
-      # process the data in form.cleaned_data as required
-      # ...
       # redirect to a new URL:
-      return HttpResponseRedirect('/edit/'+newID)
-
-
+      return HttpResponseRedirect('/edit/' + newID)
+    else:
+      return HttpResponseRedirect('/')
 
 '''def index(request):
     entry_list = ValaEntry.objects.order_by('creationDate')
@@ -40,6 +39,9 @@ class splashIndex(TemplateView):
     template_context = {'pageTitle': "Vala Project Entry System", 'entry_list': entry_list, 'equip_list': equipment,
                         'form': form, }
     return render(request, self.template_name, template_context)
+  # def post(self, request):
+  #   form = NewProject()
+  #   return HttpResponseRedirect('/')
 
 class editEntry(TemplateView):
   template_name = 'splash/edit.html'
