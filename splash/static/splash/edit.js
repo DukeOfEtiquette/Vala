@@ -39,6 +39,39 @@ function deleteRow(r) {
   document.getElementById("taskList").deleteRow(i);
 }
 
+function equipOnClick(cb) {
+  //Grab the table ID
+  var parentID = cb.parentNode.parentNode.parentNode.parentNode.id;
+
+  //Grab the row that was selected
+  var row = cb.parentNode.parentNode;
+  //Remove it from current table
+  row.remove();
+
+  //See if we are in the available equipment list, or the workbench
+  if(parentID === "availEquipmentList")
+  {
+    var workBench = $("#taskListBench");
+    workBench.append(row);
+
+  }else {
+    var equipList = $("#availEquipmentList");
+    equipList.append(row);
+    row.checked = false;
+  }
+
+
+
+
+}
+
+function save_equipment() {
+
+  $.get('splash/save_equipment/', function(data) {
+    alert('idk...something');
+  });
+}
+
 //onclick event for the submit button in the Add Equipment Dialog box
 function equipSubmit() {
 
@@ -70,7 +103,7 @@ function equipSubmit() {
         "<td class='equipName'> " + equipName + " </td></tr>"
 
     //Add the row to the task list
-    $("#taskList").append(newRow);
+    $("#taskListBench").append(newRow);
 
     //Uncheck row
     $(this).prop('checked', false);
@@ -114,7 +147,6 @@ $("document").ready(function() {
   $(function() {
     $( "#addEquipButt" ).click(function() {
       $( "#addEquipDialog" ).dialog( "open" );
-
     });
 
     $( "#addEquipDialog" ).dialog({

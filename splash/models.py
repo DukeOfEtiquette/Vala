@@ -20,6 +20,9 @@ class ValaEntry( models.Model ):
     class Meta:
         verbose_name_plural = "ValaEntries"
 
+    def __str__(self):
+        return self.projectID
+
 class Scientist( models.Model ):
     valaEntry   = models.ForeignKey( "ValaEntry" )
     scientistID = models.CharField( max_length=256 )#STUB

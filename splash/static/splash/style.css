@@ -1,5 +1,5 @@
 /* list table */
-#taskList, #taskListDialog{
+#taskList, #taskListDialog, #taskListBench, #availEquipmentList{
   list-style: none;
   display: table;
   border-collapse: collapse;
@@ -182,7 +182,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 /* Style the tab content */
 .tabcontent {
   float: right;
-  display: none;
+  display: inline-block;
   padding: 6px 0px;
   /*border: 1px solid #ccc;
   border-left: none;
@@ -190,6 +190,10 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   width: 69%;
   margin-left: auto;
   margin-right: auto;
+}
+
+#equipmentbench {
+  display: inline-block;
 }
 
 .tabOption{
@@ -229,9 +233,14 @@ ul.tab li a:focus, .active {background-color: #ccc;}
 }
 
 #equipSubmit {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
+  display: inline-block;
+  float: left;
+  margin-top: 10px;
+}
+
+#equipmentWrapper {
+  float: right;
+  width: 69%;
 }
 
 /*#addEquipDialog {

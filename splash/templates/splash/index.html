@@ -16,7 +16,7 @@
         <h3 style="text-decoration: underline;">Your Entries</h3>
     </div>
 
-    {% if entry_list %}
+    {% if entrypages %}
         <ul id="taskList">
             <li class='tableTitleRow'>
                 <span class='tableCell'> Project ID </span>
@@ -24,7 +24,7 @@
                 <span class='tableCell'> Experiment Type </span>
                 <span class='tableCell'> Status </span>
             </li>
-            {% for entry in entry_list %}
+            {% for entry in entrypages %}
                 <li class='tableRow click-row'>
                     <span class='tableCell'>{{ entry.projectID }} </span>
                     <span class='tableCell'>{{ entry.creationDate }} </span>
@@ -32,6 +32,21 @@
                     <span class='tableCell'>{{ entry.status.text }} </span>
                 </li>
             {% endfor %}
+            <div class="pagination">
+              <span class="step-links">
+                  {% if entrypages.has_previous %}
+                      <a href="?page={{ entrypages.previous_page_number }}">previous</a>
+                  {% endif %}
+
+                  <span class="current">
+                      Page {{ entrypages.number }} of {{ entrypages.paginator.num_pages }}.
+                  </span>
+
+                  {% if entrypages.has_next %}
+                      <a href="?page={{ entrypages.next_page_number }}">next</a>
+                  {% endif %}
+              </span>
+            </div>
         </ul>
     {% else %}
         <p>No entries are available.</p>
