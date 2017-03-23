@@ -39,6 +39,65 @@ function deleteRow(r) {
   document.getElementById("taskList").deleteRow(i);
 }
 
+function equipOnClick(cb) {
+  //Grab the table ID
+  var parentID = cb.parentNode.parentNode.parentNode.parentNode.id;
+
+  //Grab the row that was selected
+  var row = cb.parentNode.parentNode;
+  //Remove it from current table
+  row.remove();
+
+  //See if we are in the available equipment list, or the workbench
+  if(parentID === "availEquipmentList")
+  {
+    var workBench = $("#taskListBench");
+    workBench.append(row);
+
+  }else {
+    var equipList = $("#availEquipmentList");
+    equipList.append(row);
+    row.checked = false;
+  }
+}
+
+// using jQuery, taken from Django documentation about AJAX post requests
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function save_equip() {
+  var csrf_token = getCookie('csrftoken');
+
+  var bench = $('#taskListBench');
+  console.log(bench);
+
+  var equipID = $(bench).children().eq(0).children().eq(1).children().eq(1).text();
+  console.log(equipID);
+
+  $.ajax({
+    type: "POST",
+    url: "/save_equipment/",
+    data: { csrfmiddlewaretoken: csrf_token,
+            state:"inactive"
+          },
+    success: function() {
+    }
+  });
+}
+
 //onclick event for the submit button in the Add Equipment Dialog box
 function equipSubmit() {
 
@@ -70,7 +129,7 @@ function equipSubmit() {
         "<td class='equipName'> " + equipName + " </td></tr>"
 
     //Add the row to the task list
-    $("#taskList").append(newRow);
+    $("#taskListBench").append(newRow);
 
     //Uncheck row
     $(this).prop('checked', false);
@@ -114,7 +173,6 @@ $("document").ready(function() {
   $(function() {
     $( "#addEquipButt" ).click(function() {
       $( "#addEquipDialog" ).dialog( "open" );
-
     });
 
     $( "#addEquipDialog" ).dialog({

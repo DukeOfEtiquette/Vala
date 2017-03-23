@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File
 from models import Status
-from .forms import NewProject
+from .forms import NewProject, EquipmentForm
 
 
 class new_project(TemplateView):
@@ -22,7 +24,13 @@ class new_project(TemplateView):
       # redirect to a new URL:
       return HttpResponseRedirect('/edit/'+newID)
 
+class save_equipment(TemplateView):
+  form_class = EquipmentForm
+  template_name = 'splash/edit.html'
 
+  def post(self, request):
+    print "hello"
+    return HttpResponseRedirect('/edit/AA-012345/')
 
 '''def index(request):
     entry_list = ValaEntry.objects.order_by('creationDate')
@@ -31,6 +39,7 @@ class new_project(TemplateView):
 
 
 class splashIndex(TemplateView):
+<<<<<<< HEAD
   template_name = "splash/index.html"
 
   def get(self, request):
@@ -42,19 +51,32 @@ class splashIndex(TemplateView):
     return render(request, self.template_name, template_context)
 
 class editEntry(TemplateView):
-  template_name = 'splash/edit.html'
+    template_name='splash/edit.html'
+    paginate_by = 1
 
-  def get(self, request, entry_id):
-    project_entry = ValaEntry.objects.get(projectID=entry_id)
-    equipment_list = Equipment.objects.all();
-    file_list = File.objects.filter(valaEntry=project_entry)
-    template_context = {'entry_id': entry_id,
-                        'pageTitle': "Edit Vala Entry",
-                        'project_entry': project_entry,
-                        'equipment_list': equipment_list,
-                        'file_list': file_list}
-    return render(request, self.template_name, template_context)
+    def get(self, request, entry_id):
+        project_entry = ValaEntry.objects.get(projectID=entry_id)
+        equipment_list = Equipment.objects.all()
+        paginator = Paginator(equipment_list, self.paginate_by)
+        equipForm = EquipmentForm()
 
+        page = self.request.GET.get('page')
+
+        try:
+          equip_list = paginator.page(page)
+        except PageNotAnInteger:
+          equip_list = paginator.page(1)
+        except EmptyPage:
+          equip_list = paginator.page(paginator.num_pages)
+
+        file_list = File.objects.filter(valaEntry=project_entry)
+        template_context = {'entry_id': entry_id,
+                            'pageTitle': "Edit Vala Entry",
+                            'project_entry': project_entry,
+                            'equipment_list': equipment_list,
+                            'equipform': equipForm,
+                            'file_list': file_list}
+        return render(request, self.template_name, template_context)
 
 class viewEntry(TemplateView):
   template_name = 'splash/view.html'
