@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File
 from .forms import EquipmentForm, ValaEntryForm
 
@@ -11,7 +12,7 @@ class save_equipment(TemplateView):
 
   def post(self, request):
     print "hello"
-    return HttpResponseRedirect('/edit/AA-012345')
+    return HttpResponseRedirect('/edit/AA-012345/')
 
 '''def index(request):
     entry_list = ValaEntry.objects.order_by('creationDate')

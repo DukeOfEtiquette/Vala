@@ -59,16 +59,42 @@ function equipOnClick(cb) {
     equipList.append(row);
     row.checked = false;
   }
-
-
-
-
 }
 
-function save_equipment() {
+// using jQuery, taken from Django documentation about AJAX post requests
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
-  $.get('splash/save_equipment/', function(data) {
-    alert('idk...something');
+function save_equip() {
+  var csrf_token = getCookie('csrftoken');
+
+  var bench = $('#taskListBench');
+  console.log(bench);
+
+  var equipID = $(bench).children().eq(0).children().eq(1).children().eq(1).text();
+  console.log(equipID);
+
+  $.ajax({
+    type: "POST",
+    url: "/save_equipment/",
+    data: { csrfmiddlewaretoken: csrf_token,
+            state:"inactive"
+          },
+    success: function() {
+    }
   });
 }
 
