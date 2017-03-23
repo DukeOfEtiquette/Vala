@@ -39,7 +39,6 @@ class save_equipment(TemplateView):
 
 
 class splashIndex(TemplateView):
-<<<<<<< HEAD
   template_name = "splash/index.html"
 
   def get(self, request):
