@@ -11,8 +11,6 @@ class ExperimentType( models.Model ):
     name    = models.CharField( max_length=64 )
 
 class ValaEntry( models.Model ):
-    hypothesis      = models.CharField( max_length=1024, null=True )
-    experimentType  = models.ForeignKey( "ExperimentType", null=True )
     status          = models.ForeignKey( "Status" )
     creationDate    = models.DateTimeField( auto_now_add=True, blank=True )
     projectID       = models.CharField( max_length=16, )#STUB
@@ -22,6 +20,12 @@ class ValaEntry( models.Model ):
 
     def __str__(self):
         return self.projectID
+
+class ExperimentDetails( models.Model ):
+    valaEntry       = models.ForeignKey( "ValaEntry" )
+    hypothesis      = models.CharField( max_length=1024, null=True )
+    experimentType  = models.ForeignKey( "ExperimentType", null=True )
+
 
 class Scientist( models.Model ):
     valaEntry   = models.ForeignKey( "ValaEntry" )
