@@ -5,13 +5,11 @@
         <meta charset="UTF-8">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-        <script type="text/javascript" src="/static/splash/index.js"></script>
-        <script type="text/javascript" src="/static/splash/edit.js"></script>
-        <script type="text/javascript" src="/static/splash/base.js"></script>
+        <script type="text/javascript" src="/static/splash/js/base.js"></script>
 
         {% load static %}
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
-        <link rel="stylesheet" type="text/css" href="{% static 'splash/style.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'splash/css/base.css' %}" />
         {% block head %}
         {% endblock %}
     </head>
@@ -24,7 +22,6 @@
     <ul>
         <li><a class="active" href="/">Home</a></li>
         <li><a href="/query/">Query</a></li>
-        <li><a href="#" id="new-project">New</a></li>
     </ul>
     <hr>
 </header>
@@ -36,25 +33,10 @@
         <fieldset>
             {% csrf_token %}
             {{ form }}
-            <input type="submit" value="submit" />
+            <input type="submit" value="Create Project" disabled id="create-project"/>
         </fieldset>
     </form>
 </div>
-
-{#<!-- The Modal -->#}
-{#<div action="/new-project/" method= "post" id="dialog-form" title="Create New Project">#}
-{#  <!-- Modal Content -->#}
-{#  <form>#}
-{#    <fieldset>#}
-{#      <label for="project_id">Project ID:</label>#}
-{#      <input type="text" name="project_number" id="project_id" value="" class="text ui-widget-content ui-corner-all">#}
-{#      <!-- Allow form submission with keyboard without duplicating the dialog button -->#}
-{#      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">#}
-{#    </fieldset>#}
-{#  </form>#}
-{#</div>#}
-
-
 
 <section id="mainContent">
     {% block pageBody %}

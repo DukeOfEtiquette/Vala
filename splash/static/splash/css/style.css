@@ -32,6 +32,10 @@
   display: table-row;
 }
 
+.new-project-row{
+  width: 100%;
+}
+
 .tableTitleRow,
 .tableRow, .tableRowDialog{
   border: 1px solid #dddddd;
@@ -243,6 +247,9 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   width: 69%;
 }
 
+li.tableRow.click-row.tableCell {
+  width: 848px;
+}
 /*#addEquipDialog {
   postion: absolute;
   right: auto;
@@ -250,3 +257,7 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   left: 500px;
   top: 200px;
 }*/
+
+/*.new-project-row {*/
+  /*display: block;*/
+/*}*/
