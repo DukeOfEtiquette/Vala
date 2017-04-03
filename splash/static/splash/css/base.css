@@ -1,0 +1,45 @@
+/* Use a mono-spaced font if possible */
+* {
+    font-family: arial, sans-serif;
+}
+
+.nav-bar {
+    text-align: center;
+}
+
+.nav-bar img {
+    width: 79px;
+    height: 79px;
+    position: absolute;
+    top: 0px;
+    left: 16px;
+}
+
+/* Center the buttons in the navbar */
+.nav-bar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: inline-block;
+}
+
+/* Set the size and alignment of the text/buttons */
+.nav-bar li {
+    float: left;
+    font-size: 2em;
+}
+
+/* Control the spacing between text and the coloring */
+.nav-bar li a {
+    display: block;
+    color: cadetblue;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* On hover change the text to a horrid color */
+.nav-bar li a:hover {
+    color: #7ea05f;
+}
