@@ -1,0 +1,109 @@
+
+.equipTableCell{
+    display: table-cell;
+    padding: 8px;
+}
+
+.tableCheck{
+    display: table-cell;
+    width: 1%;
+    padding: 8px;
+}
+/* Style the list */
+ul.tab {
+    list-style-type: none;
+    text-align:center;
+    width: 18%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    display: inline-block;
+}
+
+/* Float the list items side by side */
+ul.tab li {
+    /*float: left;*/
+    /*width: 20%;*/
+    display: inline;
+}
+
+/* Style the links inside the list items */
+ul.tab li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of links on hover */
+ul.tab li a:hover {background-color: #ddd;}
+
+/* Create an active/current tablink class */
+ul.tab li a:focus, .active {background-color: #ccc;}
+
+/* Underline the text of whatever page we are on */
+.nav-bar .active {
+    text-decoration: underline;
+    background-color: transparent;
+}
+
+/* Style the tab content */
+.tabcontent {
+    float: right;
+    display: inline-block;
+    padding: 6px 0px;
+    /*border: 1px solid #ccc;
+    border-left: none;
+    text-align:center;*/
+    width: 69%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#equipmentbench {
+    display: inline-block;
+}
+
+.tabOption{
+    float: left;
+}
+
+.remove_file{
+    background: red;
+}
+
+#addEquipButt {
+    float: left;
+    margin-top: 5px;
+}
+
+#equipSubmit {
+    display: inline-block;
+    float: left;
+    margin-top: 10px;
+}
+
+#equipmentWrapper {
+    float: right;
+    width: 69%;
+}
+
+li.tableRow.click-row.tableCell {
+    width: 848px;
+}
+/*#addEquipDialog {
+  postion: absolute;
+  right: auto;
+  bottom: auto;
+  left: 500px;
+  top: 200px;
+}*/
+
+/*.new-project-row {*/
+/*display: block;*/
+/*}*/
