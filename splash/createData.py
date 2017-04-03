@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from splash.models import Status
 from splash.models import ExperimentType
+from splash.models import ExperimentDetails
 from splash.models import ValaEntry
 from splash.models import Equipment
 from splash.models import File
@@ -12,6 +13,7 @@ def deleteInstances():
   ValaEntry.objects.all().delete()
   Status.objects.all().delete()
   ExperimentType.objects.all().delete()
+  ExperimentDetails.objects.all().delete()
   Equipment.objects.all().delete()
   File.objects.all().delete()
   FileType.objects.all().delete()
@@ -96,8 +98,6 @@ def createData():
   ft4.save()
 
   ve1 = ValaEntry(
-    hypothesis="This is the first hypothesis",
-    experimentType=ExperimentType.objects.get(code=0),
     status=Status.objects.get(code=0),
     creationDate=timezone.now(),
     projectID="AA-012345",
@@ -105,8 +105,6 @@ def createData():
   )
 
   ve2 = ValaEntry(
-    hypothesis="This is the second hypothesis",
-    experimentType=ExperimentType.objects.get(code=4),
     status=Status.objects.get(code=1),
     creationDate=timezone.now(),
     projectID="BB-012345",
@@ -114,8 +112,6 @@ def createData():
   )
 
   ve3 = ValaEntry(
-    hypothesis="This is the second hypothesis",
-    experimentType=ExperimentType.objects.get(code=2),
     status=Status.objects.get(code=2),
     creationDate=timezone.now(),
     projectID="CC-012345",
@@ -125,6 +121,30 @@ def createData():
   ve1.save()
   ve2.save()
   ve3.save()
+
+  experimentDetails1 = ExperimentDetails(
+    valaEntry=ve1,
+    hypothesis="This is the first hypothesis",
+    experimentType=ExperimentType.objects.get(code=0)
+  )
+
+  experimentDetails1.save()
+
+  experimentDetails2 = ExperimentDetails(
+    valaEntry=ve2,
+    hypothesis="This is the second hypothesis",
+    experimentType=ExperimentType.objects.get(code=4)
+  )
+
+  experimentDetails2.save()
+
+  experimentDetails3 = ExperimentDetails(
+    valaEntry=ve3,
+    hypothesis="This is the third hypothesis",
+    experimentType=ExperimentType.objects.get(code=2)
+  )
+
+  experimentDetails3.save()
 
   equip1 = Equipment(valaEntry=ve1, equipmentID="BRI-EQ-0001", name="goggles", loc="your head")
   equip2 = Equipment(valaEntry=ve2, equipmentID="BRI-EQ-0002", name="centrifuge", loc="undergground lava base")
@@ -161,6 +181,8 @@ def createData():
   file1.save()
   file2.save()
   file3.save()
+
+  print "complete!"
 
 deleteInstances()
 createData()

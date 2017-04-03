@@ -35,12 +35,12 @@
 
       <script>
         $("document").ready(function() {
-            selectExperiment("{{ project_entry.experimentType.name }}");
+            selectExperiment("{{ experiment_dets.experimentType.name }}");
         });
       </script>
 
       <br>Hypothesis/Goals/Question<br>
-      <textarea class="hypothesis" rows="10" cols="50">{{ project_entry.hypothesis }}</textarea>
+      <textarea class="hypothesis" rows="10" cols="50">{{ experiment_dets.hypothesis }}</textarea>
       <input type="button" onclick="" value="SAVE"><br><br>
 
       Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>

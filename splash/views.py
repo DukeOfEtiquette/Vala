@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.views.decorators.csrf import csrf_exempt
-from .models import ValaEntry, Equipment, File
+from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
 from .forms import NewProject, EquipmentForm
 
@@ -56,6 +56,7 @@ class editEntry(TemplateView):
     def get(self, request, entry_id):
         project_entry = ValaEntry.objects.get(projectID=entry_id)
         equipment_list = Equipment.objects.all()
+        experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
         paginator = Paginator(equipment_list, self.paginate_by)
         equipForm = EquipmentForm()
 
@@ -73,6 +74,7 @@ class editEntry(TemplateView):
                             'pageTitle': "Edit Vala Entry",
                             'project_entry': project_entry,
                             'equipment_list': equipment_list,
+                            'experiment_dets': experiment_details,
                             'equipform': equipForm,
                             'file_list': file_list}
         return render(request, self.template_name, template_context)
