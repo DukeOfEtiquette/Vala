@@ -41,10 +41,11 @@ class splashIndex(TemplateView):
   template_name = "splash/index.html"
 
   def get(self, request):
+    page_title = "Vala Project Entry System"
     form = NewProject()
     entry_list = ValaEntry.objects.order_by('creationDate')
     equipment = Equipment.objects.all();
-    template_context = {'pageTitle': "Vala Project Entry System", 'entry_list': entry_list, 'equip_list': equipment,
+    template_context = {'pageTitle': page_title, 'entry_list': entry_list, 'equip_list': equipment,
                         'form': form, }
     return render(request, self.template_name, template_context)
   # def post(self, request):
@@ -56,6 +57,7 @@ class editEntry(TemplateView):
     paginate_by = 1
 
     def get(self, request, entry_id):
+        page_title = "Edit entry - " + entry_id
         project_entry = ValaEntry.objects.get(projectID=entry_id)
         equipment_list = Equipment.objects.all()
         paginator = Paginator(equipment_list, self.paginate_by)
@@ -72,7 +74,7 @@ class editEntry(TemplateView):
 
         file_list = File.objects.filter(valaEntry=project_entry)
         template_context = {'entry_id': entry_id,
-                            'pageTitle': "Edit Vala Entry",
+                            'pageTitle': page_title,
                             'project_entry': project_entry,
                             'equipment_list': equipment_list,
                             'equipform': equipForm,
@@ -83,7 +85,8 @@ class viewEntry(TemplateView):
   template_name = 'splash/view.html'
 
   def get(self, request, entry_id):
-    template_context = {'entry_id': entry_id, 'pageTitle': "Edit Vala Entry"}
+    page_title = ""
+    template_context = {'entry_id': entry_id, 'pageTitle': page_title}
     return render(request, self.template_name, template_context)
 
 
@@ -91,5 +94,6 @@ class reviewEntry(TemplateView):
   template_name = 'splash/review.html'
 
   def get(self, request, entry_id):
-    template_context = {'entry_id': entry_id, 'pageTitle': "Edit Vala Entry"}
+    page_title = ""
+    template_context = {'entry_id': entry_id, 'pageTitle': page_title}
     return render(request, self.template_name, template_context)
