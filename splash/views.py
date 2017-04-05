@@ -51,33 +51,51 @@ class splashIndex(TemplateView):
 
 class editEntry(TemplateView):
     template_name='splash/edit.html'
-    paginate_by = 1
 
-    def get(self, request, entry_id):
-        project_entry = ValaEntry.objects.get(projectID=entry_id)
-        equipment_list = Equipment.objects.all()
-        experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
-        paginator = Paginator(equipment_list, self.paginate_by)
-        experiment_form = ExperimentDetsForm()
+    def post(self, request, entry_id):
 
-        page = self.request.GET.get('page')
+      form = ExperimentDetsForm(request.POST)
+      vala_entry = ValaEntry.objects.get(projectID=entry_id)
+
+      if form.is_valid():
 
         try:
-          equip_list = paginator.page(page)
-        except PageNotAnInteger:
-          equip_list = paginator.page(1)
-        except EmptyPage:
-          equip_list = paginator.page(paginator.num_pages)
+          experDetails = ExperimentDetails.objects.get(valaEntry=vala_entry)
+          experDetails.experimentType = form.clean_experimentType()
+          experDetails.hypothesis = form.clean_hypothesis()
+        except:
+          experDetails = ExperimentDetails(
+            valaEntry=vala_entry,
+            experimentType=form.clean_experimentType(),
+            hypothesis=form.clean_hypothesis()
+          )
 
-        file_list = File.objects.filter(valaEntry=project_entry)
-        template_context = {'entry_id': entry_id,
-                            'pageTitle': "Edit Vala Entry",
-                            'project_entry': project_entry,
-                            'equipment_list': equipment_list,
-                            'experiment_dets': experiment_details,
-                            'experiment_form': experiment_form,
-                            'file_list': file_list}
-        return render(request, self.template_name, template_context)
+        experDetails.save()
+      return HttpResponseRedirect('/edit/'+entry_id)
+
+    def get(self, request, entry_id):
+      print 'howdy'
+      project_entry = ValaEntry.objects.get(projectID=entry_id)
+      equipment_list = Equipment.objects.all()
+      experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
+
+      try:
+        details = ExperimentDetails.objects.get(valaEntry=project_entry)
+        data = {'experimentType': details.experimentType, 'hypothesis': details.hypothesis}
+      except:
+        data = {}
+
+      experiment_form = ExperimentDetsForm(initial=data)
+
+      file_list = File.objects.filter(valaEntry=project_entry)
+      template_context = {'entry_id': entry_id,
+                          'pageTitle': "Edit Vala Entry",
+                          'project_entry': project_entry,
+                          'equipment_list': equipment_list,
+                          'experiment_dets': experiment_details,
+                          'experiment_form': experiment_form,
+                          'file_list': file_list}
+      return render(request, self.template_name, template_context)
 
 class viewEntry(TemplateView):
   template_name = 'splash/view.html'

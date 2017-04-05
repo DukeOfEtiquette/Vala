@@ -23,32 +23,13 @@
     <div id="Experiments" class="tabcontent">
       <h2>Experiment Details</h2>
       <div class="experiment_options">
-        <form method="post" >{% csrf_token %}
+        <form method="post" action="/edit/AA-012345">{% csrf_token %}
           <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
           <button type="submit" class="save_btn">Save</button>
         </form>
-        <!--Experiment Type <select class="experiment_type">
-          <option value="AST">AST</option>
-          <option value="Microcentrifuge Disso">Microcentrifuge Disso</option>
-          <option value="Thermal Characterization (DSC)">Thermal Characterization (DSC)</option>
-          <option value="Potency">Potency</option>
-          <option value="Equilibrium Solubility">Equilibrium Solubility</option>
-          <option value="PXRD">PXRD</option>
-          <option value="NMR Characterization">NMR Characterization</option>
-        </select>
-      </div>
-
-      <script>
-        $("document").ready(function() {
-            selectExperiment("{{ experiment_dets.experimentType.name }}");
-        });
-      </script>
-
-      <br>Hypothesis/Goals/Question<br>
-      <textarea class="hypothesis" rows="10" cols="50">{{ experiment_dets.hypothesis }}</textarea>
-      <input type="button" onclick="" value="SAVE"><br><br>
-
-      Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>-->
+      <!--TODO(Adam): Move this to it's own tab
+        Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
+      -->
     </div>
 
     <!-- Notebooks & Pages -->
