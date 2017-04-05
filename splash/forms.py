@@ -16,7 +16,10 @@ class ValaEntryForm(forms.ModelForm):
 class ExperimentDetsForm(forms.ModelForm):
   class Meta:
     model = ExperimentDetails
-    fields = ['hypothesis', 'experimentType']
+    fields = ['experimentType', 'hypothesis']
+    widgets = {
+      'hypothesis': forms.Textarea(attrs={'rows': 10, 'cols': 50}),
+    }
 
   def clean_hypothesis(self):
     return self.cleaned_data['hypothesis']
@@ -24,17 +27,3 @@ class ExperimentDetsForm(forms.ModelForm):
   def clean_experimentType(self):
     return self.cleaned_data['experimentType']
 
-
-
-
-
-class EquipmentForm(forms.ModelForm):
-  class Meta:
-    model = Equipment
-    fields = ['equipmentID', 'name']
-
-  def clean_valaEntry(self):
-    return self.cleaned_data['valaEntry']
-
-  def clean_equipmentID(self):
-    return self.cleaned_data['equipmentID'].lower()

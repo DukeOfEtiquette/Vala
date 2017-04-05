@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
-from .forms import NewProject, EquipmentForm
+from .forms import NewProject, ExperimentDetsForm
 
 
 class new_project(TemplateView):
@@ -25,7 +25,7 @@ class new_project(TemplateView):
       return HttpResponseRedirect('/edit/'+newID)
 
 class save_equipment(TemplateView):
-  form_class = EquipmentForm
+  # form_class = EquipmentForm
   template_name = 'splash/edit.html'
 
   def post(self, request):
@@ -58,7 +58,7 @@ class editEntry(TemplateView):
         equipment_list = Equipment.objects.all()
         experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
         paginator = Paginator(equipment_list, self.paginate_by)
-        equipForm = EquipmentForm()
+        experiment_form = ExperimentDetsForm()
 
         page = self.request.GET.get('page')
 
@@ -75,7 +75,7 @@ class editEntry(TemplateView):
                             'project_entry': project_entry,
                             'equipment_list': equipment_list,
                             'experiment_dets': experiment_details,
-                            'equipform': equipForm,
+                            'experiment_form': experiment_form,
                             'file_list': file_list}
         return render(request, self.template_name, template_context)
 

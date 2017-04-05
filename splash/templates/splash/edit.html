@@ -8,6 +8,7 @@
 
 {% block pageBody %}
 
+
   <form>
     <!-- Vertical NavBar -->
     <ul id="vertNavBar" class="tab">
@@ -20,9 +21,13 @@
 
     <!-- Experiments -->
     <div id="Experiments" class="tabcontent">
-      <h2>Experiment</h2>
+      <h2>Experiment Details</h2>
       <div class="experiment_options">
-        Experiment Type <select class="experiment_type">
+        <form method="post" >{% csrf_token %}
+          <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
+          <button type="submit" class="save_btn">Save</button>
+        </form>
+        <!--Experiment Type <select class="experiment_type">
           <option value="AST">AST</option>
           <option value="Microcentrifuge Disso">Microcentrifuge Disso</option>
           <option value="Thermal Characterization (DSC)">Thermal Characterization (DSC)</option>
@@ -43,7 +48,7 @@
       <textarea class="hypothesis" rows="10" cols="50">{{ experiment_dets.hypothesis }}</textarea>
       <input type="button" onclick="" value="SAVE"><br><br>
 
-      Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
+      Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>-->
     </div>
 
     <!-- Notebooks & Pages -->

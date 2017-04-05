@@ -10,6 +10,9 @@ class ExperimentType( models.Model ):
     code    = models.IntegerField()
     name    = models.CharField( max_length=64 )
 
+    def __str__(self):
+        return self.name
+
 class ValaEntry( models.Model ):
     status          = models.ForeignKey( "Status" )
     creationDate    = models.DateTimeField( auto_now_add=True, blank=True )
@@ -23,8 +26,8 @@ class ValaEntry( models.Model ):
 
 class ExperimentDetails( models.Model ):
     valaEntry       = models.ForeignKey( "ValaEntry" )
-    hypothesis      = models.CharField( max_length=1024, null=True )
     experimentType  = models.ForeignKey( "ExperimentType", null=True )
+    hypothesis      = models.CharField( max_length=1024, null=True )
 
 
 class Scientist( models.Model ):
