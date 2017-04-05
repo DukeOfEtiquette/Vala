@@ -2,7 +2,7 @@
 
 
 {% block head %}
-  <script type="text/javascript" src="/static/splash/index.js"></script>
+{#  <script type="text/javascript" src="/static/splash/index.js"></script>#}
 {% endblock %}
 
 {% block pageBody %}
@@ -24,14 +24,15 @@
                 <span class='tableCell'> Experiment Type </span>
                 <span class='tableCell'> Status </span>
             </li>
-            <li class="tableRow click-row tableCell new-project-row"><a href="#"id="new-project"><span>New</span></a></li>
+                <a class='tableCell tableRow click-row' id="new-project"><span>New</span></a>
+{#                <a class='tableCell tableRow click-row' id="id_project_id"><span>New</span></a>#}
             {% for entry in entry_list %}
-                <li class='tableRow click-row'>
+                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>
                     <span class='tableCell'>{{ entry.projectID }} </span>
                     <span class='tableCell'>{{ entry.creationDate }} </span>
                     <span class='tableCell'>{{ entry.experimentType.name }} </span>
                     <span class='tableCell'>{{ entry.status.text }} </span>
-                </li>
+                </a>
             {% endfor %}
         </ul>
     {% else %}

@@ -133,6 +133,9 @@ table {
   background: #7ea05f;
 }
 
+/*remove text decoration from a tags for task list display*/
+a {text-decoration: none;}
+
 .nav-bar img {
   width: 79px;
   height: 79px;
