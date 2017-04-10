@@ -8,10 +8,10 @@
 
 {% block pageBody %}
 
-
 <!-- Vertical NavBar -->
 <ul id="vertNavBar" class="tab">
   <li><a href="javascript:void(0)" class="tablinks">Experiments</a></li>
+  <li><a href="javascript:void(0)" class="tablinks">Scientists</a></li>
   <li><a href="javascript:void(0)" class="tablinks">Notebooks</a></li>
   <li><a href="javascript:void(0)" class="tablinks">Equipment</a></li>
   <li><a href="javascript:void(0)" class="tablinks">Files</a></li>
@@ -30,6 +30,10 @@
   <!--TODO(Adam): Move this to it's own tab
     Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
   -->
+</div>
+
+<div id="Scientists" class="tabcontent">
+
 </div>
 
 <!-- Notebooks & Pages -->
@@ -51,50 +55,50 @@
 
 <!--<div id="equipmentWrapper">-->
 
-  <!-- Equipment -->
-  <div id="Equipment" class="tabcontent">
-    <h2>
-      Select Project Equipment Used
-    </h2>
+<!-- Equipment -->
+<div id="Equipment" class="tabcontent">
+  <h2>
+    Select Project Equipment Used
+  </h2>
 
-    {% if equipment_list %}
-    <table id="availEquipmentList" style="margin: 0px";>
-      <tr class='tableTitleRow'>
-        <th></th>
-        <th> ID </th>
-        <th> Name </th>
-      </tr>
-      {% for equipment in equipment_list %}
-      <tr class='tableRow'>
-        <td><input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/></td>
-        <td class='equipID'>{{ equipment.equipmentID }} </td>
-        <td class='equipName'>{{ equipment.name}} </td>
-      </tr>
-      {% endfor %}
-    </table>
-    {% else %}
-      No equipment
-    {% endif %}
+  {% if equipment_list %}
+  <table id="availEquipmentList" style="margin: 0px";>
+    <tr class='tableTitleRow'>
+      <th></th>
+      <th> ID </th>
+      <th> Name </th>
+    </tr>
+    {% for equipment in equipment_list %}
+    <tr class='tableRow'>
+      <td><input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/></td>
+      <td class='equipID'>{{ equipment.equipmentID }} </td>
+      <td class='equipName'>{{ equipment.name}} </td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% else %}
+    No equipment
+  {% endif %}
 
-    </table>
+  </table>
 
-      <div id="EquipmentBench">
-        <h2>
-          Equipment Used on Project
-        </h2>
-        <table id="taskListBench" style="margin: 0px";>
-          <tr class='tableTitleRow'>
-            <th></th>
-            <th> ID </th>
-            <th> Entry </th>
-          </tr>
-        </table>
+    <div id="EquipmentBench">
+      <h2>
+        Equipment Used on Project
+      </h2>
+      <table id="taskListBench" style="margin: 0px";>
+        <tr class='tableTitleRow'>
+          <th></th>
+          <th> ID </th>
+          <th> Entry </th>
+        </tr>
+      </table>
 
-      </div>
-
-      <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
     </div>
+
+    <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
   </div>
+</div>
 
 <!--</div>-->
 
