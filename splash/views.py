@@ -53,7 +53,6 @@ class editEntry(TemplateView):
     template_name='splash/edit.html'
 
     def post(self, request, entry_id):
-
       form = ExperimentDetsForm(request.POST)
       vala_entry = ValaEntry.objects.get(projectID=entry_id)
 
@@ -74,7 +73,6 @@ class editEntry(TemplateView):
       return HttpResponseRedirect('/edit/'+entry_id)
 
     def get(self, request, entry_id):
-      print 'howdy'
       project_entry = ValaEntry.objects.get(projectID=entry_id)
       equipment_list = Equipment.objects.all()
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)

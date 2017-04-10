@@ -9,127 +9,126 @@
 {% block pageBody %}
 
 
-  <form>
-    <!-- Vertical NavBar -->
-    <ul id="vertNavBar" class="tab">
-      <li><a href="javascript:void(0)" class="tablinks">Experiments</a></li>
-      <li><a href="javascript:void(0)" class="tablinks">Notebooks</a></li>
-      <li><a href="javascript:void(0)" class="tablinks">Equipment</a></li>
-      <li><a href="javascript:void(0)" class="tablinks">Files</a></li>
-      <li><a href="javascript:void(0)" class="tablinks">Summary</a></li>
-    </ul>
+<!-- Vertical NavBar -->
+<ul id="vertNavBar" class="tab">
+  <li><a href="javascript:void(0)" class="tablinks">Experiments</a></li>
+  <li><a href="javascript:void(0)" class="tablinks">Notebooks</a></li>
+  <li><a href="javascript:void(0)" class="tablinks">Equipment</a></li>
+  <li><a href="javascript:void(0)" class="tablinks">Files</a></li>
+  <li><a href="javascript:void(0)" class="tablinks">Summary</a></li>
+</ul>
 
-    <!-- Experiments -->
-    <div id="Experiments" class="tabcontent">
-      <h2>Experiment Details</h2>
-      <div class="experiment_options">
-        <form method="post" action="/edit/AA-012345">{% csrf_token %}
-          <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
-          <button type="submit" class="save_btn">Save</button>
-        </form>
-      <!--TODO(Adam): Move this to it's own tab
-        Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
-      -->
-    </div>
+<!-- Experiments -->
+<div id="Experiments" class="tabcontent">
+  <h2>Experiment Details</h2>
+  <div class="experiment_options">
+    <form method="POST" action="">
+      {% csrf_token %}
+      <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
+      <button type="submit" value="submit" class="save_btn">Save</button>
+    </form>
+  <!--TODO(Adam): Move this to it's own tab
+    Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
+  -->
+</div>
 
-    <!-- Notebooks & Pages -->
-    <div id="Notebooks" class="tabcontent">
-      <h2>
-        Select Notebook Reference
-      </h2>
-      <select name="notebooks"> 
-        <option value="Select Notebook(s):">Select Notebook(s)</option>  </select>
-      <input type="submit" value="ADD"><br>
-      <select name="pages"> 
-        <option value="Select Page(s):">Select Pages</option>
-        <input type="submit" value="ADD">
-      </select>
-    </div>
+<!-- Notebooks & Pages -->
+<div id="Notebooks" class="tabcontent">
+  <h2>
+    Select Notebook Reference
+  </h2>
+  <select name="notebooks"> 
+    <option value="Select Notebook(s):">Select Notebook(s)</option>  </select>
+  <input type="submit" value="ADD"><br>
+  <select name="pages"> 
+    <option value="Select Page(s):">Select Pages</option>
+    <input type="submit" value="ADD">
+  </select>
+</div>
 
 
-    <!--  TODO(Adam): add another div to encap Equipment and EquipmentBench -->
+<!--  TODO(Adam): add another div to encap Equipment and EquipmentBench -->
 
-    <!--<div id="equipmentWrapper">-->
+<!--<div id="equipmentWrapper">-->
 
-      <!-- Equipment -->
-      <div id="Equipment" class="tabcontent">
+  <!-- Equipment -->
+  <div id="Equipment" class="tabcontent">
+    <h2>
+      Select Project Equipment Used
+    </h2>
+
+    {% if equipment_list %}
+    <table id="availEquipmentList" style="margin: 0px";>
+      <tr class='tableTitleRow'>
+        <th></th>
+        <th> ID </th>
+        <th> Name </th>
+      </tr>
+      {% for equipment in equipment_list %}
+      <tr class='tableRow'>
+        <td><input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/></td>
+        <td class='equipID'>{{ equipment.equipmentID }} </td>
+        <td class='equipName'>{{ equipment.name}} </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+      No equipment
+    {% endif %}
+
+    </table>
+
+      <div id="EquipmentBench">
         <h2>
-          Select Project Equipment Used
+          Equipment Used on Project
         </h2>
-
-        {% if equipment_list %}
-        <table id="availEquipmentList" style="margin: 0px";>
+        <table id="taskListBench" style="margin: 0px";>
           <tr class='tableTitleRow'>
             <th></th>
             <th> ID </th>
-            <th> Name </th>
+            <th> Entry </th>
           </tr>
-          {% for equipment in equipment_list %}
-          <tr class='tableRow'>
-            <td><input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/></td>
-            <td class='equipID'>{{ equipment.equipmentID }} </td>
-            <td class='equipName'>{{ equipment.name}} </td>
-          </tr>
-          {% endfor %}
-        </table>
-        {% else %}
-          No equipment
-        {% endif %}
-
         </table>
 
-          <div id="EquipmentBench">
-            <h2>
-              Equipment Used on Project
-            </h2>
-            <table id="taskListBench" style="margin: 0px";>
-              <tr class='tableTitleRow'>
-                <th></th>
-                <th> ID </th>
-                <th> Entry </th>
-              </tr>
-            </table>
-
-          </div>
-
-          <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
-        </div>
       </div>
 
-    <!--</div>-->
-
-
-    <!-- Add Files/Data -->
-    <div id="Files" class="tabcontent">
-      <h2>Add Project File(s)</h2>
-        <!--<ol class="sub">
-          {% if file_list %}
-          {% for file in file_list %}
-          <li class="accordion">
-            <h3 class="file_item_header">{{ file.name }}</h3>
-            <div>
-              <ol>
-                <li class="file_detail">
-                  <h4 class="file_detail_header">Description</h4>
-                  <p class="file_detail_content">{{ file.description }}</p>
-                </li>
-                <li class="file_detail">
-                  <h4 class="file_detail_header">File Type</h4>
-                  <p class="file_detail_content">{{ file.fileType}}</p>
-                </li>
-                <li class="file_detail">
-                  <h4 class="file_detail_header">File ID</h4>
-                  <p class="file_detail_content">{{ file.fileID}}</p>
-                </li>
-              </ol>
-            </div>
-          </li>
-          {% endfor %}
-          {% endif %}
-        </ol>-->
-      <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
+      <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
     </div>
-    <!-- Finalize Project -->
-    <div id="Summary" class="tabcontent"></div>
-  </form>
+  </div>
+
+<!--</div>-->
+
+
+<!-- Add Files/Data -->
+<div id="Files" class="tabcontent">
+  <h2>Add Project File(s)</h2>
+    <!--<ol class="sub">
+      {% if file_list %}
+      {% for file in file_list %}
+      <li class="accordion">
+        <h3 class="file_item_header">{{ file.name }}</h3>
+        <div>
+          <ol>
+            <li class="file_detail">
+              <h4 class="file_detail_header">Description</h4>
+              <p class="file_detail_content">{{ file.description }}</p>
+            </li>
+            <li class="file_detail">
+              <h4 class="file_detail_header">File Type</h4>
+              <p class="file_detail_content">{{ file.fileType}}</p>
+            </li>
+            <li class="file_detail">
+              <h4 class="file_detail_header">File ID</h4>
+              <p class="file_detail_content">{{ file.fileID}}</p>
+            </li>
+          </ol>
+        </div>
+      </li>
+      {% endfor %}
+      {% endif %}
+    </ol>-->
+  <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
+</div>
+<!-- Finalize Project -->
+<div id="Summary" class="tabcontent"></div>
 {% endblock %}
