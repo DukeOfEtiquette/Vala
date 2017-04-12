@@ -1,3 +1,6 @@
+a {
+  text-decoration: none;
+}
 /* list table */
 #taskList, #taskListDialog{
   list-style: none;
@@ -30,10 +33,6 @@
 
 .tableRow, .tableRowDialog{
   display: table-row;
-}
-
-.new-project-row{
-  width: 100%;
 }
 
 .tableTitleRow,
@@ -134,7 +133,7 @@ table {
 }
 
 /*remove text decoration from a tags for task list display*/
-a {text-decoration: none;}
+/*a {text-decoration: none;}*/
 
 .nav-bar img {
   width: 79px;
@@ -230,6 +229,24 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
+/*Add new project link*/
+/*a#new-project{*/
+  /*column-span: all;*/
+/*}*/
+
+.new-project-row {
+  /*display: table-cell;*/
+  /*display: block;*/
+  /*width: 100%;*/
+  /*padding: 8px;*/
+  /*border: 1px solid #dddddd;*/
+  text-align: left;
+  text-decoration: underline;
+;
+  /*column-span: all;*/
+}
+
+
 #addEquipButt {
   float: left;
   margin-top: 5px;
@@ -240,18 +257,3 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   bottom: 0px;
   right: 0px;
 }
-
-li.tableRow.click-row.tableCell {
-  width: 848px;
-}
-/*#addEquipDialog {
-  postion: absolute;
-  right: auto;
-  bottom: auto;
-  left: 500px;
-  top: 200px;
-}*/
-
-/*.new-project-row {*/
-  /*display: block;*/
-/*}*/
