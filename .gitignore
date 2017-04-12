@@ -139,3 +139,4 @@ ENV/
 .ropeproject
 
 *.sqlite3
+/splash/migrations/
