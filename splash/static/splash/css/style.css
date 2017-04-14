@@ -247,20 +247,6 @@ ul.tab li a:focus, .active {background-color: #ccc;}
   width: 69%;
 }
 
-.experimentFrom {
-  text-align: left;
-  list-style: none;
-  padding: 0px;
-}
-
-.experimentFrom li {
-  padding: 5px;
-}
-
-.experimentFrom label {
-  display: block;
-}
-
 .save_btn {
   float: left;
 }

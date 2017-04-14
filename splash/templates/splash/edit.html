@@ -2,8 +2,10 @@
 
 
 {% block head %}
+  {% load static %}
   <script type="text/javascript" src="/static/splash/js/edit.js"
           xmlns="http://www.w3.org/1999/html"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'splash/css/edit.css' %}" />
 {% endblock %}
 
 {% block pageBody %}
@@ -27,13 +29,10 @@
       <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
       <button type="submit" value="submit" class="save_btn">Save</button>
     </form>
-  <!--TODO(Adam): Move this to it's own tab
-    Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
-  -->
 </div>
 
 <div id="Scientists" class="tabcontent">
-
+  Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
 </div>
 
 <!-- Notebooks & Pages -->
