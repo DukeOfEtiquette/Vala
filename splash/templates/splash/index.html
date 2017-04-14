@@ -16,6 +16,7 @@
     <!--Plain title for the table of tasks/entries-->
     <div class="table-title">
         <h3 style="text-decoration: underline;">Your Entries</h3>
+   <a class='new-project-row' id="new-project">Add New Project</a>
     </div>
 
     {% if entry_list %}
@@ -26,14 +27,14 @@
                 <span class='tableCell'> Experiment Type </span>
                 <span class='tableCell'> Status </span>
             </li>
-            <li class="tableRow click-row tableCell new-project-row"><a href="#"id="new-project"><span>New</span></a></li>
+            {#                <a class='tableCell tableRow click-row' id="id_project_id"><span>New</span></a>#}
             {% for entry in entry_list %}
-                <li class='tableRow click-row'>
+                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>
                     <span class='tableCell'>{{ entry.projectID }} </span>
                     <span class='tableCell'>{{ entry.creationDate }} </span>
                     <span class='tableCell'>{{ entry.experimentType.name }} </span>
                     <span class='tableCell'>{{ entry.status.text }} </span>
-                </li>
+                </a>
             {% endfor %}
         </ul>
     {% else %}
