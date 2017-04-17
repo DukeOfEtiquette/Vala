@@ -34,6 +34,9 @@
 
 .new-project-row{
     width: 100%;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
 }
 
 .tableTitleRow,
@@ -67,6 +70,8 @@ table {
 /* Change the cursor on hover to signal to the user it is a clickable link */
 .click-row {
     cursor: pointer;
+    text-decoration: none;
+    color: black;
 }
 
 /* Change the background color of the row to signal to the user it is a

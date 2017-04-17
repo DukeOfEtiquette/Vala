@@ -27,7 +27,7 @@ class ValaEntry( models.Model ):
 class ExperimentDetails( models.Model ):
     valaEntry       = models.ForeignKey( "ValaEntry" )
     experimentType  = models.ForeignKey( "ExperimentType", null=True )
-    hypothesis      = models.CharField( max_length=1024, null=True )
+    hypothesis      = models.CharField( max_length=1024, default="" )
 
 
 class Scientist( models.Model ):

@@ -8,6 +8,18 @@
 {% endblock %}
 
 {% block pageBody %}
+
+  <!-- The Modal -->
+  <div id="dialog-form" title="Create New Project">
+    <!-- Modal Content -->
+    <form action="/new_project/" method="post">
+      <fieldset>
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Create Project" disabled id="create-project"/>
+      </fieldset>
+    </form>
+  </div>
     <!--Welcome message, eventually will populate with user name-->
     <div class="greeting">
         <h1>Hello, Scientist!</h1>
@@ -16,7 +28,7 @@
     <!--Plain title for the table of tasks/entries-->
     <div class="table-title">
         <h3 style="text-decoration: underline;">Your Entries</h3>
-   <a class='new-project-row' id="new-project">Add New Project</a>
+        <!--<a class='new-project-row' id="new-project">Add New Project</a>-->
     </div>
 
     {% if entry_list %}
@@ -27,7 +39,12 @@
                 <span class='tableCell'> Experiment Type </span>
                 <span class='tableCell'> Status </span>
             </li>
-            {#                <a class='tableCell tableRow click-row' id="id_project_id"><span>New</span></a>#}
+            <a class='tableRow new-project-row' id="new-project">
+              <span class="tableCell">New</span>
+              <span class="tableCell"> </span>
+              <span class="tableCell"> </span>
+              <span class="tableCell"> </span>
+            </a>
             {% for entry in entry_list %}
                 <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>
                     <span class='tableCell'>{{ entry.projectID }} </span>

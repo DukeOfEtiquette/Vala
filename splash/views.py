@@ -19,6 +19,8 @@ class new_project(TemplateView):
       status = Status.objects.get(text='New')
       newVala = ValaEntry(status=status,projectID=newID)
       newVala.save()
+      experimentDetails = ExperimentDetails(valaEntry=newVala)
+      experimentDetails.save()
       # redirect to a new URL:
       return HttpResponseRedirect('/edit/'+newID)
 

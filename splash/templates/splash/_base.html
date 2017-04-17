@@ -26,18 +26,6 @@
     <hr>
 </header>
 
-<!-- The Modal -->
-<div id="dialog-form" title="Create New Project">
-  <!-- Modal Content -->
-    <form action="/new_project/" method="post">
-        <fieldset>
-            {% csrf_token %}
-            {{ form }}
-            <input type="submit" value="Create Project" disabled id="create-project"/>
-        </fieldset>
-    </form>
-</div>
-
 <section id="mainContent">
     {% block pageBody %}
     {% endblock %}
