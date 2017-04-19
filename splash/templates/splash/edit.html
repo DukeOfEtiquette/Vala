@@ -29,6 +29,7 @@
       <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
       <button type="submit" value="submit" class="save_btn">Save</button>
     </form>
+  </div>
 </div>
 
 <div id="Scientists" class="tabcontent">
@@ -60,6 +61,36 @@
     Select Project Equipment Used
   </h2>
 
+
+  {% if equipment_list %}
+  <ul id="availEquipmentList">
+    <li class="tableTitleRow">
+      <span class="tableCell" style="width: 0%;"></span>
+      <span class="tableCell">ID</span>
+      <span class="tableCell">Name</span>
+    </li>
+
+    {% for equipment in equipment_list %}
+      <li class="tableRow">
+        <span class="tableCell" id="equipCheckCell">
+          <input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/>
+        </span>
+        <span class="tableCell equipID">
+          {{ equipment.equipmentID }}
+        </span>
+        <span class="tableCell equipName">
+          {{ equipment.name }}
+        </span>
+      </li>
+    {% endfor %}
+
+
+  {% else %}
+    No equipment available
+  {% endif %}
+  </ul>
+
+  <!--
   {% if equipment_list %}
   <table id="availEquipmentList" style="margin: 0px";>
     <tr class='tableTitleRow'>
@@ -80,6 +111,7 @@
   {% endif %}
 
   </table>
+  -->
 
     <div id="EquipmentBench">
       <h2>
@@ -96,7 +128,6 @@
     </div>
 
     <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
-  </div>
 </div>
 
 <!--</div>-->
@@ -133,5 +164,8 @@
   <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
 </div>
 <!-- Finalize Project -->
-<div id="Summary" class="tabcontent"></div>
+<div id="Summary" class="tabcontent">
+  <h2>Summary</h2>
+</div>
+
 {% endblock %}

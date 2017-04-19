@@ -93,8 +93,20 @@ ul.tab li a:focus, .active {background-color: #ccc;}
     width: 69%;
 }
 
+/*
 li.tableRow.click-row.tableCell {
     width: 848px;
+}*/
+
+
+.tableCell{
+  display: table-cell;
+  width: 20%;
+  padding: 8px;
+}
+
+.tableRow:nth-child(even), .tableRowDialog:nth-child(even) {
+  background-color: #dddddd;
 }
 
 .experimentFrom {
@@ -109,4 +121,30 @@ li.tableRow.click-row.tableCell {
 
 .experimentFrom label {
     display: block;
+}
+
+#availEquipmentList, #taskListBench {
+    list-style: none;
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tableTitleRow{
+  font-weight: bold;
+  border-bottom: solid 2px black;
+  display: table-row;
+}
+
+.tableRow {
+  display: table-row;
+  border: 1px solid #dddddd;
+  text-align: left;
+}
+
+#equipCheckCell {
+  margin: 0px;
+  width: 1%;
 }
