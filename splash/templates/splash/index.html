@@ -46,7 +46,9 @@
               <span class="tableCell"> </span>
             </a>
             {% for entry in entry_list %}
-                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>
+                <a href="{% url 'edit' entry.projectID %}" class='tableRow click-row'>
+{#                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>#}
+{#                <a href="{% url 'polls:detail' question.id %}">Vote again?</a>#}
                     <span class='tableCell'>{{ entry.projectID }} </span>
                     <span class='tableCell'>{{ entry.creationDate }} </span>
                     <span class='tableCell'>{{ entry.experimentType.name }} </span>
