@@ -62,6 +62,7 @@
   </h2>
 
 
+  <!--Main Equipment Context-->
   {% if equipment_list %}
   <ul id="availEquipmentList">
     <li class="tableTitleRow">
@@ -90,6 +91,20 @@
   {% endif %}
   </ul>
 
+  <div id="EquipmentBench">
+    <h2>
+      Equipment Used on Project
+    </h2>
+    <ul id="taskListBench">
+      <li class='tableTitleRow'>
+        <span class="tableCell" style="width: 0%;"></span>
+        <span class="tableCell">ID</span>
+        <span class="tableCell">Name</span>
+      </li>
+    </ul>
+  </div>
+  <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
+
   <!--
   {% if equipment_list %}
   <table id="availEquipmentList" style="margin: 0px";>
@@ -111,7 +126,6 @@
   {% endif %}
 
   </table>
-  -->
 
     <div id="EquipmentBench">
       <h2>
@@ -124,10 +138,9 @@
           <th> Entry </th>
         </tr>
       </table>
-
     </div>
+    -->
 
-    <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
 </div>
 
 <!--</div>-->

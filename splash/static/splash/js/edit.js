@@ -41,17 +41,19 @@ function deleteRow(r) {
 
 function equipOnClick(cb) {
   //Grab the table ID
-  var parentID = cb.parentNode.parentNode.parentNode.parentNode.id;
+  var parentID = cb.parentNode.parentNode.parentNode.id;
+  console.log(parentID);
 
   //Grab the row that was selected
   var row = cb.parentNode.parentNode;
+  //console.log(row);
   //Remove it from current table
   row.remove();
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availEquipmentList")
   {
-    var workBench = $("#taskListBench");
+    var workBench = $("#EquipmentBench");
     workBench.append(row);
 
   }else {
