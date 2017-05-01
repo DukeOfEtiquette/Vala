@@ -148,3 +148,8 @@ li.tableRow.click-row.tableCell {
   margin: 0px;
   width: 1%;
 }
+
+.project_title {
+    text-align: center;
+    text-decoration: underline;
+}

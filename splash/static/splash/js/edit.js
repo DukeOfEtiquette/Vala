@@ -81,7 +81,17 @@ function getCookie(name) {
 }
 
 function save_equip() {
+  console.log("oh hello");
   var csrf_token = getCookie('csrftoken');
+
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!(/^http:.*/.Equipment(settings.url) || /^https:.*/.Equipment(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+  });
 
   var bench = $('#taskListBench');
   console.log(bench);
@@ -89,15 +99,19 @@ function save_equip() {
   var equipID = $(bench).children().eq(0).children().eq(1).children().eq(1).text();
   console.log(equipID);
 
-  $.ajax({
+  /*$.ajax({
     type: "POST",
     url: "/save_equipment/",
     data: { csrfmiddlewaretoken: csrf_token,
             state:"inactive"
           },
-    success: function() {
-    }
-  });
+          "beforeSend": function(xhr, settings) {
+              console.log("Before Send");
+              $.ajaxSettings.beforeSend(xhr, settings);
+          },
+          success: function() {
+          }
+  });*/
 }
 
 //onclick event for the submit button in the Add Equipment Dialog box
@@ -146,7 +160,7 @@ $("document").ready(function() {
 
   $(".tablinks").on('click', function() {
       // Declare all variables
-      var i, tabcontent, tablinks;
+      var i, tabcontent, tablinks, tableaving;
 
       // Get all elements with class="tabcontent" and hide them
       tabcontent = document.getElementsByClassName("tabcontent");
@@ -157,7 +171,35 @@ $("document").ready(function() {
       // Get all elements with class="tablinks" and remove the class "active"
       tablinks = document.getElementsByClassName("tablinks");
       for (i = 0; i < tablinks.length; i++) {
+          if(tablinks[i].className.match(" active"))
+          {
+            tableaving = i;
+          }
           tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      if(tableaving != undefined){
+        var slug = tablinks[tableaving].innerHTML;
+        console.log(slug);
+        var csrf_token = getCookie('csrftoken');
+
+        $.ajaxSetup({
+          beforeSend: function(xhr, settings) {
+            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+              // Only send the token to relative URLs i.e. locally.
+              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+          }
+        });
+
+        //Get the project ID
+        var entryId = $(".project_title > h1").attr("id");
+
+        $.ajax({
+          type: "POST",
+          url: "/"+slug+"/",
+          data: { entry_id: entryId }
+        });
       }
 
       // Show the current tab, and add an "active" class to the link that opened the tab
@@ -193,9 +235,33 @@ $("document").ready(function() {
     });*/
   });
 
+  //var res = httpGetAsync('http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json');
+  //addProjectEquipment(res);
+
+
 });
+
+function addProjectEquipment(data)
+{
+  console.log(data);
+}
+
+function httpGetAsync(theUrl, callback)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.responseText);
+    }
+    xmlHttp.open("GET", theUrl, true); // true for asynchronous
+    xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+    //xmlHttp.setRequestHeader("Content-Type", "application/json");
+    xmlHttp.send(null);
+    return xmlHttp.responseText;
+}
 
 function selectExperiment(experimentType) {
     console.log(experimentType);
    $('.experiment_options option:contains({0})'.format(experimentType)).prop('selected', true);
 }
+

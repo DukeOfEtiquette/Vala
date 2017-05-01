@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
 from .forms import NewProject, ExperimentDetsForm
+import json, urllib2
 
 
 class new_project(TemplateView):
@@ -24,19 +25,6 @@ class new_project(TemplateView):
       # redirect to a new URL:
       return HttpResponseRedirect('/edit/'+newID)
 
-class save_equipment(TemplateView):
-  # form_class = EquipmentForm
-  template_name = 'splash/edit.html'
-
-  def post(self, request):
-    print "hello"
-    return HttpResponseRedirect('/edit/AA-012345/')
-
-"""def index(request):
-    entry_list = ValaEntry.objects.order_by('creationDate')
-    context = {'entry_list': entry_list}
-    return render(request, 'splash/index.html', context)"""
-
 
 class splashIndex(TemplateView):
   template_name = "splash/index.html"
@@ -52,6 +40,16 @@ class splashIndex(TemplateView):
   # def post(self, request):
   #   form = NewProject()
   #   return HttpResponseRedirect('/')
+
+
+class save_equipment(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+
+
+
+        return HttpResponseRedirect('/edit/'+request.POST['entry_id'])
 
 class editEntry(TemplateView):
     template_name='splash/edit.html'
