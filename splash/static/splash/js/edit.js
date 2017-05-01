@@ -106,6 +106,7 @@ function save_equip() {
     }
   }
 
+  //Save the name of the active tab so we can construct our url
   if(activeTab != undefined) {
     var slug = tablinks[activeTab].innerHTML;
   }
@@ -131,46 +132,44 @@ function save_equip() {
   });
 }
 
-function populationEquipment(){
-
-  /*
-  http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json
-
-  //Make the AJAX post request
-  $.ajax({
-    type: "GET"
-    url: "http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json"
-    dataType: "JSON",
-    data: data
-
-  });
-   */
-
-
-  //Some kind of voodoo, remove this and ajax request won't work
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-        // Only send the token to relative URLs i.e. locally.
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-      }
-    }
-  });
-
+//Makes an ajax request to get json data from a stub server and send it to a
+//function that will format the data in the page
+function populateEquipment(){
   $.ajax({
     type: "GET",
+    dataType: 'json',
     url: "http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json",
-    beforeSend: function(xhr){xhr.setRequestHeader('Access-Control-Allow-Origin', '*');},
+    success: function(data){
+      addEquipmentData(data);
+    }
   });
+}
 
-  /*
-  $.getJSON("http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json", function(data){
-    console.log("hello from within");
-    console.log(data);
-  })*/
+//Receives json data and adds it to the equipment table
+function addEquipmentData(data){
+
+  console.log(data);
+  for(var i = 0; i < data.count; i++)
+  {
+
+    var equipID = data.results[i].serial_number;
+    var equipName = data.results[i].description;
+
+    //Construct HTML for a row
+    var newRow = "<li class='tableRow'> " +
+        "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
+        "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
+        "<span class='tableCell equipName'>" + equipName + "</span></li>";
 
 
+    //Add the row to the task list
+    $("#availEquipmentList").append(newRow);
+
+
+    console.log(data.results[i].serial_number);
+    console.log(data.results[i].description);
+
+  }
 }
 
 //onclick event for the submit button in the Add Equipment Dialog box
@@ -217,7 +216,7 @@ function equipSubmit() {
 
 $("document").ready(function() {
 
-  populationEquipment();
+  populateEquipment();
 
   $(".tablinks").on('click', function() {
       // Declare all variables
