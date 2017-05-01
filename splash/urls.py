@@ -23,10 +23,10 @@ from views import new_project, save_equipment
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
-    url(r'^edit/(?P<entry_id>[a-zA-Z]{2}-[0-9]+)/$', editEntry.as_view()),
-    url(r'^view/(?P<entry_id>[0-9]+)/$', viewEntry.as_view()),
-    url(r'^review/(?P<entry_id>[0-9]+)/$', reviewEntry.as_view()),
-    url(r'^new_project/$', new_project.as_view()),
+    url(r'^edit/(?P<entry_id>[a-zA-Z]{2}-[0-9]+)/$', editEntry.as_view(), name='edit'),
+    url(r'^view/(?P<entry_id>[0-9]+)/$', viewEntry.as_view(), name='view'),
+    url(r'^review/(?P<entry_id>[0-9]+)/$', reviewEntry.as_view(), name='review'),
+    url(r'^new_project/$', new_project.as_view(), name='new_project'),
     url(r'^save_equipment/$', save_equipment.as_view(), name='save_equip'),
     url(r'^$', views.splashIndex.as_view()),
 ]

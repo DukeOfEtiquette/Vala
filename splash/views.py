@@ -6,6 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
 from .forms import NewProject, ExperimentDetsForm
+from django.core.urlresolvers import reverse
 
 
 class new_project(TemplateView):
@@ -22,7 +23,7 @@ class new_project(TemplateView):
       experimentDetails = ExperimentDetails(valaEntry=newVala)
       experimentDetails.save()
       # redirect to a new URL:
-      return HttpResponseRedirect('/edit/'+newID)
+      return HttpResponseRedirect(reverse('edit', args=(newID,)))
 
 class save_equipment(TemplateView):
   # form_class = EquipmentForm
@@ -74,7 +75,7 @@ class editEntry(TemplateView):
           )
 
         experDetails.save()
-      return HttpResponseRedirect('/edit/'+entry_id)
+      return HttpResponseRedirect(reverse('edit', args=(entry_id,)))
 
     def get(self, request, entry_id):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
