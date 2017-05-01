@@ -146,9 +146,9 @@ def createData():
 
   experimentDetails3.save()
 
-  equip1 = Equipment(valaEntry=ve1, equipmentID="BRI-EQ-0001", name="goggles", loc="your head")
-  equip2 = Equipment(valaEntry=ve2, equipmentID="BRI-EQ-0002", name="centrifuge", loc="undergground lava base")
-  equip3 = Equipment(valaEntry=ve3, equipmentID="BRI-EQ-0003", name="flux capacitor", loc="delorian")
+  equip1 = Equipment(valaEntry=ve1, equipmentID="BRI-EQ-0001", name="goggles")
+  equip2 = Equipment(valaEntry=ve2, equipmentID="BRI-EQ-0002", name="centrifuge")
+  equip3 = Equipment(valaEntry=ve3, equipmentID="BRI-EQ-0003", name="flux capacitor")
 
   equip1.save()
   equip2.save()

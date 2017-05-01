@@ -100,7 +100,7 @@ class editEntry(TemplateView):
 
     def get(self, request, entry_id):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
-      equipment_list = Equipment.objects.all()
+      equipment_list = Equipment.objects.filter(valaEntry=project_entry)
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
 
       try:

@@ -131,6 +131,48 @@ function save_equip() {
   });
 }
 
+function populationEquipment(){
+
+  /*
+  http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "GET"
+    url: "http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json"
+    dataType: "JSON",
+    data: data
+
+  });
+   */
+
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
+      }
+    }
+  });
+
+  $.ajax({
+    type: "GET",
+    url: "http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json",
+    beforeSend: function(xhr){xhr.setRequestHeader('Access-Control-Allow-Origin', '*');},
+  });
+
+  /*
+  $.getJSON("http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json", function(data){
+    console.log("hello from within");
+    console.log(data);
+  })*/
+
+
+}
+
 //onclick event for the submit button in the Add Equipment Dialog box
 function equipSubmit() {
 
@@ -174,6 +216,8 @@ function equipSubmit() {
 }
 
 $("document").ready(function() {
+
+  populationEquipment();
 
   $(".tablinks").on('click', function() {
       // Declare all variables

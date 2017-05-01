@@ -62,7 +62,6 @@
   </h2>
 
   <!--Main Equipment Context-->
-  {% if equipment_list %}
   <ul id="availEquipmentList">
     <li class="tableTitleRow">
       <span class="tableCell" style="width: 0%;"></span>
@@ -92,20 +91,20 @@
         <span class="tableCell">Name</span>
       </li>
 
-      {% for equipment in equipment_list %}
-      <li class="tableRow">
-        <span class="tableCell" id="equipCheckCell">
-          <input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/>
-        </span>
-        <span class="tableCell equipID">
-          {{ equipment.equipmentID }}
-        </span>
-        <span class="tableCell equipName">
-          {{ equipment.name }}
-        </span>
-      </li>
-      {% endfor %}
-
+      {% if equipment_list %}
+        {% for equipment in equipment_list %}
+        <li class="tableRow">
+          <span class="tableCell" id="equipCheckCell">
+            <input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/>
+          </span>
+          <span class="tableCell equipID">
+            {{ equipment.equipmentID }}
+          </span>
+          <span class="tableCell equipName">
+            {{ equipment.name }}
+          </span>
+        </li>
+        {% endfor %}
       {% else %}
       {% endif %}
 
