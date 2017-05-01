@@ -70,7 +70,29 @@
       <span class="tableCell">Name</span>
     </li>
 
-    {% for equipment in equipment_list %}
+    <li class="tableRow">
+        <span class="tableCell" id="equipCheckCell">
+        </span>
+      <span class="tableCell equipID">
+        </span>
+      <span class="tableCell equipName">
+        </span>
+    </li>
+  </ul>
+
+  <!--Equipment added to project -->
+  <div id="EquipmentBench">
+    <h2>
+      Equipment Used on Project
+    </h2>
+    <ul id="taskListBench">
+      <li class='tableTitleRow'>
+        <span class="tableCell" style="width: 0%;"></span>
+        <span class="tableCell">ID</span>
+        <span class="tableCell">Name</span>
+      </li>
+
+      {% for equipment in equipment_list %}
       <li class="tableRow">
         <span class="tableCell" id="equipCheckCell">
           <input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/>
@@ -82,23 +104,11 @@
           {{ equipment.name }}
         </span>
       </li>
-    {% endfor %}
+      {% endfor %}
 
-  {% else %}
-    No equipment available
-  {% endif %}
-  </ul>
+      {% else %}
+      {% endif %}
 
-  <div id="EquipmentBench">
-    <h2>
-      Equipment Used on Project
-    </h2>
-    <ul id="taskListBench">
-      <li class='tableTitleRow'>
-        <span class="tableCell" style="width: 0%;"></span>
-        <span class="tableCell">ID</span>
-        <span class="tableCell">Name</span>
-      </li>
     </ul>
   </div>
   <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />

@@ -42,7 +42,6 @@ function deleteRow(r) {
 function equipOnClick(cb) {
   //Grab the table ID
   var parentID = cb.parentNode.parentNode.parentNode.id;
-  console.log(parentID);
 
   //Grab the row that was selected
   var row = cb.parentNode.parentNode;
@@ -53,7 +52,7 @@ function equipOnClick(cb) {
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availEquipmentList")
   {
-    var workBench = $("#EquipmentBench");
+    var workBench = $("#taskListBench");
     workBench.append(row);
 
   }else {
@@ -81,37 +80,55 @@ function getCookie(name) {
 }
 
 function save_equip() {
-  console.log("oh hello");
-  var csrf_token = getCookie('csrftoken');
+  //Get the data we are sending over
+  var list_of_ids = $('#taskListBench').find(".equipID");
+  var list_of_names = $('#taskListBench').find(".equipName");
 
+  //Get the project ID
+  var entryId = $(".project_title > h1").attr("id");
+
+  var equipmentIDs = [];
+  var equipmentNames = [];
+
+  //Add data to a couple arrays
+  for(var i = 0; i < list_of_ids.length; i++)
+  {
+    equipmentIDs.push(list_of_ids[i].innerText);
+    equipmentNames.push(list_of_names[i].innerText);
+  }
+
+  // Get all elements with class="tablinks" and find out what tab we are on
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    if(tablinks[i].className.match(" active"))
+    {
+      activeTab = i;
+    }
+  }
+
+  if(activeTab != undefined) {
+    var slug = tablinks[activeTab].innerHTML;
+  }
+
+  //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
     beforeSend: function(xhr, settings) {
-        if (!(/^http:.*/.Equipment(settings.url) || /^https:.*/.Equipment(settings.url))) {
-            // Only send the token to relative URLs i.e. locally.
-            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-        }
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
     }
   });
 
-  var bench = $('#taskListBench');
-  console.log(bench);
-
-  var equipID = $(bench).children().eq(0).children().eq(1).children().eq(1).text();
-  console.log(equipID);
-
-  /*$.ajax({
+  //Make the AJAX post request
+  $.ajax({
     type: "POST",
-    url: "/save_equipment/",
-    data: { csrfmiddlewaretoken: csrf_token,
-            state:"inactive"
-          },
-          "beforeSend": function(xhr, settings) {
-              console.log("Before Send");
-              $.ajaxSettings.beforeSend(xhr, settings);
-          },
-          success: function() {
-          }
-  });*/
+    url: "/"+slug+"/",
+    data: { entry_id: entryId,
+            'equipmentIDs[]': equipmentIDs,
+            'equipmentNames[]': equipmentNames }
+
+  });
 }
 
 //onclick event for the submit button in the Add Equipment Dialog box
@@ -182,24 +199,6 @@ $("document").ready(function() {
         var slug = tablinks[tableaving].innerHTML;
         console.log(slug);
         var csrf_token = getCookie('csrftoken');
-
-        $.ajaxSetup({
-          beforeSend: function(xhr, settings) {
-            if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-              // Only send the token to relative URLs i.e. locally.
-              xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-          }
-        });
-
-        //Get the project ID
-        var entryId = $(".project_title > h1").attr("id");
-
-        $.ajax({
-          type: "POST",
-          url: "/"+slug+"/",
-          data: { entry_id: entryId }
-        });
       }
 
       // Show the current tab, and add an "active" class to the link that opened the tab
@@ -213,55 +212,5 @@ $("document").ready(function() {
   //TODO(Adam): Remove after Equipment tab demo
   $("a:contains('Equipment')").click();
 
-
-  $(function() {
-    $( "#addEquipButt" ).click(function() {
-      $( "#addEquipDialog" ).dialog( "open" );
-    });
-
-    $( "#addEquipDialog" ).dialog({
-      draggable: true,
-      modal: true,
-      width: 500,
-      height: 300,
-      autoOpen: false,
-    });
-
-    return false;
-
-    /*$( "#addEquipDialog" ).dialog("widget").position({
-      my: 'center',
-      at: 'center'
-    });*/
-  });
-
-  //var res = httpGetAsync('http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json');
-  //addProjectEquipment(res);
-
-
 });
-
-function addProjectEquipment(data)
-{
-  console.log(data);
-}
-
-function httpGetAsync(theUrl, callback)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function() {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-            callback(xmlHttp.responseText);
-    }
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous
-    xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-    //xmlHttp.setRequestHeader("Content-Type", "application/json");
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
-}
-
-function selectExperiment(experimentType) {
-    console.log(experimentType);
-   $('.experiment_options option:contains({0})'.format(experimentType)).prop('selected', true);
-}
 
