@@ -14,6 +14,13 @@ String.prototype.format = function() {
   return str;
 };
 
+function getEntryId(){
+  //Get the project ID
+  var entryId = $(".project_title > h1").attr("id");
+
+  return entryId;
+}
+
 $(function() {
    $('.sub').accordion();
 });
@@ -85,8 +92,9 @@ function save_equip() {
   var list_of_names = $('#taskListBench').find(".equipName");
 
   //Get the project ID
-  var entryId = $(".project_title > h1").attr("id");
+  var entryId = getEntryId();
 
+  //Initialize some arrays to hold the data to be saved
   var equipmentIDs = [];
   var equipmentNames = [];
 
@@ -145,30 +153,50 @@ function populateEquipment(){
   });
 }
 
+function isEquipmentOnBench(equipId)
+{
+  //Get all equipment IDs already associated with this project
+  var list_of_ids = $('#taskListBench').find(".equipID");
+
+  //Iterate over each id...
+  for(var i = 0; i < list_of_ids.length; i++)
+  {
+    //If the current id is already associated with this project return true
+    if(list_of_ids[i].innerText == equipId){
+      return true;
+    }
+  }
+
+  //If it wasn't found then return false
+  return false;
+
+}
+
 //Receives json data and adds it to the equipment table
 function addEquipmentData(data){
 
-  console.log(data);
+  //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
 
+    //Get the equipmentId we are trying to add
     var equipID = data.results[i].serial_number;
-    var equipName = data.results[i].description;
 
-    //Construct HTML for a row
-    var newRow = "<li class='tableRow'> " +
-        "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
-        "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
-        "<span class='tableCell equipName'>" + equipName + "</span></li>";
+    //Only add the equipment not already associated with this project
+    if(!isEquipmentOnBench(equipID))
+    {
+      //Grab the equipment name now that we know it needs to be added
+      var equipName = data.results[i].description;
 
+      //Construct HTML for a row
+      var newRow = "<li class='tableRow'> " +
+          "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
+          "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
+          "<span class='tableCell equipName'>" + equipName + "</span></li>";
 
-    //Add the row to the task list
-    $("#availEquipmentList").append(newRow);
-
-
-    console.log(data.results[i].serial_number);
-    console.log(data.results[i].description);
-
+      //Add the row to the task list
+      $("#availEquipmentList").append(newRow);
+    }
   }
 }
 
@@ -216,6 +244,7 @@ function equipSubmit() {
 
 $("document").ready(function() {
 
+  //Populate the the Equipment pane from outside microservice
   populateEquipment();
 
   $(".tablinks").on('click', function() {
