@@ -7,6 +7,7 @@ from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
 from .forms import NewProject, ExperimentDetsForm
 from django.core.urlresolvers import reverse
+import json, urllib2
 
 
 class new_project(TemplateView):
@@ -25,19 +26,6 @@ class new_project(TemplateView):
       # redirect to a new URL:
       return HttpResponseRedirect(reverse('edit', args=(newID,)))
 
-class save_equipment(TemplateView):
-  # form_class = EquipmentForm
-  template_name = 'splash/edit.html'
-
-  def post(self, request):
-    print "hello"
-    return HttpResponseRedirect('/edit/AA-012345/')
-
-"""def index(request):
-    entry_list = ValaEntry.objects.order_by('creationDate')
-    context = {'entry_list': entry_list}
-    return render(request, 'splash/index.html', context)"""
-
 
 class splashIndex(TemplateView):
   template_name = "splash/index.html"
@@ -53,6 +41,40 @@ class splashIndex(TemplateView):
   # def post(self, request):
   #   form = NewProject()
   #   return HttpResponseRedirect('/')
+
+
+class save_equipment(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        # sanity
+        entry_id = request.POST['entry_id']
+
+        # Construct our return URL
+        return_url = '/edit/' + entry_id + '/'
+
+        # Get the vala entry item associated with this request
+        vala_entry = ValaEntry.objects.get(projectID=entry_id)
+
+        try:
+            # Get our equipment info
+            equipmentIDs = request.POST.getlist('equipmentIDs[]')
+            equipmentNames = request.POST.getlist('equipmentNames[]')
+
+            # For each id and name passed, try to add to the db
+            for id, name in zip(equipmentIDs, equipmentNames):
+                print id, name
+
+                obj, created = Equipment.objects.get_or_create(
+                    valaEntry=vala_entry,
+                    equipmentID=id,
+                    name=name
+                )
+                print "Created: ", created
+        except:
+            print "nothing to add"
+
+        return HttpResponseRedirect(return_url)
 
 class editEntry(TemplateView):
     template_name='splash/edit.html'
@@ -79,7 +101,7 @@ class editEntry(TemplateView):
 
     def get(self, request, entry_id):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
-      equipment_list = Equipment.objects.all()
+      equipment_list = Equipment.objects.filter(valaEntry=project_entry)
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
 
       try:

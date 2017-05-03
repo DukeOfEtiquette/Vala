@@ -41,10 +41,11 @@ function deleteRow(r) {
 
 function equipOnClick(cb) {
   //Grab the table ID
-  var parentID = cb.parentNode.parentNode.parentNode.parentNode.id;
+  var parentID = cb.parentNode.parentNode.parentNode.id;
 
   //Grab the row that was selected
   var row = cb.parentNode.parentNode;
+  //console.log(row);
   //Remove it from current table
   row.remove();
 
@@ -79,23 +80,96 @@ function getCookie(name) {
 }
 
 function save_equip() {
-  var csrf_token = getCookie('csrftoken');
+  //Get the data we are sending over
+  var list_of_ids = $('#taskListBench').find(".equipID");
+  var list_of_names = $('#taskListBench').find(".equipName");
 
-  var bench = $('#taskListBench');
-  console.log(bench);
+  //Get the project ID
+  var entryId = $(".project_title > h1").attr("id");
 
-  var equipID = $(bench).children().eq(0).children().eq(1).children().eq(1).text();
-  console.log(equipID);
+  var equipmentIDs = [];
+  var equipmentNames = [];
 
-  $.ajax({
-    type: "POST",
-    url: "/save_equipment/",
-    data: { csrfmiddlewaretoken: csrf_token,
-            state:"inactive"
-          },
-    success: function() {
+  //Add data to a couple arrays
+  for(var i = 0; i < list_of_ids.length; i++)
+  {
+    equipmentIDs.push(list_of_ids[i].innerText);
+    equipmentNames.push(list_of_names[i].innerText);
+  }
+
+  // Get all elements with class="tablinks" and find out what tab we are on
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    if(tablinks[i].className.match(" active"))
+    {
+      activeTab = i;
+    }
+  }
+
+  //Save the name of the active tab so we can construct our url
+  if(activeTab != undefined) {
+    var slug = tablinks[activeTab].innerHTML;
+  }
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
     }
   });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/"+slug+"/",
+    data: { entry_id: entryId,
+            'equipmentIDs[]': equipmentIDs,
+            'equipmentNames[]': equipmentNames }
+
+  });
+}
+
+//Makes an ajax request to get json data from a stub server and send it to a
+//function that will format the data in the page
+function populateEquipment(){
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: "http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json",
+    success: function(data){
+      addEquipmentData(data);
+    }
+  });
+}
+
+//Receives json data and adds it to the equipment table
+function addEquipmentData(data){
+
+  console.log(data);
+  for(var i = 0; i < data.count; i++)
+  {
+
+    var equipID = data.results[i].serial_number;
+    var equipName = data.results[i].description;
+
+    //Construct HTML for a row
+    var newRow = "<li class='tableRow'> " +
+        "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
+        "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
+        "<span class='tableCell equipName'>" + equipName + "</span></li>";
+
+
+    //Add the row to the task list
+    $("#availEquipmentList").append(newRow);
+
+
+    console.log(data.results[i].serial_number);
+    console.log(data.results[i].description);
+
+  }
 }
 
 //onclick event for the submit button in the Add Equipment Dialog box
@@ -142,9 +216,11 @@ function equipSubmit() {
 
 $("document").ready(function() {
 
+  populateEquipment();
+
   $(".tablinks").on('click', function() {
       // Declare all variables
-      var i, tabcontent, tablinks;
+      var i, tabcontent, tablinks, tableaving;
 
       // Get all elements with class="tabcontent" and hide them
       tabcontent = document.getElementsByClassName("tabcontent");
@@ -155,7 +231,17 @@ $("document").ready(function() {
       // Get all elements with class="tablinks" and remove the class "active"
       tablinks = document.getElementsByClassName("tablinks");
       for (i = 0; i < tablinks.length; i++) {
+          if(tablinks[i].className.match(" active"))
+          {
+            tableaving = i;
+          }
           tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+
+      if(tableaving != undefined){
+        var slug = tablinks[tableaving].innerHTML;
+        console.log(slug);
+        var csrf_token = getCookie('csrftoken');
       }
 
       // Show the current tab, and add an "active" class to the link that opened the tab
@@ -164,36 +250,10 @@ $("document").ready(function() {
   });
 
   //TODO(Adam): Uncomment after Equipment tab demo
-  $(".tablinks").first().click();
+  //$(".tablinks").first().click();
 
   //TODO(Adam): Remove after Equipment tab demo
-  //$("a:contains('Equipment')").click();
-
-
-  $(function() {
-    $( "#addEquipButt" ).click(function() {
-      $( "#addEquipDialog" ).dialog( "open" );
-    });
-
-    $( "#addEquipDialog" ).dialog({
-      draggable: true,
-      modal: true,
-      width: 500,
-      height: 300,
-      autoOpen: false,
-    });
-
-    return false;
-
-    /*$( "#addEquipDialog" ).dialog("widget").position({
-      my: 'center',
-      at: 'center'
-    });*/
-  });
+  $("a:contains('Equipment')").click();
 
 });
 
-function selectExperiment(experimentType) {
-    console.log(experimentType);
-   $('.experiment_options option:contains({0})'.format(experimentType)).prop('selected', true);
-}

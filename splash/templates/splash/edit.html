@@ -10,6 +10,10 @@
 
 {% block pageBody %}
 
+<div class="project_title">
+  <h1 id="{{ entry_id }}">Project: {{ entry_id }}</h1>
+</div>
+
 <!-- Vertical NavBar -->
 <ul id="vertNavBar" class="tab">
   <li><a href="javascript:void(0)" class="tablinks">Experiments</a></li>
@@ -29,6 +33,7 @@
       <ul class="experimentFrom">{{ experiment_form.as_ul }}</ul>
       <button type="submit" value="submit" class="save_btn">Save</button>
     </form>
+  </div>
 </div>
 
 <div id="Scientists" class="tabcontent">
@@ -50,57 +55,64 @@
 </div>
 
 
-<!--  TODO(Adam): add another div to encap Equipment and EquipmentBench -->
-
-<!--<div id="equipmentWrapper">-->
-
 <!-- Equipment -->
 <div id="Equipment" class="tabcontent">
   <h2>
     Select Project Equipment Used
   </h2>
 
-  {% if equipment_list %}
-  <table id="availEquipmentList" style="margin: 0px";>
-    <tr class='tableTitleRow'>
-      <th></th>
-      <th> ID </th>
-      <th> Name </th>
-    </tr>
-    {% for equipment in equipment_list %}
-    <tr class='tableRow'>
-      <td><input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/></td>
-      <td class='equipID'>{{ equipment.equipmentID }} </td>
-      <td class='equipName'>{{ equipment.name}} </td>
-    </tr>
-    {% endfor %}
-  </table>
-  {% else %}
-    No equipment
-  {% endif %}
+  <!--Main Equipment Context-->
+  <ul id="availEquipmentList">
+    <li class="tableTitleRow">
+      <span class="tableCell" style="width: 0%;"></span>
+      <span class="tableCell">ID</span>
+      <span class="tableCell">Name</span>
+    </li>
 
-  </table>
+    <li class="tableRow">
+        <span class="tableCell" id="equipCheckCell">
+        </span>
+      <span class="tableCell equipID">
+        </span>
+      <span class="tableCell equipName">
+        </span>
+    </li>
+  </ul>
 
-    <div id="EquipmentBench">
-      <h2>
-        Equipment Used on Project
-      </h2>
-      <table id="taskListBench" style="margin: 0px";>
-        <tr class='tableTitleRow'>
-          <th></th>
-          <th> ID </th>
-          <th> Entry </th>
-        </tr>
-      </table>
+  <!--Equipment added to project -->
+  <div id="EquipmentBench">
+    <h2>
+      Equipment Used on Project
+    </h2>
+    <ul id="taskListBench">
+      <li class='tableTitleRow'>
+        <span class="tableCell" style="width: 0%;"></span>
+        <span class="tableCell">ID</span>
+        <span class="tableCell">Name</span>
+      </li>
 
-    </div>
+      {% if equipment_list %}
+        {% for equipment in equipment_list %}
+        <li class="tableRow">
+          <span class="tableCell" id="equipCheckCell">
+            <input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/>
+          </span>
+          <span class="tableCell equipID">
+            {{ equipment.equipmentID }}
+          </span>
+          <span class="tableCell equipName">
+            {{ equipment.name }}
+          </span>
+        </li>
+        {% endfor %}
+      {% else %}
+      {% endif %}
 
-    <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
+    </ul>
   </div>
+  <input type="button" id="equipSubmit" value="Save" onclick="save_equip()" />
+
 </div>
-
-<!--</div>-->
-
 
 <!-- Add Files/Data -->
 <div id="Files" class="tabcontent">
@@ -133,5 +145,8 @@
   <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
 </div>
 <!-- Finalize Project -->
-<div id="Summary" class="tabcontent"></div>
+<div id="Summary" class="tabcontent">
+  <h2>Summary</h2>
+</div>
+
 {% endblock %}
