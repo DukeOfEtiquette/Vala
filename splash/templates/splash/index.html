@@ -32,6 +32,65 @@
     </div>
 
     {% if entry_list %}
+        <table id="taskList">
+            <thead>
+                <tr>
+                    <th>Project ID</th>
+                    <th>Creation Date</th>
+                    <th>Experiment Type</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <a class='tableRow new-project-row click-row' id="new-project">New Project</a>
+                </tr>
+                    {% for entry in entry_list %}
+                        <a href="{% url 'edit' entry.projectID %}" class='tableRow click-row'>
+                            <tr class="tableRow click-row">
+                                <td class='tableCell'>{{ entry.projectID }} </td>
+                                <td class='tableCell'>{{ entry.creationDate }} </td>
+                                <td class='tableCell'>{{ entry.experimentType.name }} </td>
+                                <td class='tableCell'>{{ entry.status.text }} </td>
+                            </tr>
+                        </a>
+                    {% endfor %}
+{#                </tr>#}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No entries are available.</p>
+    {% endif %}
+
+{% endblock %}
+
+{#        <ul id="taskList">#}
+{#            <li class='tableTitleRow'>#}
+{#                <span class='tableCell'> Project ID </span>#}
+{#                <span class='tableCell'> Creation Date </span>#}
+{#                <span class='tableCell'> Experiment Type </span>#}
+{#                <span class='tableCell'> Status </span>#}
+{#            </li>#}
+{#            <a class='tableRow new-project-row' id="new-project">#}
+{#              <span class="tableCell">New Project</span>#}
+{#              <span class="tableCell"> </span>#}
+{#              <span class="tableCell"> </span>#}
+{#              <span class="tableCell"> </span>#}
+{#            </a>#}
+{#            {% for entry in entry_list %}#}
+{#                <a href="{% url 'edit' entry.projectID %}" class='tableRow click-row'>#}
+{#                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>#}
+{#                <a href="{% url 'polls:detail' question.id %}">Vote again?</a>#}
+{#                    <span class='tableCell'>{{ entry.projectID }} </span>#}
+{#                    <span class='tableCell'>{{ entry.creationDate }} </span>#}
+{#                    <span class='tableCell'>{{ entry.experimentType.name }} </span>#}
+{#                    <span class='tableCell'>{{ entry.status.text }} </span>#}
+{#                </a>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+
+{% if entry_list %}
         <ul id="taskList">
             <li class='tableTitleRow'>
                 <span class='tableCell'> Project ID </span>
@@ -46,9 +105,7 @@
               <span class="tableCell"> </span>
             </a>
             {% for entry in entry_list %}
-                <a href="{% url 'edit' entry.projectID %}" class='tableRow click-row'>
-{#                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>#}
-{#                <a href="{% url 'polls:detail' question.id %}">Vote again?</a>#}
+                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>
                     <span class='tableCell'>{{ entry.projectID }} </span>
                     <span class='tableCell'>{{ entry.creationDate }} </span>
                     <span class='tableCell'>{{ entry.experimentType.name }} </span>
@@ -59,5 +116,3 @@
     {% else %}
         <p>No entries are available.</p>
     {% endif %}
-
-{% endblock %}
