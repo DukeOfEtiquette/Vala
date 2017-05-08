@@ -25,8 +25,7 @@ SECRET_KEY = '2^7=hmaifya5#6_efj6i&bhvdkoa-wsyqmoo*x35!cr@rldr0z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.elasticbeanstalk.com',
-                 'http://stubserver.us-west-2.elasticbeanstalk.com/Equipment/?format=json']
+ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
 
