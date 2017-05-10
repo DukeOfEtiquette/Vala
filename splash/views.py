@@ -113,13 +113,15 @@ class editEntry(TemplateView):
       experiment_form = ExperimentDetsForm(initial=data)
 
       file_list = File.objects.filter(valaEntry=project_entry)
-      template_context = {'entry_id': entry_id,
-                          'pageTitle': "Edit Vala Entry",
-                          'project_entry': project_entry,
-                          'equipment_list': equipment_list,
-                          'experiment_dets': experiment_details,
-                          'experiment_form': experiment_form,
-                          'file_list': file_list}
+      template_context = {
+          'entry_id': entry_id,
+          'pageTitle': "Edit Vala Entry",
+          'project_entry': project_entry,
+          'equipment_list': equipment_list,
+          'experiment_dets': experiment_details,
+          'experiment_form': experiment_form,
+          'file_list': file_list
+      }
       return render(request, self.template_name, template_context)
 
 class viewEntry(TemplateView):

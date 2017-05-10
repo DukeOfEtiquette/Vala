@@ -12,12 +12,12 @@ $(window).on("load", function () {
     });
 
     $(".click-row").click(function () {
-        val = $(this).children("span:first").text();
+        val = $(this).children("td:first").text();
         var location = "/edit/" + val;
         window.location.href = location;
     });
 
-// ERIN these vars are used to validate project id length in addUser()/createProject()
+//these functions are used to validate project id length in addUser()/createProject()
     $(function () {
         var dialog = $("#dialog-form").dialog({
             autoOpen: false,
