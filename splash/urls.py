@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^view/(?P<entry_id>[0-9]+)/$', viewEntry.as_view(), name='view'),
     url(r'^review/(?P<entry_id>[0-9]+)/$', reviewEntry.as_view(), name='review'),
     url(r'^new_project/$', new_project.as_view(), name='new_project'),
-    url(r'^Equipment/$', save_equipment.as_view(), name='save_equip'),
+    url(r'^save_equipment/$', save_equipment.as_view(), name='save_equip'),
+    url(r'^delete_equipment/$', views.delete_equipment.as_view(), name='delete_equip'),
     url(r'^$', views.splashIndex.as_view())
 ]

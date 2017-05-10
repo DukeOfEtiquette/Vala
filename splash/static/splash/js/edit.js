@@ -60,12 +60,42 @@ function equipOnClick(event) {
   {
     var workBench = $("#taskListBench");
     workBench.append(row);
+    save_equip();
 
   }else {
     var equipList = $("#availEquipmentList");
     equipList.append(row);
     row.checked = false;
+    delete_equip(row);
   }
+}
+
+function delete_equip(row){
+  var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/delete_equipment/",
+    data: {
+      entry_id: entryId,
+      equip_id: equipment_id
+    }
+
+  });
 }
 
 // using jQuery, taken from Django documentation about AJAX post requests
@@ -131,7 +161,7 @@ function save_equip() {
   //Make the AJAX post request
   $.ajax({
     type: "POST",
-    url: "/"+slug+"/",
+    url: "/save_equipment/",
     data: { entry_id: entryId,
             'equipmentIDs[]': equipmentIDs,
             'equipmentNames[]': equipmentNames }
@@ -244,11 +274,7 @@ function equipSubmit() {
 $("document").ready(function() {
 
   //Populate the the Equipment pane from outside microservice
-  populateEquipment().then(function(value){
-
-        $(".equipment-row").click(equipOnClick);
-      }
-  );
+  populateEquipment();
 
   $(".tablinks").on('click', function() {
       // Declare all variables

@@ -43,6 +43,28 @@ class splashIndex(TemplateView):
   #   return HttpResponseRedirect('/')
 
 
+class delete_equipment(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        # sanity
+        entry_id = request.POST['entry_id']
+
+        # Construct our return URL
+        return_url = '/edit/' + entry_id + '/'
+
+        # Get the vala entry item associated with this request
+        vala_entry = ValaEntry.objects.get(projectID=entry_id)
+        print("deleting...")
+
+        equip_id = request.POST['equip_id']
+        print(equip_id)
+        res = Equipment.objects.filter(equipmentID=equip_id).delete()
+        print(res)
+
+        return HttpResponseRedirect(return_url)
+
+
 class save_equipment(TemplateView):
     template_name = 'splash/edit.html'
 
