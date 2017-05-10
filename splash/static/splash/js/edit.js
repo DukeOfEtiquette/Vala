@@ -21,10 +21,6 @@ function getEntryId(){
   return entryId;
 }
 
-$(function() {
-   $('.sub').accordion();
-});
-
 $( window ).on( "load", function() {
     function removeButton(){
         var parent = document.getElementById("file_list");
@@ -39,6 +35,7 @@ $( window ).on( "load", function() {
         x.prepend(addButton);
     }
 
+
 });
 
 function deleteRow(r) {
@@ -46,12 +43,14 @@ function deleteRow(r) {
   document.getElementById("taskList").deleteRow(i);
 }
 
-function equipOnClick(cb) {
+function equipOnClick(event) {
+  var row = event.currentTarget;
+  console.log(row);
   //Grab the table ID
-  var parentID = cb.parentNode.parentNode.parentNode.id;
+  var parentID = event.parentNode.parentNode.parentNode.id;
 
   //Grab the row that was selected
-  var row = cb.parentNode.parentNode;
+  var row = event.parentNode.parentNode;
   //console.log(row);
   //Remove it from current table
   row.remove();
@@ -189,7 +188,7 @@ function addEquipmentData(data){
       var equipName = data.results[i].description;
 
       //Construct HTML for a row
-      var newRow = "<li class='tableRow'> " +
+      var newRow = "<li class='tableRow equipment-row'> " +
           "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
           "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
           "<span class='tableCell equipName'>" + equipName + "</span></li>";
@@ -245,7 +244,11 @@ function equipSubmit() {
 $("document").ready(function() {
 
   //Populate the the Equipment pane from outside microservice
-  populateEquipment();
+  populateEquipment().then(function(value){
+
+        $(".equipment-row").click(equipOnClick);
+      }
+  );
 
   $(".tablinks").on('click', function() {
       // Declare all variables
