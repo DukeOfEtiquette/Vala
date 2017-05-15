@@ -151,7 +151,7 @@
 
       {% if file_list %}
       {% for file in file_list %}
-      <li class="tableRow equipment-row">
+      <li class="tableRow file-row">
           <span class="tableCell" id="fileCheckCell">
             <input type='checkbox' onclick="fileOnClick(this)" class="rowCheckbox"/>
           </span>
@@ -168,32 +168,7 @@
 
     </ul>
   </div>
-    <!--<ol class="sub">
-      {% if file_list %}
-      {% for file in file_list %}
-      <li class="accordion">
-        <h3 class="file_item_header">{{ file.name }}</h3>
-        <div>
-          <ol>
-            <li class="file_detail">
-              <h4 class="file_detail_header">Description</h4>
-              <p class="file_detail_content">{{ file.description }}</p>
-            </li>
-            <li class="file_detail">
-              <h4 class="file_detail_header">File Type</h4>
-              <p class="file_detail_content">{{ file.fileType}}</p>
-            </li>
-            <li class="file_detail">
-              <h4 class="file_detail_header">File ID</h4>
-              <p class="file_detail_content">{{ file.fileID}}</p>
-            </li>
-          </ol>
-        </div>
-      </li>
-      {% endfor %}
-      {% endif %}
-    </ol>-->
-  <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
+
 </div>
 
 

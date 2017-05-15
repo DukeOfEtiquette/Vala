@@ -66,11 +66,6 @@ function fileOnClick(event) {
   }
 }
 
-function deleteRow(r) {
-  var i = r.parentNode.parentNode.rowIndex;
-  document.getElementById("taskList").deleteRow(i);
-}
-
 function equipOnClick(event) {
   var row = event.currentTarget;
   console.log(row);
@@ -124,23 +119,6 @@ function delete_equip(row){
     }
 
   });
-}
-
-// using jQuery, taken from Django documentation about AJAX post requests
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
 }
 
 function save_equip() {
@@ -197,6 +175,23 @@ function save_equip() {
   });
 }
 
+// using jQuery, taken from Django documentation about AJAX post requests
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie != '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
 //Makes an ajax request to get json data from a stub server and send it to a
 //function that will format the data in the page
 function populateEquipment(){
@@ -208,25 +203,6 @@ function populateEquipment(){
       addEquipmentData(data);
     }
   });
-}
-
-function isEquipmentOnBench(equipId)
-{
-  //Get all equipment IDs already associated with this project
-  var list_of_ids = $('#equipListBench').find(".equipID");
-
-  //Iterate over each id...
-  for(var i = 0; i < list_of_ids.length; i++)
-  {
-    //If the current id is already associated with this project return true
-    if(list_of_ids[i].innerText == equipId){
-      return true;
-    }
-  }
-
-  //If it wasn't found then return false
-  return false;
-
 }
 
 //Receives json data and adds it to the equipment table
@@ -257,52 +233,89 @@ function addEquipmentData(data){
   }
 }
 
-//onclick event for the submit button in the Add Equipment Dialog box
-function equipSubmit() {
+function isEquipmentOnBench(equipId)
+{
+  //Get all equipment IDs already associated with this project
+  var list_of_ids = $('#equipListBench').find(".equipID");
 
-  //For each row that is checked in the dialog box...
-  $('.tableRowDialog').find('input.rowCheckbox').filter(':checked').each(function(){
-
-    // Parent2     Parents1   $this
-    // tableRow -> td ->     checkBox
-    var row = $(this).parent().parent();
-
-    //Get the equipments ID number from within the row selected
-    var equipID = row.find('td.equipID')[0].innerHTML;
-
-    //If the item has already been added, then skip
-    if($("#" + equipID).length > 0)
-    {
-      //Uncheck before leaving
-      $(this).prop('checked', false);
-      return;
+  //Iterate over each id...
+  for(var i = 0; i < list_of_ids.length; i++)
+  {
+    //If the current id is already associated with this project return true
+    if(list_of_ids[i].innerText == equipId){
+      return true;
     }
+  }
 
-    //Get the selected equipment name
-    var equipName = row.find('td.equipName')[0].innerText;
+  //If it wasn't found then return false
+  return false;
 
-    //Construct HTML for a row
-    var newRow = "<tr class='tableRow'> " +
-        "<td><input type='button' value='x' onclick='deleteRow(this)'/></td> " +
-        "<td class='equipID' id=" + equipID + "> " + equipID + " </td> " +
-        "<td class='equipName'> " + equipName + " </td></tr>"
+}
 
-    //Add the row to the task list
-    $("#equipListBench").append(newRow);
-
-    //Uncheck row
-    $(this).prop('checked', false);
-
+//Makes an ajax request to get json data from a stub server and send it to a
+//function that will format the data in the page
+function populateFiles(){
+  $.ajax({
+    type: "GET",
+    dataType: 'json',
+    url: "http://stubserver.us-west-2.elasticbeanstalk.com/Files/?format=json",
+    success: function(data){
+      addFileData(data);
+    }
   });
+}
 
-  //Close the dialog box
-  $( "#addEquipDialog" ).dialog( "close" );
+//Receives json data and adds it to the files tab
+function addFileData(data){
+
+  //console.log(data);
+  for(var i = 0; i < data.count; i++)
+  {
+
+    //Get the equipmentId we are trying to add
+    var fileID = data.results[i].id;
+
+    //Only add the equipment not already associated with this project
+    if(!isFileOnBench(fileID))
+    {
+      //Grab the equipment name now that we know it needs to be added
+      var fileName = data.results[i].key;
+
+      //Construct HTML for a row
+      var newRow = "<li class='tableRow file-row'> " +
+          "<span class='tableCell' id='fileCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
+          "<span class='tableCell fileID' id=" + fileID + ">" + fileID + "</span> "+
+          "<span class='tableCell fileName'>" + fileName + "</span></li>";
+
+      //Add the row to the task list
+      $("#availFileList").append(newRow);
+    }
+  }
+}
+
+function isFileOnBench(fileId)
+{
+  //Get all equipment IDs already associated with this project
+  var list_of_ids = $('#fileListBench').find(".fileID");
+
+  //Iterate over each id...
+  for(var i = 0; i < list_of_ids.length; i++)
+  {
+    //If the current id is already associated with this project return true
+    if(list_of_ids[i].innerText == fileId){
+      return true;
+    }
+  }
+
+  //If it wasn't found then return false
+  return false;
 }
 
 $("document").ready(function() {
 
   //Populate the the Equipment pane from outside microservice
   populateEquipment();
+  populateFiles();
 
   $(".tablinks").on('click', function() {
       // Declare all variables
