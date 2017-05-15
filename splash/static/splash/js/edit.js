@@ -38,6 +38,34 @@ $( window ).on( "load", function() {
 
 });
 
+function fileOnClick(event) {
+  var row = event.currentTarget;
+  console.log(row);
+
+  //Grab the table ID
+  var parentID = event.parentNode.parentNode.parentNode.id;
+
+  //Grab the row that was selected
+  var row = event.parentNode.parentNode;
+
+  //Remove it from current table
+  row.remove();
+
+  //See if we are in the available equipment list, or the workbench
+  if(parentID === "fileEquipmentList")
+  {
+    var workBench = $("#fileListBench");
+    workBench.append(row);
+    save_equip();
+
+  }else {
+    var equipList = $("#fileEquipmentList");
+    equipList.append(row);
+    row.checked = false;
+    delete_equip(row);
+  }
+}
+
 function deleteRow(r) {
   var i = r.parentNode.parentNode.rowIndex;
   document.getElementById("taskList").deleteRow(i);
@@ -58,7 +86,7 @@ function equipOnClick(event) {
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availEquipmentList")
   {
-    var workBench = $("#taskListBench");
+    var workBench = $("#equipListBench");
     workBench.append(row);
     save_equip();
 
@@ -117,8 +145,8 @@ function getCookie(name) {
 
 function save_equip() {
   //Get the data we are sending over
-  var list_of_ids = $('#taskListBench').find(".equipID");
-  var list_of_names = $('#taskListBench').find(".equipName");
+  var list_of_ids = $('#equipListBench').find(".equipID");
+  var list_of_names = $('#equipListBench').find(".equipName");
 
   //Get the project ID
   var entryId = getEntryId();
@@ -185,7 +213,7 @@ function populateEquipment(){
 function isEquipmentOnBench(equipId)
 {
   //Get all equipment IDs already associated with this project
-  var list_of_ids = $('#taskListBench').find(".equipID");
+  var list_of_ids = $('#equipListBench').find(".equipID");
 
   //Iterate over each id...
   for(var i = 0; i < list_of_ids.length; i++)
@@ -260,7 +288,7 @@ function equipSubmit() {
         "<td class='equipName'> " + equipName + " </td></tr>"
 
     //Add the row to the task list
-    $("#taskListBench").append(newRow);
+    $("#equipListBench").append(newRow);
 
     //Uncheck row
     $(this).prop('checked', false);

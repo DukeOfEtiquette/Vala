@@ -85,7 +85,7 @@
       Equipment Used on Project
     </h2>
 
-    <ul id="taskListBench">
+    <ul id="equipListBench">
       <li class='tableTitleRow'>
         <span class="tableCell" style="width: 0%;"></span>
         <span class="tableCell">ID</span>
@@ -117,6 +117,57 @@
 <!-- Add Files/Data -->
 <div id="Files" class="tabcontent">
   <h2>Add Project File(s)</h2>
+
+  <!--Main Files Context-->
+  <ul id="availFileList">
+    <li class="tableTitleRow">
+      <span class="tableCell" style="width: 0%;"></span>
+      <span class="tableCell">ID</span>
+      <span class="tableCell">Name</span>
+    </li>
+
+    <li class="tableRow">
+        <span class="tableCell" id="fileCheckCell">
+        </span>
+      <span class="tableCell fileID">
+        </span>
+      <span class="tableCell fileName">
+        </span>
+    </li>
+  </ul>
+
+  <!--Files added to project -->
+  <div id="FileBench">
+    <h2>
+      Project Files
+    </h2>
+
+    <ul id="fileListBench">
+      <li class='tableTitleRow'>
+        <span class="tableCell" style="width: 0%;"></span>
+        <span class="tableCell">ID</span>
+        <span class="tableCell">Name</span>
+      </li>
+
+      {% if file_list %}
+      {% for file in file_list %}
+      <li class="tableRow equipment-row">
+          <span class="tableCell" id="fileCheckCell">
+            <input type='checkbox' onclick="fileOnClick(this)" class="rowCheckbox"/>
+          </span>
+        <span class="tableCell fileID">
+            {{ file.fileID }}
+          </span>
+        <span class="tableCell fileName">
+            {{ file.name }}
+          </span>
+      </li>
+      {% endfor %}
+      {% else %}
+      {% endif %}
+
+    </ul>
+  </div>
     <!--<ol class="sub">
       {% if file_list %}
       {% for file in file_list %}
@@ -144,6 +195,9 @@
     </ol>-->
   <!--<button onclick="addFileButton(event)" id="add_file_button">Add Another File</button>-->
 </div>
+
+
+
 <!-- Finalize Project -->
 <div id="Summary" class="tabcontent">
   <h2>Summary</h2>
