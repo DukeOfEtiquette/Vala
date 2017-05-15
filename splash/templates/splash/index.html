@@ -4,6 +4,8 @@
 {% block head %}
   {% load static %}
   <script type="text/javascript" src="/static/splash/js/index.js"></script>
+  <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" type="text/css" href="{% static 'splash/css/index.css' %}" />
 {% endblock %}
 
@@ -30,6 +32,7 @@
         <h3 style="text-decoration: underline;">Your Entries</h3>
     </div>
 
+   <a class='tableRow new-project-row' id="new-project">New Project</a>
     {% if entry_list %}
         <table id="taskList">
             <thead>
@@ -41,17 +44,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <a class='tableRow new-project-row click-row' id="new-project">New Project</a>
+              {% for entry in entry_list %}
+                <tr class="tableRow click-row">
+                  <td class='tableCell'>{{ entry.projectID }} </td>
+                  <td class='tableCell'>{{ entry.creationDate }} </td>
+                  <td class='tableCell'>{{ entry.experimentType.name }} </td>
+                  <td class='tableCell'>{{ entry.status.text }} </td>
                 </tr>
-                    {% for entry in entry_list %}
-                      <tr class="tableRow click-row">
-                          <td class='tableCell'>{{ entry.projectID }} </td>
-                          <td class='tableCell'>{{ entry.creationDate }} </td>
-                          <td class='tableCell'>{{ entry.experimentType.name }} </td>
-                          <td class='tableCell'>{{ entry.status.text }} </td>
-                      </tr>
-                    {% endfor %}
+              {% endfor %}
             </tbody>
         </table>
 
@@ -60,30 +60,3 @@
     {% endif %}
 
 {% endblock %}
-
-{% if entry_list %}
-        <ul id="taskList">
-            <li class='tableTitleRow'>
-                <span class='tableCell'> Project ID </span>
-                <span class='tableCell'> Creation Date </span>
-                <span class='tableCell'> Experiment Type </span>
-                <span class='tableCell'> Status </span>
-            </li>
-            <a class='tableRow new-project-row' id="new-project">
-              <span class="tableCell">New Project</span>
-              <span class="tableCell"> </span>
-              <span class="tableCell"> </span>
-              <span class="tableCell"> </span>
-            </a>
-            {% for entry in entry_list %}
-                <a href="edit/{{ entry.projectID }}" class='tableRow click-row'>
-                    <span class='tableCell'>{{ entry.projectID }} </span>
-                    <span class='tableCell'>{{ entry.creationDate }} </span>
-                    <span class='tableCell'>{{ entry.experimentType.name }} </span>
-                    <span class='tableCell'>{{ entry.status.text }} </span>
-                </a>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No entries are available.</p>
-    {% endif %}
