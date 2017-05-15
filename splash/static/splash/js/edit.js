@@ -40,30 +40,113 @@ $( window ).on( "load", function() {
 
 function fileOnClick(event) {
   var row = event.currentTarget;
-  console.log(row);
 
   //Grab the table ID
   var parentID = event.parentNode.parentNode.parentNode.id;
+  console.log(parentID);
 
   //Grab the row that was selected
   var row = event.parentNode.parentNode;
+  console.log(row);
 
   //Remove it from current table
   row.remove();
 
   //See if we are in the available equipment list, or the workbench
-  if(parentID === "fileEquipmentList")
+  if(parentID === "availFileList")
   {
     var workBench = $("#fileListBench");
     workBench.append(row);
-    save_equip();
+    save_file();
 
   }else {
-    var equipList = $("#fileEquipmentList");
+    var equipList = $("#availFileList");
     equipList.append(row);
     row.checked = false;
-    delete_equip(row);
+    delete_file(row);
   }
+}
+
+function delete_file(row){
+  var file_id = row.getElementsByClassName("fileID")[0].innerText;
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/delete_file/",
+    data: {
+      entry_id: entryId,
+      file_id: file_id
+    }
+
+  });
+}
+
+function save_file() {
+  //Get the data we are sending over
+  var list_of_ids = $('#fileListBench').find(".fileID");
+  var list_of_names = $('#fileListBench').find(".fileName");
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Initialize some arrays to hold the data to be saved
+  var fileIDs = [];
+  var fileNames = [];
+
+  //Add data to a couple arrays
+  for(var i = 0; i < list_of_ids.length; i++)
+  {
+    fileIDs.push(list_of_ids[i].innerText);
+    fileNames.push(list_of_names[i].innerText);
+  }
+
+  // Get all elements with class="tablinks" and find out what tab we are on
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    if(tablinks[i].className.match(" active"))
+    {
+      activeTab = i;
+    }
+  }
+
+  //Save the name of the active tab so we can construct our url
+  if(activeTab != undefined) {
+    var slug = tablinks[activeTab].innerHTML;
+  }
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/save_file/",
+    data: { entry_id: entryId,
+      'fileIDs[]': fileIDs,
+      'fileNames[]': fileNames }
+
+  });
 }
 
 function equipOnClick(event) {
@@ -283,7 +366,7 @@ function addFileData(data){
 
       //Construct HTML for a row
       var newRow = "<li class='tableRow file-row'> " +
-          "<span class='tableCell' id='fileCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
+          "<span class='tableCell' id='fileCheckCell'><input type='checkbox' class='rowCheckBox' onclick='fileOnClick(this)'/></span> " +
           "<span class='tableCell fileID' id=" + fileID + ">" + fileID + "</span> "+
           "<span class='tableCell fileName'>" + fileName + "</span></li>";
 

@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
-from .models import ValaEntry, Equipment, File, ExperimentDetails
+from .models import ValaEntry, Equipment, File, FileType, ExperimentDetails
 from models import Status
 from .forms import NewProject, ExperimentDetsForm
 from django.core.urlresolvers import reverse
@@ -42,6 +42,64 @@ class splashIndex(TemplateView):
   #   form = NewProject()
   #   return HttpResponseRedirect('/')
 
+
+class delete_file(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        # sanity
+        entry_id = request.POST['entry_id']
+
+        # Construct our return URL
+        return_url = '/edit/' + entry_id + '/'
+
+        # Get the vala entry item associated with this request
+        vala_entry = ValaEntry.objects.get(projectID=entry_id)
+        print("deleting...")
+
+        file_id = request.POST['file_id']
+        print(file_id)
+        res = File.objects.filter(equipmentID=file_id).delete()
+        print(res)
+
+        return HttpResponseRedirect(return_url)
+
+
+class save_file(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        # sanity
+        entry_id = request.POST['entry_id']
+
+        # Construct our return URL
+        return_url = '/edit/' + entry_id + '/'
+
+        # Get the vala entry item associated with this request
+        vala_entry = ValaEntry.objects.get(projectID=entry_id)
+        file_type = FileType.objects.get(code=0)
+
+        try:
+            # Get our equipment info
+            fileIDs = request.POST.getlist('fileIDs[]')
+            fileNames = request.POST.getlist('fileNames[]')
+
+            # For each id and name passed, try to add to the db
+            for id, name in zip(fileIDs, fileNames):
+                print id, name
+
+                obj, created = File.objects.get_or_create(
+                    valaEntry=vala_entry,
+                    fileType=file_type,
+                    description="none",
+                    fileID=id,
+                    name=name
+                )
+                print "Created: ", created
+        except:
+            print "nothing to add"
+
+        return HttpResponseRedirect(return_url)
 
 class delete_equipment(TemplateView):
     template_name = 'splash/edit.html'
