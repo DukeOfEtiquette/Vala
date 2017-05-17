@@ -79,6 +79,10 @@ table {
 
 /* Change the background color of the row to signal to the user it is a
    clickable linke */
+.new-project-row:hover{
+    background: #7ea05f;
+}
+
 .click-row:hover {
     background: #7ea05f;
 }

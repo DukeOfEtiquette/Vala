@@ -17,6 +17,11 @@ $(window).on("load", function () {
         window.location.href = location;
     });
 
+    // implementation of dataTable tool for task list
+    $(document).ready(function(){
+        $('#taskList').DataTable();
+    });
+
 //these functions are used to validate project id length in addUser()/createProject()
     $(function () {
         var dialog = $("#dialog-form").dialog({
