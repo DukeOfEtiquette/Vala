@@ -59,7 +59,7 @@ class delete_file(TemplateView):
 
         file_id = request.POST['file_id']
         print(file_id)
-        res = File.objects.filter(equipmentID=file_id).delete()
+        res = File.objects.filter(fileID=file_id).delete()
         print(res)
 
         return HttpResponseRedirect(return_url)

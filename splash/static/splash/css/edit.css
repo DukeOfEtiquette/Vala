@@ -153,3 +153,7 @@ li.tableRow.click-row.tableCell {
     text-align: center;
     text-decoration: underline;
 }
+
+.tabHeader {
+    text-decoration: underline;
+}

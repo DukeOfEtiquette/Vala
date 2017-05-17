@@ -432,10 +432,10 @@ $("document").ready(function() {
   });
 
   //TODO(Adam): Uncomment after Equipment tab demo
-  //$(".tablinks").first().click();
+  $(".tablinks").first().click();
 
   //TODO(Adam): Remove after Equipment tab demo
-  $("a:contains('Equipment')").click();
+  //$("a:contains('Summary')").click();
 
 });
 
