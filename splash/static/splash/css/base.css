@@ -44,6 +44,17 @@
     color: #7ea05f;
 }
 
+.nav-bar #logout{
+    float: right;
+    margin-top: 2%;
+    margin-right: 2%;
+}
+
+.nav-bar #logout a{
+    text-decoration: none;
+    color: black;
+}
+
 /* Style the Modal (background) */
 .modal {
     display: none;

@@ -1,0 +1,15 @@
+{% extends "splash/_base.html" %}
+
+{% block pageBody %}
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    <div class="login_wrap">
+    <form method="post" action="/login/" class="login">
+        {% csrf_token %}
+    {{ form.as_ul }}
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+    </div>
+{% endblock %}

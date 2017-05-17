@@ -9,6 +9,24 @@ from splash.models import Equipment
 from splash.models import File
 from splash.models import FileType
 
+from django.contrib.auth.models import User
+
+user1 = User.objects.create_user('gfreeman', 'gfreeman@blackmesa.com', 'gordonpassword')
+user1.first_name='Gordon',
+user1.last_name='Freeman',
+user1.save()
+
+user2 = User.objects.create_user('aeinstein', 'aeinsten@ias.edu', 'albertpassword')
+user2.first_name='Albert',
+user2.last_name='Einstein',
+user2.save()
+
+user3 = User.objects.create_user('rfeynman', 'rfeynman@losalamos.gov', 'richardpassword')
+user3.first_name='Richard'
+user3.last_name='Feynman'
+user3.save()
+
+
 def deleteInstances():
   ValaEntry.objects.all().delete()
   Status.objects.all().delete()

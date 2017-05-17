@@ -7,11 +7,13 @@ from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
 from .forms import NewProject, ExperimentDetsForm
 from django.core.urlresolvers import reverse
-import json, urllib2
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class new_project(TemplateView):
   # if this is a POST request we need to process the form data
+  @method_decorator(login_required)
   def post(self, request):
     # create a form instance and populate it with data from the request:
     form = NewProject(request.POST)
@@ -30,13 +32,18 @@ class new_project(TemplateView):
 class splashIndex(TemplateView):
   template_name = "splash/index.html"
 
+  @method_decorator(login_required(redirect_field_name='next'))
   def get(self, request):
     page_title = "Vala Project Entry System"
     form = NewProject()
     entry_list = ValaEntry.objects.order_by('creationDate')
     equipment = Equipment.objects.all();
-    template_context = {'pageTitle': page_title, 'entry_list': entry_list, 'equip_list': equipment,
-                        'form': form, }
+    template_context = {
+        'pageTitle': page_title,
+        'entry_list': entry_list,
+        'equip_list': equipment,
+        'form': form,
+    }
     return render(request, self.template_name, template_context)
   # def post(self, request):
   #   form = NewProject()

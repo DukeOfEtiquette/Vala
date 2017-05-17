@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 from splash import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name='admin'),
+    url(r'^login/$', auth_views.login, {'template_name': 'splash/login.html'}, name='login'),
+    url(r'^logout/$', auth_views.logout_then_login, name='logout'),
     url(r'^', include('splash.urls'))
+
 ]
