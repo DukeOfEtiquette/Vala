@@ -26,7 +26,66 @@
 
 <!-- Finalize Project -->
 <div id="Summary" class="tabcontent">
-  <h3 class="tabHeader">Experiment Details</h3>
+  <div>
+    <h3 class="tabHeader">Experiment Details</h3>
+
+    {% if experiment_details %}
+      <p><b>Type:</b> {{ experiment_details.experimentType }}</p>
+      <p><b>Hypothesis:</b> {{ experiment_details.hypothesis }}</p>
+
+    {% else %}
+    {% endif %}
+  </div>
+
+  <div>
+    <h3 class="tabHeader">Scientists</h3>
+  </div>
+
+  <div>
+    <h3 class="tabHeader">Notebooks</h3>
+  </div>
+
+  <div>
+    <h3 class="tabHeader">Equipment</h3>
+
+    {% if equipment_list %}
+      <table class="SummaryTable">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+      {% for equipment in equipment_list %}
+        <tr>
+          <td>{{ equipment.equipmentID }}</td>
+          <td>{{ equipment.name }}</td>
+        </tr>
+      {% endfor %}
+      </table>
+    {% else %}
+    {% endif %}
+
+  </div>
+
+  <div>
+    <h3 class="tabHeader">Files</h3>
+
+    {% if file_list %}
+      <table class="SummaryTable">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+        {% for file in file_list %}
+          <tr>
+            <td>{{ file.fileID }}</td>
+            <td>{{ file.name }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+    {% endif %}
+
+  </div>
 </div>
 
 <!-- Experiments -->

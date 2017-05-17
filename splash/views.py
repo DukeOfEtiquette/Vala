@@ -198,7 +198,7 @@ class editEntry(TemplateView):
           'pageTitle': "Edit Vala Entry",
           'project_entry': project_entry,
           'equipment_list': equipment_list,
-          'experiment_dets': experiment_details,
+          'experiment_details': experiment_details,
           'experiment_form': experiment_form,
           'file_list': file_list
       }

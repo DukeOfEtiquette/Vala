@@ -157,3 +157,18 @@ li.tableRow.click-row.tableCell {
 .tabHeader {
     text-decoration: underline;
 }
+
+.SummaryTable {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.SummaryTable td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.SummaryTable tr:nth-child(even){
+  background-color: #dddddd;
+}
