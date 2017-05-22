@@ -159,6 +159,7 @@ li.tableRow.click-row.tableCell {
 }
 
 .SummaryTable {
+  display: table;
   border-collapse: collapse;
   width: 100%;
 }

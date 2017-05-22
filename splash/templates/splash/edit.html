@@ -49,17 +49,21 @@
     <h3 class="tabHeader">Equipment</h3>
 
     {% if equipment_list %}
-      <table class="SummaryTable">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-        </tr>
-      {% for equipment in equipment_list %}
-        <tr>
-          <td>{{ equipment.equipmentID }}</td>
-          <td>{{ equipment.name }}</td>
-        </tr>
-      {% endfor %}
+      <table class="SummaryTable" id="equipSummaryTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for equipment in equipment_list %}
+            <tr>
+              <td>{{ equipment.equipmentID }}</td>
+              <td>{{ equipment.name }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
       </table>
     {% else %}
     {% endif %}
@@ -70,17 +74,21 @@
     <h3 class="tabHeader">Files</h3>
 
     {% if file_list %}
-      <table class="SummaryTable">
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-        </tr>
-        {% for file in file_list %}
+      <table class="SummaryTable" id="fileSummaryTable">
+        <thead>
           <tr>
-            <td>{{ file.fileID }}</td>
-            <td>{{ file.name }}</td>
+            <th>ID</th>
+            <th>Name</th>
           </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+          {% for file in file_list %}
+            <tr>
+              <td>{{ file.fileID }}</td>
+              <td>{{ file.name }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
       </table>
     {% else %}
     {% endif %}
@@ -100,6 +108,7 @@
   </div>
 </div>
 
+<!-- Scientists -->
 <div id="Scientists" class="tabcontent">
   <h3 class="tabHeader">Scientists</h3>
   Key Scientist: <input type="text" name="scientist"><input type="submit" value="+"><br>
@@ -235,7 +244,5 @@
   </div>
 
 </div>
-
-
 
 {% endblock %}

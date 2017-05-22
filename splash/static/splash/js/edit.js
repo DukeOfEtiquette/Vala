@@ -420,16 +420,15 @@ $("document").ready(function() {
           tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
 
-      if(tableaving != undefined){
-        var slug = tablinks[tableaving].innerHTML;
-        console.log(slug);
-        var csrf_token = getCookie('csrftoken');
-      }
-
       // Show the current tab, and add an "active" class to the link that opened the tab
       document.getElementById(this.textContent).style.display = "inline-block";
       this.className += " active";
+
+      if(this.innerHTML == "Summary")
+        refreshSummary();
   });
+
+  refreshSummary();
 
   //TODO(Adam): Uncomment after Equipment tab demo
   $(".tablinks").first().click();
@@ -437,5 +436,23 @@ $("document").ready(function() {
   //TODO(Adam): Remove after Equipment tab demo
   //$("a:contains('Summary')").click();
 
+  $('#equipSummaryTable').DataTable();
+  $('#fileSummaryTable').DataTable();
+
 });
 
+function refreshSummary(){
+
+  var equipData = $('#equipSummaryTable');
+
+  console.log(equipData);
+  console.log(equipData[0].children.length);
+
+}
+
+function getEquipmentData(){
+
+  var tableBody = $('#equipSummaryTable tbody');
+
+  return tableBody;
+}
