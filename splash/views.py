@@ -9,7 +9,7 @@ from .forms import NewProject, ExperimentDetsForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
+from django.contrib.auth.models import User
 
 class new_project(TemplateView):
   # if this is a POST request we need to process the form data
@@ -34,9 +34,11 @@ class splashIndex(TemplateView):
 
   @method_decorator(login_required(redirect_field_name='next'))
   def get(self, request):
+    print(request.user)
     page_title = "Vala Project Entry System"
     form = NewProject()
     entry_list = ValaEntry.objects.order_by('creationDate')
+    #entry_list = ValaEntry.objects.filter()
     equipment = Equipment.objects.all();
     template_context = {
         'pageTitle': page_title,
@@ -108,6 +110,7 @@ class save_equipment(TemplateView):
 class editEntry(TemplateView):
     template_name='splash/edit.html'
 
+    @method_decorator(login_required)
     def post(self, request, entry_id):
       form = ExperimentDetsForm(request.POST)
       vala_entry = ValaEntry.objects.get(projectID=entry_id)
@@ -128,6 +131,7 @@ class editEntry(TemplateView):
         experDetails.save()
       return HttpResponseRedirect(reverse('edit', args=(entry_id,)))
 
+    @method_decorator(login_required)
     def get(self, request, entry_id):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
       equipment_list = Equipment.objects.filter(valaEntry=project_entry)
@@ -140,6 +144,8 @@ class editEntry(TemplateView):
         data = {}
 
       experiment_form = ExperimentDetsForm(initial=data)
+      scientist_list = project_entry.scientists
+      print(scientist_list)
 
       file_list = File.objects.filter(valaEntry=project_entry)
       template_context = {

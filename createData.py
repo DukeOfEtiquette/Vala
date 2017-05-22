@@ -11,21 +11,6 @@ from splash.models import FileType
 
 from django.contrib.auth.models import User
 
-user1 = User.objects.create_user('gfreeman', 'gfreeman@blackmesa.com', 'gordonpassword')
-user1.first_name='Gordon',
-user1.last_name='Freeman',
-user1.save()
-
-user2 = User.objects.create_user('aeinstein', 'aeinsten@ias.edu', 'albertpassword')
-user2.first_name='Albert',
-user2.last_name='Einstein',
-user2.save()
-
-user3 = User.objects.create_user('rfeynman', 'rfeynman@losalamos.gov', 'richardpassword')
-user3.first_name='Richard'
-user3.last_name='Feynman'
-user3.save()
-
 
 def deleteInstances():
   ValaEntry.objects.all().delete()
@@ -35,9 +20,26 @@ def deleteInstances():
   Equipment.objects.all().delete()
   File.objects.all().delete()
   FileType.objects.all().delete()
+  User.objects.all().delete()
 
 
 def createData():
+
+  user1 = User.objects.create_user('gfreeman', 'gfreeman@blackmesa.com', 'gordonpassword')
+  user1.first_name='Gordon',
+  user1.last_name='Freeman',
+  user1.save()
+
+  user2 = User.objects.create_user('aeinstein', 'aeinsten@ias.edu', 'albertpassword')
+  user2.first_name='Albert',
+  user2.last_name='Einstein',
+  user2.save()
+
+  user3 = User.objects.create_user('rfeynman', 'rfeynman@losalamos.gov', 'richardpassword')
+  user3.first_name='Richard'
+  user3.last_name='Feynman'
+  user3.save()
+
   veStatus0 = Status(code="0", text="New")
   veStatus1 = Status(code="1", text="Pending Review")
   veStatus2 = Status(code="2", text="Completed")
@@ -137,8 +139,17 @@ def createData():
   )
 
   ve1.save()
+  print(User.objects.get(id=user1.id))
+  ve1.scientists.add(User.objects.get(id=user1.id))
+  ve1.scientists.add(User.objects.get(username=user2.username))
+
   ve2.save()
+  ve1.scientists.add(User.objects.get(username=user1.username))
+  ve1.scientists.add(User.objects.get(username=user3.username))
+
   ve3.save()
+  ve1.scientists.add(User.objects.get(username=user2.username))
+  ve1.scientists.add(User.objects.get(username=user3.username))
 
   experimentDetails1 = ExperimentDetails(
     valaEntry=ve1,
