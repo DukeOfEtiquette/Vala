@@ -173,3 +173,14 @@ li.tableRow.click-row.tableCell {
 .DataTable tr:nth-child(even){
   background-color: #dddddd;
 }
+
+/* Change the cursor on hover to signal to the user it is a clickable link */
+.click-row {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+.click-row:hover {
+  background: #7ea05f;
+}

@@ -150,34 +150,70 @@ function save_file() {
 }
 
 function equipOnClick(event) {
-  var row = event.currentTarget;
+  var row = event;
   console.log(row);
   //Grab the table ID
-  var parentID = event.parentNode.parentNode.parentNode.id;
+  var parentID = row.parentNode.parentNode.id;
+  console.log("ParentID: " + parentID)
 
+  /*
   //Grab the row that was selected
   var row = event.parentNode.parentNode;
-  //console.log(row);
+  //console.log(row);*/
   //Remove it from current table
   row.remove();
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availEquipmentList")
   {
-    var workBench = $("#equipListBench");
+    var workBench = $("#benchEquipBody");
     workBench.append(row);
-    save_equip();
+    save_equip(row);
 
   }else {
-    var equipList = $("#availEquipmentList");
+    var equipList = $("#availEquipBody");
     equipList.append(row);
-    row.checked = false;
+    //row.checked = false;
     delete_equip(row);
   }
 }
 
+function save_equip(row){
+  var equipment_id = row.id;
+  console.log("ROW ID: " + equipment_id);
+
+  var equipment_name = row.getElementsByClassName("equipName")[0].innerText;
+  console.log("ROW NAME: " + equipment_name);
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/save_equipment/",
+    data: {
+      entry_id: entryId,
+      equip_id: equipment_id,
+      equip_name: equipment_name
+    }
+
+  });
+}
+
 function delete_equip(row){
   var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
+  console.log("ROW ID: " + row.id);
 
   //Get the project ID
   var entryId = getEntryId();
@@ -204,7 +240,7 @@ function delete_equip(row){
   });
 }
 
-function save_equip() {
+function save_equipment() {
   //Get the data we are sending over
   var list_of_ids = $('#equipListBench').find(".equipID");
   var list_of_names = $('#equipListBench').find(".equipName");
@@ -304,17 +340,13 @@ function addEquipmentData(data){
       //Grab the equipment name now that we know it needs to be added
       var equipName = data.results[i].description;
 
-      var dataRows = "<tr class='equipID' id="+equipID+"><td>"+equipID+"</td>" +
-                     "<td>"+equipName+"</td></tr>";
-
       //Construct HTML for a row
-      var newRow = "<li class='tableRow equipment-row'> " +
-          "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
-          "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
-          "<span class='tableCell equipName'>" + equipName + "</span></li>";
+      var dataRow = "<tr class='click-row' id="+equipID+" onclick='equipOnClick(this)'><td class='equipID'>"+equipID+"</td>" +
+                     "<td class='equipName'>"+equipName+"</td></tr>";
+      console.log(dataRow);
 
       //Add the row to the task list
-      $("#availEquipBody").append(dataRows);
+      $("#availEquipBody").append(dataRow);
     }
   }
   $('#availEquipmentList').DataTable();
@@ -441,6 +473,7 @@ $("document").ready(function() {
   //$("a:contains('Summary')").click();
 
   $('#equipSummaryTable').DataTable();
+  $('#equipListBench').DataTable();
   $('#fileSummaryTable').DataTable();
 
 });

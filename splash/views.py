@@ -138,19 +138,21 @@ class save_equipment(TemplateView):
 
         try:
             # Get our equipment info
-            equipmentIDs = request.POST.getlist('equipmentIDs[]')
-            equipmentNames = request.POST.getlist('equipmentNames[]')
+            id = request.POST['equip_id']
+            name = request.POST['equip_name']
+
+            obj, created = Equipment.objects.get_or_create(
+                valaEntry=vala_entry,
+                equipmentID=id,
+                name=name
+            )
+            print "Created: ", created
+
 
             # For each id and name passed, try to add to the db
-            for id, name in zip(equipmentIDs, equipmentNames):
-                print id, name
+            # for id, name in zip(equipmentIDs, equipmentNames):
+                # print id, name
 
-                obj, created = Equipment.objects.get_or_create(
-                    valaEntry=vala_entry,
-                    equipmentID=id,
-                    name=name
-                )
-                print "Created: ", created
         except:
             print "nothing to add"
 

@@ -154,6 +154,26 @@
       Equipment Used on Project
     </h3>
 
+    <table class="DataTable" id="equipListBench">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody id="benchEquipBody">
+        {% if equipment_list %}
+          {% for equipment in equipment_list %}
+            <tr class="click-row" id="{{ equipment.equipmentID }}" onclick="equipOnClick(this)">
+              <td class="equipID">{{ equipment.equipmentID }}</td>
+              <td>{{ equipment.name }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+
+    <!--
     <ul id="equipListBench">
       <li class='tableTitleRow'>
         <span class="tableCell" style="width: 0%;"></span>
@@ -178,7 +198,7 @@
       {% else %}
       {% endif %}
 
-    </ul>
+    </ul>-->
   </div>
 
 </div>
