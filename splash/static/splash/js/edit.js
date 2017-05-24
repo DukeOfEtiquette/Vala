@@ -304,6 +304,9 @@ function addEquipmentData(data){
       //Grab the equipment name now that we know it needs to be added
       var equipName = data.results[i].description;
 
+      var dataRows = "<tr class='equipID' id="+equipID+"><td>"+equipID+"</td>" +
+                     "<td>"+equipName+"</td></tr>";
+
       //Construct HTML for a row
       var newRow = "<li class='tableRow equipment-row'> " +
           "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
@@ -311,15 +314,16 @@ function addEquipmentData(data){
           "<span class='tableCell equipName'>" + equipName + "</span></li>";
 
       //Add the row to the task list
-      $("#availEquipmentList").append(newRow);
+      $("#availEquipBody").append(dataRows);
     }
   }
+  $('#availEquipmentList').DataTable();
 }
 
 function isEquipmentOnBench(equipId)
 {
   //Get all equipment IDs already associated with this project
-  var list_of_ids = $('#equipListBench').find(".equipID");
+  var list_of_ids = $('#testEquipmentList').find(".equipID");
 
   //Iterate over each id...
   for(var i = 0; i < list_of_ids.length; i++)

@@ -158,18 +158,18 @@ li.tableRow.click-row.tableCell {
     text-decoration: underline;
 }
 
-.SummaryTable {
+.DataTable {
   display: table;
   border-collapse: collapse;
   width: 100%;
 }
 
-.SummaryTable td, th {
+.DataTable td, th {
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
 }
 
-.SummaryTable tr:nth-child(even){
+.DataTable tr:nth-child(even){
   background-color: #dddddd;
 }

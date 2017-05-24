@@ -49,7 +49,7 @@
     <h3 class="tabHeader">Equipment</h3>
 
     {% if equipment_list %}
-      <table class="SummaryTable" id="equipSummaryTable">
+      <table class="DataTable" id="equipSummaryTable">
         <thead>
           <tr>
             <th>ID</th>
@@ -135,23 +135,18 @@
     Select Project Equipment Used
   </h3>
 
-  <!--Main Equipment Context-->
-  <ul id="availEquipmentList">
-    <li class="tableTitleRow">
-      <span class="tableCell" style="width: 0%;"></span>
-      <span class="tableCell">ID</span>
-      <span class="tableCell">Name</span>
-    </li>
 
-    <li class="tableRow">
-        <span class="tableCell" id="equipCheckCell">
-        </span>
-      <span class="tableCell equipID">
-        </span>
-      <span class="tableCell equipName">
-        </span>
-    </li>
-  </ul>
+  <!--Main Equipment Context-->
+  <table class="DataTable" id="availEquipmentList">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody id="availEquipBody">
+    </tbody>
+  </table>
 
   <!--Equipment added to project -->
   <div id="EquipmentBench">
