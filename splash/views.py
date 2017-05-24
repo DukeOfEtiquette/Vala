@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File, ExperimentDetails
 from models import Status
-from .forms import NewProject, ExperimentDetsForm
+from .forms import NewProject, ExperimentDetsForm, ScientistForm
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -137,14 +137,17 @@ class editEntry(TemplateView):
       equipment_list = Equipment.objects.filter(valaEntry=project_entry)
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
 
+
       try:
         details = ExperimentDetails.objects.get(valaEntry=project_entry)
         data = {'experimentType': details.experimentType, 'hypothesis': details.hypothesis}
       except:
         data = {}
 
+      scientists = ScientistForm()
       experiment_form = ExperimentDetsForm(initial=data)
-      scientist_list = project_entry.scientists
+      #scientist_list = project_entry.scientists
+      scientist_list = User.objects.all()
       print(scientist_list)
 
       file_list = File.objects.filter(valaEntry=project_entry)
@@ -155,7 +158,8 @@ class editEntry(TemplateView):
           'equipment_list': equipment_list,
           'experiment_dets': experiment_details,
           'experiment_form': experiment_form,
-          'file_list': file_list
+          'file_list': file_list,
+          'scientist_form': scientists,
       }
       return render(request, self.template_name, template_context)
 

@@ -139,17 +139,18 @@ def createData():
   )
 
   ve1.save()
-  print(User.objects.get(id=user1.id))
   ve1.scientists.add(User.objects.get(id=user1.id))
-  ve1.scientists.add(User.objects.get(username=user2.username))
+  ve1.scientists.add(User.objects.get(username='aeinstein'))
+  print(user2.username)
+  print(ve1.scientists)
 
   ve2.save()
-  ve1.scientists.add(User.objects.get(username=user1.username))
-  ve1.scientists.add(User.objects.get(username=user3.username))
+  ve2.scientists.add(User.objects.get(username=user1.username))
+  ve2.scientists.add(User.objects.get(username=user3.username))
 
   ve3.save()
-  ve1.scientists.add(User.objects.get(username=user2.username))
-  ve1.scientists.add(User.objects.get(username=user3.username))
+  ve3.scientists.add(User.objects.get(username=user2.username))
+  ve3.scientists.add(User.objects.get(username=user3.username))
 
   experimentDetails1 = ExperimentDetails(
     valaEntry=ve1,
