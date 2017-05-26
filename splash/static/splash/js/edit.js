@@ -151,6 +151,7 @@ function save_file() {
 
 function equipOnClick(event) {
   var row = event;
+  console.log("row: ");
   console.log(row);
   //Grab the table ID
   var parentID = row.parentNode.parentNode.id;
@@ -161,19 +162,23 @@ function equipOnClick(event) {
   var row = event.parentNode.parentNode;
   //console.log(row);*/
   //Remove it from current table
-  row.remove();
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availEquipmentList")
   {
     var workBench = $("#benchEquipBody");
+    console.log("appending...");
+    console.log(row);
+    console.log("to benchEquipBody...");
+    console.log(workBench);
     workBench.append(row);
     save_equip(row);
 
   }else {
     var equipList = $("#availEquipBody");
+    console.log("availEquipBody...");
+    console.log(equipList);
     equipList.append(row);
-    //row.checked = false;
     delete_equip(row);
   }
 }
@@ -182,6 +187,8 @@ function save_equip(row){
   var equipment_id = row.id;
   console.log("ROW ID: " + equipment_id);
 
+  console.log("Row...");
+  console.log(row);
   var equipment_name = row.getElementsByClassName("equipName")[0].innerText;
   console.log("ROW NAME: " + equipment_name);
 
@@ -240,60 +247,6 @@ function delete_equip(row){
   });
 }
 
-function save_equipment() {
-  //Get the data we are sending over
-  var list_of_ids = $('#equipListBench').find(".equipID");
-  var list_of_names = $('#equipListBench').find(".equipName");
-
-  //Get the project ID
-  var entryId = getEntryId();
-
-  //Initialize some arrays to hold the data to be saved
-  var equipmentIDs = [];
-  var equipmentNames = [];
-
-  //Add data to a couple arrays
-  for(var i = 0; i < list_of_ids.length; i++)
-  {
-    equipmentIDs.push(list_of_ids[i].innerText);
-    equipmentNames.push(list_of_names[i].innerText);
-  }
-
-  // Get all elements with class="tablinks" and find out what tab we are on
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    if(tablinks[i].className.match(" active"))
-    {
-      activeTab = i;
-    }
-  }
-
-  //Save the name of the active tab so we can construct our url
-  if(activeTab != undefined) {
-    var slug = tablinks[activeTab].innerHTML;
-  }
-
-  //Some kind of voodoo, remove this and ajax request won't work
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-        // Only send the token to relative URLs i.e. locally.
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-      }
-    }
-  });
-
-  //Make the AJAX post request
-  $.ajax({
-    type: "POST",
-    url: "/save_equipment/",
-    data: { entry_id: entryId,
-            'equipmentIDs[]': equipmentIDs,
-            'equipmentNames[]': equipmentNames }
-
-  });
-}
-
 // using jQuery, taken from Django documentation about AJAX post requests
 function getCookie(name) {
   var cookieValue = null;
@@ -330,7 +283,6 @@ function addEquipmentData(data){
   //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
-
     //Get the equipmentId we are trying to add
     var equipID = data.results[i].serial_number;
 
@@ -343,7 +295,6 @@ function addEquipmentData(data){
       //Construct HTML for a row
       var dataRow = "<tr class='click-row' id="+equipID+" onclick='equipOnClick(this)'><td class='equipID'>"+equipID+"</td>" +
                      "<td class='equipName'>"+equipName+"</td></tr>";
-      console.log(dataRow);
 
       //Add the row to the task list
       $("#availEquipBody").append(dataRow);
@@ -355,7 +306,7 @@ function addEquipmentData(data){
 function isEquipmentOnBench(equipId)
 {
   //Get all equipment IDs already associated with this project
-  var list_of_ids = $('#testEquipmentList').find(".equipID");
+  var list_of_ids = $('#benchEquipBody').find(".equipID");
 
   //Iterate over each id...
   for(var i = 0; i < list_of_ids.length; i++)
@@ -464,13 +415,7 @@ $("document").ready(function() {
         refreshSummary();
   });
 
-  refreshSummary();
-
-  //TODO(Adam): Uncomment after Equipment tab demo
   $(".tablinks").first().click();
-
-  //TODO(Adam): Remove after Equipment tab demo
-  //$("a:contains('Summary')").click();
 
   $('#equipSummaryTable').DataTable();
   $('#equipListBench').DataTable();
@@ -480,16 +425,10 @@ $("document").ready(function() {
 
 function refreshSummary(){
 
-  var equipData = $('#equipSummaryTable');
+  var summaryTable = $('#equipListBench').clone();
+  summaryTable.attr("id", "equipSummaryTable");
 
-  console.log(equipData);
-  console.log(equipData[0].children.length);
+  $('#equipSummaryTable').remove();
 
-}
-
-function getEquipmentData(){
-
-  var tableBody = $('#equipSummaryTable tbody');
-
-  return tableBody;
+  $('#EquipSummary').append(summaryTable);
 }

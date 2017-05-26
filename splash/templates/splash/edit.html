@@ -45,29 +45,8 @@
     <h3 class="tabHeader">Notebooks</h3>
   </div>
 
-  <div>
+  <div id="EquipSummary">
     <h3 class="tabHeader">Equipment</h3>
-
-    {% if equipment_list %}
-      <table class="DataTable" id="equipSummaryTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for equipment in equipment_list %}
-            <tr>
-              <td>{{ equipment.equipmentID }}</td>
-              <td>{{ equipment.name }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-    {% endif %}
-
   </div>
 
   <div>
@@ -166,7 +145,7 @@
           {% for equipment in equipment_list %}
             <tr class="click-row" id="{{ equipment.equipmentID }}" onclick="equipOnClick(this)">
               <td class="equipID">{{ equipment.equipmentID }}</td>
-              <td>{{ equipment.name }}</td>
+              <td class="equipName">{{ equipment.name }}</td>
             </tr>
           {% endfor %}
         {% endif %}
