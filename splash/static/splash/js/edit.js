@@ -404,13 +404,30 @@ function refreshSummary(){
   summaryTable.attr("id", "equipSummaryTable");
 
   $('#equipSummaryTable').remove();
+  $('#EquipSummary').empty();//remove all content in div
+  $('#EquipSummary').append("<h3 class='tabHeader'>Equipment</h3>");//add header
+  $('#EquipSummary').append(summaryTable);//add table
 
-  $('#EquipSummary').append(summaryTable);
+  //Remove listener from each row, and click-row styling
+  console.log(summaryTable.find(".click-row").each(function(){
+    $(this).removeClass("click-row");
+    $(this).prop('onclick', null).off('click');
+  }));
+  $('#equipSummaryTable').DataTable();//go go datatable
+
 
   summaryTable = $('#fileListBench').clone();
   summaryTable.attr("id", "fileSummaryTable");
 
   $('#fileSummaryTable').remove();
-
+  $('#FileSummary').empty();
+  $('#EquipSummary').append("<h3 class='tabHeader'>Files</h3>");
   $('#FileSummary').append(summaryTable);
+
+  //Remove listener from each row, and click-row styling
+  console.log(summaryTable.find(".click-row").each(function(){
+    $(this).removeClass("click-row");
+    $(this).prop('onclick', null).off('click');
+  }));
+  $('#fileSummaryTable').DataTable();
 }
