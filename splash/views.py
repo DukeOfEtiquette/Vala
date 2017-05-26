@@ -80,22 +80,18 @@ class save_file(TemplateView):
         file_type = FileType.objects.get(code=0)
 
         try:
-            # Get our equipment info
-            fileIDs = request.POST.getlist('fileIDs[]')
-            fileNames = request.POST.getlist('fileNames[]')
+            # Get our file info
+            id = request.POST['file_id']
+            name = request.POST['file_name']
 
-            # For each id and name passed, try to add to the db
-            for id, name in zip(fileIDs, fileNames):
-                print id, name
-
-                obj, created = File.objects.get_or_create(
-                    valaEntry=vala_entry,
-                    fileType=file_type,
-                    description="none",
-                    fileID=id,
-                    name=name
-                )
-                print "Created: ", created
+            obj, created = File.objects.get_or_create(
+                valaEntry=vala_entry,
+                fileType=file_type,
+                description="none",
+                fileID=id,
+                name=name
+            )
+            print "Created: ", created
         except:
             print "nothing to add"
 
@@ -147,11 +143,6 @@ class save_equipment(TemplateView):
                 name=name
             )
             print "Created: ", created
-
-
-            # For each id and name passed, try to add to the db
-            # for id, name in zip(equipmentIDs, equipmentNames):
-                # print id, name
 
         except:
             print "nothing to add"

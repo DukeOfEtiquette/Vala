@@ -39,25 +39,23 @@ $( window ).on( "load", function() {
 });
 
 function fileOnClick(event) {
-  var row = event.currentTarget;
+  var row = event;
 
   //Grab the table ID
-  var parentID = event.parentNode.parentNode.parentNode.id;
+  var parentID = event.parentNode.parentNode.id;
   console.log(parentID);
 
+  /*
   //Grab the row that was selected
   var row = event.parentNode.parentNode;
-  console.log(row);
-
-  //Remove it from current table
-  row.remove();
+  console.log(row);*/
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availFileList")
   {
     var workBench = $("#fileListBench");
     workBench.append(row);
-    save_file();
+    save_file(row);
 
   }else {
     var equipList = $("#availFileList");
@@ -95,38 +93,15 @@ function delete_file(row){
   });
 }
 
-function save_file() {
+function save_file(row) {
+  var file_id = row.id;
   //Get the data we are sending over
   var list_of_ids = $('#fileListBench').find(".fileID");
   var list_of_names = $('#fileListBench').find(".fileName");
 
+  var file_name = row.getElementsByClassName("fileName")[0].innerText;
   //Get the project ID
   var entryId = getEntryId();
-
-  //Initialize some arrays to hold the data to be saved
-  var fileIDs = [];
-  var fileNames = [];
-
-  //Add data to a couple arrays
-  for(var i = 0; i < list_of_ids.length; i++)
-  {
-    fileIDs.push(list_of_ids[i].innerText);
-    fileNames.push(list_of_names[i].innerText);
-  }
-
-  // Get all elements with class="tablinks" and find out what tab we are on
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    if(tablinks[i].className.match(" active"))
-    {
-      activeTab = i;
-    }
-  }
-
-  //Save the name of the active tab so we can construct our url
-  if(activeTab != undefined) {
-    var slug = tablinks[activeTab].innerHTML;
-  }
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -142,10 +117,11 @@ function save_file() {
   $.ajax({
     type: "POST",
     url: "/save_file/",
-    data: { entry_id: entryId,
-      'fileIDs[]': fileIDs,
-      'fileNames[]': fileNames }
-
+    data: {
+      entry_id: entryId,
+      file_id: file_id,
+      file_name: file_name
+    }
   });
 }
 
@@ -341,7 +317,6 @@ function addFileData(data){
   //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
-
     //Get the equipmentId we are trying to add
     var fileID = data.results[i].id;
 
@@ -352,15 +327,14 @@ function addFileData(data){
       var fileName = data.results[i].key;
 
       //Construct HTML for a row
-      var newRow = "<li class='tableRow file-row'> " +
-          "<span class='tableCell' id='fileCheckCell'><input type='checkbox' class='rowCheckBox' onclick='fileOnClick(this)'/></span> " +
-          "<span class='tableCell fileID' id=" + fileID + ">" + fileID + "</span> "+
-          "<span class='tableCell fileName'>" + fileName + "</span></li>";
+      var dataRow = "<tr class='click-row' id="+fileID+" onclick='fileOnClick(this)'><td class='fileID'>"+fileID+"</td>" +
+          "<td class='fileName'>"+fileName+"</td></tr>";
 
       //Add the row to the task list
-      $("#availFileList").append(newRow);
+      $("#availFileBody").append(dataRow);
     }
   }
+  $('#availFileList').DataTable();
 }
 
 function isFileOnBench(fileId)
@@ -419,6 +393,7 @@ $("document").ready(function() {
 
   $('#equipSummaryTable').DataTable();
   $('#equipListBench').DataTable();
+  $('#fileListBench').DataTable();
   $('#fileSummaryTable').DataTable();
 
 });
@@ -431,4 +406,11 @@ function refreshSummary(){
   $('#equipSummaryTable').remove();
 
   $('#EquipSummary').append(summaryTable);
+
+  summaryTable = $('#fileListBench').clone();
+  summaryTable.attr("id", "fileSummaryTable");
+
+  $('#fileSummaryTable').remove();
+
+  $('#FileSummary').append(summaryTable);
 }

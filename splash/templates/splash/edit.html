@@ -49,29 +49,8 @@
     <h3 class="tabHeader">Equipment</h3>
   </div>
 
-  <div>
+  <div id="FileSummary">
     <h3 class="tabHeader">Files</h3>
-
-    {% if file_list %}
-      <table class="SummaryTable" id="fileSummaryTable">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for file in file_list %}
-            <tr>
-              <td>{{ file.fileID }}</td>
-              <td>{{ file.name }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-    {% endif %}
-
   </div>
 </div>
 
@@ -160,7 +139,7 @@
   <h3 class="tabHeader">Add Project File(s)</h3>
 
   <!--Main Files Context-->
-  <ul id="availFileList">
+  <!--<ul id="availFileList">
     <li class="tableTitleRow">
       <span class="tableCell" style="width: 0%;"></span>
       <span class="tableCell">ID</span>
@@ -175,7 +154,18 @@
       <span class="tableCell fileName">
         </span>
     </li>
-  </ul>
+  </ul>-->
+
+  <table class="DataTable" id="availFileList">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody id="availFileBody">
+    </tbody>
+  </table>
 
   <!--Files added to project -->
   <div id="FileBench">
@@ -183,6 +173,26 @@
       Project Files
     </h3>
 
+    <table class="DataTable" id="fileListBench">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody id="benchFileBody">
+      {% if file_list %}
+      {% for file in file_list %}
+      <tr class="click-row" id="{{ file.fileID }}" onclick="fileOnClick(this)">
+        <td class="fileID">{{ file.fileID }}</td>
+        <td class="fileName">{{ file.name }}</td>
+      </tr>
+      {% endfor %}
+      {% endif %}
+      </tbody>
+    </table>
+
+    <!--
     <ul id="fileListBench">
       <li class='tableTitleRow'>
         <span class="tableCell" style="width: 0%;"></span>
@@ -207,7 +217,7 @@
       {% else %}
       {% endif %}
 
-    </ul>
+    </ul>-->
   </div>
 
 </div>
