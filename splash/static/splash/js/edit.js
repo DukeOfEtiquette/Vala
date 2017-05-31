@@ -43,12 +43,6 @@ function fileOnClick(event) {
 
   //Grab the table ID
   var parentID = event.parentNode.parentNode.id;
-  console.log(parentID);
-
-  /*
-  //Grab the row that was selected
-  var row = event.parentNode.parentNode;
-  console.log(row);*/
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availFileList")
@@ -125,48 +119,71 @@ function save_file(row) {
   });
 }
 
-function equipOnClick(event) {
-  var row = event;
-  console.log("row: ");
-  console.log(row);
+function equipOnClick(r) {
+  var row;
+
+  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
+  //            "this" to the function like I do in the HTML
+  if(typeof(event.parentNode) === "undefined"){
+    row = event.path[1];
+  }else{
+    row = r;
+  }
+
+  var rowID = '#' + row.id;
+
   //Grab the table ID
   var parentID = row.parentNode.parentNode.id;
-  console.log("ParentID: " + parentID)
 
-  /*
-  //Grab the row that was selected
-  var row = event.parentNode.parentNode;
-  //console.log(row);*/
-  //Remove it from current table
+  var rowData, tableRow, benchTable, availTable;
 
   //See if we are in the available equipment list, or the workbench
-  if(parentID === "availEquipmentList")
-  {
-    var workBench = $("#benchEquipBody");
-    console.log("appending...");
-    console.log(row);
-    console.log("to benchEquipBody...");
-    console.log(workBench);
-    workBench.append(row);
+  if(parentID === "availEquipmentList") {
+    //Grab the table the row is moving OUT of
+    availTable = $("#availEquipmentList").DataTable();
+
+    //Capture the rows data and remove from the table
+    rowData = availTable.row(rowID).data();
+    availTable.row(rowID).remove().draw();
+
+    //Grab the table the row is moving INTO and add it
+    benchTable = $("#equipListBench").DataTable();
+    benchTable.row.add(rowData).draw();
+
+    //Grab the row through datatables API
+    tableRow = benchTable.row(rowID).node();
+
+    //Save to database
     save_equip(row);
 
   }else {
-    var equipList = $("#availEquipBody");
-    console.log("availEquipBody...");
-    console.log(equipList);
-    equipList.append(row);
+    benchTable = $("#equipListBench").DataTable();
+
+    rowData = benchTable.row(rowID).data();
+    benchTable.row(rowID).remove().draw();
+
+    availTable = $("#availEquipmentList").DataTable();
+    availTable.row.add(rowData).draw();
+
+    tableRow = availTable.row(rowID).node();
+
     delete_equip(row);
   }
+
+  //Add style and onclick event to row
+  $(tableRow).addClass(" click-row").on("click", equipOnClick);
+
+  //Add id and name classes to children
+  $(tableRow).children()
+      .first().addClass(" equipID")
+      .next().addClass(" equipName");
+
 }
 
 function save_equip(row){
   var equipment_id = row.id;
-  console.log("ROW ID: " + equipment_id);
 
-  console.log("Row...");
-  console.log(row);
   var equipment_name = row.getElementsByClassName("equipName")[0].innerText;
-  console.log("ROW NAME: " + equipment_name);
 
   //Get the project ID
   var entryId = getEntryId();
@@ -196,7 +213,6 @@ function save_equip(row){
 
 function delete_equip(row){
   var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
-  console.log("ROW ID: " + row.id);
 
   //Get the project ID
   var entryId = getEntryId();
@@ -256,7 +272,6 @@ function populateEquipment(){
 //Receives json data and adds it to the equipment table
 function addEquipmentData(data){
 
-  //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
     //Get the equipmentId we are trying to add
@@ -314,7 +329,6 @@ function populateFiles(){
 //Receives json data and adds it to the files tab
 function addFileData(data){
 
-  //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
     //Get the equipmentId we are trying to add
@@ -409,10 +423,10 @@ function refreshSummary(){
   $('#EquipSummary').append(summaryTable);//add table
 
   //Remove listener from each row, and click-row styling
-  console.log(summaryTable.find(".click-row").each(function(){
+  summaryTable.find(".click-row").each(function(){
     $(this).removeClass("click-row");
     $(this).prop('onclick', null).off('click');
-  }));
+  });
   $('#equipSummaryTable').DataTable();//go go datatable
 
 
@@ -425,9 +439,9 @@ function refreshSummary(){
   $('#FileSummary').append(summaryTable);
 
   //Remove listener from each row, and click-row styling
-  console.log(summaryTable.find(".click-row").each(function(){
+  summaryTable.find(".click-row").each(function(){
     $(this).removeClass("click-row");
     $(this).prop('onclick', null).off('click');
-  }));
+  });
   $('#fileSummaryTable').DataTable();
 }
