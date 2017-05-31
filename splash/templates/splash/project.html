@@ -1,0 +1,12 @@
+{% extends 'splash/_base.html' %}
+
+
+{% block head %}
+  {% load static %}
+  <script type="text/javascript" src="/static/splash/js/project.js"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'splash/css/project.css' %}" />
+{% endblock %}
+
+{% block pageBody %}
+    {{ query_id }}
+{% endblock %}
