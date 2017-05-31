@@ -38,9 +38,6 @@ class splashIndex(TemplateView):
     template_context = {'pageTitle': page_title, 'entry_list': entry_list, 'equip_list': equipment,
                         'form': form, }
     return render(request, self.template_name, template_context)
-  # def post(self, request):
-  #   form = NewProject()
-  #   return HttpResponseRedirect('/')
 
 
 class delete_equipment(TemplateView):
@@ -162,3 +159,24 @@ class reviewEntry(TemplateView):
     page_title = ""
     template_context = {'entry_id': entry_id, 'pageTitle': page_title}
     return render(request, self.template_name, template_context)
+
+
+# copied get from class splashIndex
+class query(TemplateView):
+    template_name = 'splash/query.html'
+
+    def get(self, request):
+        page_title = "Vala Project Entry System"
+        query_list = ValaEntry.objects.order_by('creationDate')
+        equipment = Equipment.objects.all();
+        template_context = {'pageTitle': page_title, 'query_list': query_list, 'equip_list': equipment}
+        return render(request, self.template_name, template_context)
+
+# copied get from class splashIndex
+class project(TemplateView):
+    template_name = 'splash/project.html'
+
+    def get(self, request, entry_id):
+        page_title = "Vala Project Summary"
+        template_context = {'pageTitle': page_title}
+        return render(request, self.template_name, template_context)
