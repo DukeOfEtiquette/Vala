@@ -2,41 +2,10 @@
  * Created by Adam DuQuette on 2/11/2017.
  */
 
-/**
- * Found this beauty at http://stackoverflow.com/questions/20729823/jquery-string-format-issue-with-0
- */
-String.prototype.format = function() {
-  var str = this;
-  for (var i = 0; i < arguments.length; i++) {
-    var reg = new RegExp("\\{" + i + "\\}", "gm");
-    str = str.replace(reg, arguments[i]);
-  }
-  return str;
-};
-
 function getEntryId(){
   //Get the project ID
-  var entryId = $(".project_title > h1").attr("id");
-
-  return entryId;
+  return $(".project_title > h1").attr("id");
 }
-
-$( window ).on( "load", function() {
-    function removeButton(){
-        var parent = document.getElementById("file_list");
-        var child = document.getElementById("file1");
-        parent.removeChild(child);
-    }
-
-    function addFileButton(evt){
-        var addButton = document.createElement("INPUT");
-        addButton.setAttribute("type", "file");
-        var x = document.getElementById("file_list");
-        x.prepend(addButton);
-    }
-
-
-});
 
 function fileOnClick(r) {
   var row;
@@ -100,10 +69,9 @@ function fileOnClick(r) {
 }
 
 function delete_file(row){
-  var file_id = row.getElementsByClassName("fileID")[0].innerText;
-
-  //Get the project ID
+  //Get the data we are sending over
   var entryId = getEntryId();
+  var file_id = row.getElementsByClassName("fileID")[0].innerText;
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -128,14 +96,10 @@ function delete_file(row){
 }
 
 function save_file(row) {
-  var file_id = row.id;
   //Get the data we are sending over
-  var list_of_ids = $('#fileListBench').find(".fileID");
-  var list_of_names = $('#fileListBench').find(".fileName");
-
-  var file_name = row.getElementsByClassName("fileName")[0].innerText;
-  //Get the project ID
   var entryId = getEntryId();
+  var file_id = row.id;
+  var file_name = row.getElementsByClassName("fileName")[0].innerText;
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -221,8 +185,8 @@ function equipOnClick(r) {
 }
 
 function save_equip(row){
+  //Get the data we are sending over
   var equipment_id = row.id;
-
   var equipment_name = row.getElementsByClassName("equipName")[0].innerText;
 
   //Get the project ID
@@ -252,10 +216,9 @@ function save_equip(row){
 }
 
 function delete_equip(row){
-  var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
-
-  //Get the project ID
+  //Get the data we are sending over
   var entryId = getEntryId();
+  var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -415,7 +378,9 @@ $("document").ready(function() {
   populateEquipment();
   populateFiles();
 
-  $(".tablinks").on('click', function() {
+  $tablinks = $('.tabLinks');
+
+  $tablinks.on('click', function() {
       // Declare all variables
       var i, tabcontent, tablinks, tableaving;
 
@@ -443,7 +408,7 @@ $("document").ready(function() {
         refreshSummary();
   });
 
-  $(".tablinks").first().click();
+  $tablinks.first().click();
 
   $('#equipSummaryTable').DataTable();
   $('#equipListBench').DataTable();
@@ -457,10 +422,13 @@ function refreshSummary(){
   var summaryTable = $('#equipListBench').clone();
   summaryTable.attr("id", "equipSummaryTable");
 
-  $('#equipSummaryTable').remove();
-  $('#EquipSummary').empty();//remove all content in div
-  $('#EquipSummary').append("<h3 class='tabHeader'>Equipment</h3>");//add header
-  $('#EquipSummary').append(summaryTable);//add table
+  $equipSummaryTable = $('#equipSummaryTable');
+  $EquipSummary = $('#EquipSummary');
+
+  $equipSummaryTable.remove();
+  $EquipSummary.empty();//remove all content in div
+  $EquipSummary.append("<h3 class='tabHeader'>Equipment</h3>");//add header
+  $EquipSummary.append(summaryTable);//add table
 
   //Remove listener from each row, and click-row styling
   summaryTable.find(".click-row").each(function(){
@@ -470,17 +438,22 @@ function refreshSummary(){
 
   //If there are no elements in the table this will fail
   try{
-    $('#equipSummaryTable').DataTable();//go go datatable
+    $equipSummaryTable.DataTable();//go go datatable
+  }catch(e){
+    console.log(e.message);
   }
 
 
   summaryTable = $('#fileListBench').clone();
   summaryTable.attr("id", "fileSummaryTable");
 
-  $('#fileSummaryTable').remove();
-  $('#FileSummary').empty();
-  $('#EquipSummary').append("<h3 class='tabHeader'>Files</h3>");
-  $('#FileSummary').append(summaryTable);
+  $fileSummaryTable = $('#fileSummaryTable');
+  $FileSummary = $('#FileSummary');
+
+  $fileSummaryTable.remove();
+  $FileSummary.empty();
+  $FileSummary.append("<h3 class='tabHeader'>Files</h3>");
+  $FileSummary.append(summaryTable);
 
   //Remove listener from each row, and click-row styling
   summaryTable.find(".click-row").each(function(){
@@ -489,6 +462,8 @@ function refreshSummary(){
   });
 
   try{
-    $('#fileSummaryTable').DataTable();
+    $fileSummaryTable.DataTable();
+  }catch(e){
+    console.log(e.message);
   }
 }
