@@ -38,25 +38,65 @@ $( window ).on( "load", function() {
 
 });
 
-function fileOnClick(event) {
-  var row = event;
+function fileOnClick(r) {
+  var row;
+
+  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
+  //            "this" to the function like I do in the HTML
+  if(typeof(event.parentNode) === "undefined"){
+    row = event.path[1];
+  }else{
+    row = r;
+  }
+
+  var rowID = '#' + row.id;
 
   //Grab the table ID
-  var parentID = event.parentNode.parentNode.id;
+  var parentID = row.parentNode.parentNode.id;
+
+  var rowData, tableRow, benchTable, availTable;
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availFileList")
   {
-    var workBench = $("#fileListBench");
-    workBench.append(row);
+    //Grab the table the row is moving OUT of
+    availTable = $("#availFileList").DataTable();
+
+    //Capture the rows data and remove from the table
+    rowData = availTable.row(rowID).data();
+    availTable.row(rowID).remove().draw();
+
+    //Grab the table the row is moving INTO and add it
+    benchTable = $("#fileListBench").DataTable();
+    benchTable.row.add(rowData).draw();
+
+    //Grab the row through datatables API
+    tableRow = benchTable.row(rowID).node();
+
+    //Save to database
     save_file(row);
 
   }else {
-    var equipList = $("#availFileList");
-    equipList.append(row);
-    row.checked = false;
+    benchTable = $("#fileListBench").DataTable();
+
+    rowData = benchTable.row(rowID).data();
+    benchTable.row(rowID).remove().draw();
+
+    availTable = $("#availFileList").DataTable();
+    availTable.row.add(rowData).draw();
+
+    tableRow = availTable.row(rowID).node();
+
     delete_file(row);
   }
+
+  //Add style and onclick event to row
+  $(tableRow).addClass(" click-row").on("click", fileOnClick);
+
+  //Add id and name classes to children
+  $(tableRow).children()
+      .first().addClass(" fileID")
+      .next().addClass(" fileName");
 }
 
 function delete_file(row){
@@ -427,7 +467,11 @@ function refreshSummary(){
     $(this).removeClass("click-row");
     $(this).prop('onclick', null).off('click');
   });
-  $('#equipSummaryTable').DataTable();//go go datatable
+
+  //If there are no elements in the table this will fail
+  try{
+    $('#equipSummaryTable').DataTable();//go go datatable
+  }
 
 
   summaryTable = $('#fileListBench').clone();
@@ -443,5 +487,8 @@ function refreshSummary(){
     $(this).removeClass("click-row");
     $(this).prop('onclick', null).off('click');
   });
-  $('#fileSummaryTable').DataTable();
+
+  try{
+    $('#fileSummaryTable').DataTable();
+  }
 }
