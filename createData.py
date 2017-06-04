@@ -8,7 +8,6 @@ from splash.models import ValaEntry
 from splash.models import Equipment
 from splash.models import File
 from splash.models import FileType
-
 from django.contrib.auth.models import User
 
 

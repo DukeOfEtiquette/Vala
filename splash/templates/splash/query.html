@@ -1,0 +1,53 @@
+{% extends 'splash/_base.html' %}
+
+
+{% block head %}
+  {% load static %}
+  <script type="text/javascript" src="/static/splash/js/query.js"></script>
+  <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'splash/css/query.css' %}" />
+{% endblock %}
+
+{% block pageBody %}
+
+
+    <!--Welcome message, eventually will populate with user name-->
+    <div class="greeting">
+        <h1>Hello, scientist!</h1>
+    </div>
+
+    <!--Plain title for the table of tasks/entries-->
+    <div class="table-title">
+        <h3 style="text-decoration: underline;">All Entries</h3>
+    </div>
+
+    {% if query_list %}
+        <table id="queryList">
+            <thead>
+                <tr>
+                    <th>Project ID</th>
+                    <th>Creation Date</th>
+                    <th>Experiment Type</th>
+                    <th>Status</th>
+                    <th>Primary Scientist</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for result in query_list %}
+                <tr class="tableRow click-row">
+                  <td class='tableCell'>{{ result.projectID }} </td>
+                  <td class='tableCell'>{{ result.creationDate }} </td>
+                  <td class='tableCell'>{{ result.experimentType.name }} </td>
+                  <td class='tableCell'>{{ result.status.text }} </td>
+                  <td class='tableCell'>{{ result.scientist.scientistID }} </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+
+    {% else %}
+        <p>No entries are available.</p>
+    {% endif %}
+
+{% endblock %}

@@ -1,6 +1,7 @@
 /**
- * Created by Adam DuQuette on 2/6/2017.
+ * Created by peacock on 5/24/17.
  */
+
 //Once document is ready...
 $(window).on("load", function () {
 
@@ -13,33 +14,20 @@ $(window).on("load", function () {
 
     $(".click-row").click(function () {
         val = $(this).children("td:first").text();
-        var location = "";
-        if (viewAll === "True"){
-            location = "/project/" + val;
-        }else{
-            location = "/edit/" + val;
-        }
+        var location = "/edit/" + val;
         window.location.href = location;
     });
 
-    // implementation of dataTable tool for task list
+     // implementation of dataTable tool for query list
     $(document).ready(function(){
-        $('#taskList').DataTable();
+        $('#queryList').DataTable();
     });
 
-//these functions are used to validate project id length in addUser()/createProject()
-    $(function () {
-        var dialog = $("#dialog-form").dialog({
-            autoOpen: false,
-            height: 165,
-            width: 350,
-            modal: true,
-        });
-
-        $("#new-project").on("click", function () {
-            dialog.dialog("open");
-            return false;
-        });
+    // IN PROGRESS...function to redirect user to project summary from query page
+    $(".click-row").click(function () {
+        val = $(this).children("td:first").text();
+        var location = "/project/" + val;
+        window.location.href = location;
     });
 
     $("#id_project_id").bind('input propertychange', function () {

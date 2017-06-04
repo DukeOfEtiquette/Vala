@@ -20,6 +20,8 @@ from views import editEntry
 from views import viewEntry
 from views import reviewEntry
 from views import new_project, save_equipment, update_scientists
+from views import query
+from views import project
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
@@ -30,5 +32,8 @@ urlpatterns = [
     url(r'^save_equipment/$', save_equipment.as_view(), name='save_equip'),
     url(r'^delete_equipment/$', views.delete_equipment.as_view(), name='delete_equip'),
     url(r'^update_scientists/$', views.update_scientists.as_view(), name='update_scientists'),
-    url(r'^$', views.splashIndex.as_view(), name='root')
+    url(r'^$', views.splashIndex.as_view(), name='root'),
+    url(r'^query/$', query.as_view(), name='query'),
+    url(r'^project/(?P<entry_id>[a-zA-Z]{2}-[0-9]+)/$', project.as_view(), name='project'),
+    url(r'^$', views.splashIndex.as_view())
 ]

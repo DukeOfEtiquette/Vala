@@ -7,6 +7,17 @@
   <script src="http://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
   <link rel="stylesheet" href="http://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" />
   <link rel="stylesheet" type="text/css" href="{% static 'splash/css/index.css' %}" />
+  <script>
+    viewAll = "{{ viewAll }}";
+    $("document").ready(function(){
+        if( viewAll === "True"){
+            $("#viewSwitchAll").addClass("active")
+        }else {
+            $("#viewSwitchYours").addClass("active")
+        }
+
+    })
+  </script>
 {% endblock %}
 
 {% block pageBody %}
@@ -29,7 +40,11 @@
 
     <!--Plain title for the table of tasks/entries-->
     <div class="table-title">
-        <h3 style="text-decoration: underline;">Your Entries</h3>
+        <h3 id="viewSwitch">
+            <a href="/" id="viewSwitchYours">Your Entries</a>
+            <span></span>
+            <a href="/?view=all" id="viewSwitchAll">All Entries</a>
+        </h3>
     </div>
 
    <a class='tableRow new-project-row' id="new-project">New Project</a>
