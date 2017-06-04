@@ -51,6 +51,7 @@ class splashIndex(TemplateView):
         'entry_list': entry_list,
         'equip_list': equipment,
         'form': form,
+        'user': request.user,
     }
     return render(request, self.template_name, template_context)
 

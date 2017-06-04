@@ -16,16 +16,12 @@
     <body>
 
 <header class="nav-bar">
-    <a href="/admin">
+    <a href="/">
         <img src="{% static 'img/entering_heaven_alive.png' %}">
     </a>
-    <ul>
-        <li><a class="active" href="/">Home</a></li>
-        <li><a href= {% url 'query' %} >Query</a></li>
-    </ul>
    <span id="logout"><a href="{% url 'logout' %}?next=/">logout<a/></span>
-    <hr>
 </header>
+<hr>
 
 <section id="mainContent">
     {% block pageBody %}
