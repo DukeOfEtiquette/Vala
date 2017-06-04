@@ -37,8 +37,50 @@
 </div>
 
 <div id="Scientists" class="tabcontent">
-  Key Scientist: <br>
-  {{ scientist_form }}
+    <h2>
+        Select Key Scientists
+    </h2>
+    {% if scientist_list %}
+        {% for sci in scientist_list %}
+            <table id="all_scientists">
+                <th="tableTitleRow">
+                    <td class="tableCell">username</td>
+                    <td class="tableCell">First name</td>
+                    <td class="tableCell">Last name</td>
+                </th>
+
+                <tr class="tableRow">
+                    <td class="tableCell">{{ sci.username }}</td>
+                    <td class="tableCell">{{ sci.first_name }}</td>
+                    <td class="tableCell">{{ sci.last_name }}</td>
+                </tr>
+            </table>
+        {% endfor %}
+    {% else %}
+        Could not retrieve scientist list
+    {% endif %}
+    <h2>
+        Current Key Scientists
+    </h2>
+    {% if current_scientists %}
+        {% for sci in current_scientists %}
+            <table id="all_scientists">
+                <th="tableTitleRow">
+                <td class="tableCell">username</td>
+                <td class="tableCell">First name</td>
+                <td class="tableCell">Last name</td>
+                </th>
+
+                <tr class="tableRow">
+                    <td class="tableCell">{{ sci.username }}</td>
+                    <td class="tableCell">{{ sci.first_name }}</td>
+                    <td class="tableCell">{{ sci.last_name }}</td>
+                </tr>
+            </table>
+        {% endfor %}
+    {% else %}
+        Could not retrieve scientist list
+    {% endif %}
 </div>
 
 <!-- Notebooks & Pages -->

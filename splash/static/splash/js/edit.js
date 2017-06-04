@@ -315,3 +315,32 @@ $("document").ready(function() {
 
 });
 
+
+$(document).ready(function() {
+    $('select[name="scientists"]').change(function () {
+        var entryId = getEntryId();
+        scientists = $("#id_scientists").serialize();
+        console.log(entryId+"&"+scientists);
+
+        //Some kind of voodoo, remove this and ajax request won't work
+        $.ajaxSetup({
+            beforeSend: function (xhr, settings) {
+                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                    // Only send the token to relative URLs i.e. locally.
+                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                }
+            }
+        });
+
+        //Make the AJAX post request
+        $.ajax({
+            type: "POST",
+            url: "/update_scientists/",
+            data: {
+                entryID: entryId,
+                scientists: scientists
+            }
+
+        });
+    });
+});

@@ -19,7 +19,7 @@ from . import views
 from views import editEntry
 from views import viewEntry
 from views import reviewEntry
-from views import new_project, save_equipment
+from views import new_project, save_equipment, update_scientists
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^new_project/$', new_project.as_view(), name='new_project'),
     url(r'^save_equipment/$', save_equipment.as_view(), name='save_equip'),
     url(r'^delete_equipment/$', views.delete_equipment.as_view(), name='delete_equip'),
+    url(r'^update_scientists/$', views.update_scientists.as_view(), name='update_scientists'),
     url(r'^$', views.splashIndex.as_view(), name='root')
 ]

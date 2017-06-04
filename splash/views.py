@@ -52,6 +52,18 @@ class splashIndex(TemplateView):
   #   return HttpResponseRedirect('/')
 
 
+class update_scientists(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        try:
+            print(request.POST)
+        except Exception as e:
+            print (e, "nothing to add")
+
+        return HttpResponseRedirect(return_url)
+
+
 class delete_equipment(TemplateView):
     template_name = 'splash/edit.html'
 
@@ -136,7 +148,10 @@ class editEntry(TemplateView):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
       equipment_list = Equipment.objects.filter(valaEntry=project_entry)
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
-
+      scientists_list = User.objects.all()
+      scientists_in_project = project_entry.scientists.all()
+      print(scientists_in_project)
+      print(scientists_list)
 
       try:
         details = ExperimentDetails.objects.get(valaEntry=project_entry)
@@ -147,8 +162,6 @@ class editEntry(TemplateView):
       scientists = ScientistForm()
       experiment_form = ExperimentDetsForm(initial=data)
       #scientist_list = project_entry.scientists
-      scientist_list = User.objects.all()
-      print(scientist_list)
 
       file_list = File.objects.filter(valaEntry=project_entry)
       template_context = {
@@ -159,7 +172,8 @@ class editEntry(TemplateView):
           'experiment_dets': experiment_details,
           'experiment_form': experiment_form,
           'file_list': file_list,
-          'scientist_form': scientists,
+          'scientist_list': scientists_list,
+          'current_scientists': scientists_in_project,
       }
       return render(request, self.template_name, template_context)
 
