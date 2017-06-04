@@ -25,6 +25,7 @@ class new_project(TemplateView):
       newVala.save()
       experimentDetails = ExperimentDetails(valaEntry=newVala)
       experimentDetails.save()
+      newVala.scientists.add(request.user)
       # redirect to a new URL:
       return HttpResponseRedirect(reverse('edit', args=(newID,)))
 
@@ -37,7 +38,7 @@ class splashIndex(TemplateView):
     print(request.user)
     page_title = "Vala Project Entry System"
     form = NewProject()
-    entry_list = ValaEntry.objects.order_by('creationDate')
+    entry_list = ValaEntry.objects.filter(scientists__username__startswith=request.user.username).order_by('creationDate')
     #entry_list = ValaEntry.objects.filter()
     equipment = Equipment.objects.all();
     template_context = {

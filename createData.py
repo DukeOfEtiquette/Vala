@@ -140,8 +140,6 @@ def createData():
     ve1.save()
     ve1.scientists.add(User.objects.get(id=user1.id))
     ve1.scientists.add(User.objects.get(username='aeinstein'))
-    print(user2.username)
-    print(ve1.scientists)
 
     ve2.save()
     ve2.scientists.add(User.objects.get(username=user1.username))
