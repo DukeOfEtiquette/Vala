@@ -380,7 +380,8 @@ $("document").ready(function() {
 
   $tablinks = $('.tabLinks');
 
-  $tablinks.on('click', function() {
+  $('.tablinks').on('click', function() {
+
       // Declare all variables
       var i, tabcontent, tablinks, tableaving;
 
@@ -408,7 +409,7 @@ $("document").ready(function() {
         refreshSummary();
   });
 
-  $tablinks.first().click();
+  $('.tablinks').first().click();
 
   $('#equipSummaryTable').DataTable();
   $('#equipListBench').DataTable();

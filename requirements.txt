@@ -1,3 +1,2 @@
 Django==1.8.17
 django-cors-headers==2.0.2
-gunicorn==19.7.1
