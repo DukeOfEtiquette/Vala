@@ -39,5 +39,4 @@ urlpatterns = [
     url(r'^$', views.splashIndex.as_view(), name='root'),
     url(r'^query/$', query.as_view(), name='query'),
     url(r'^project/(?P<entry_id>[a-zA-Z]{2}-[0-9]+)/$', project.as_view(), name='project'),
-    url(r'^$', views.splashIndex.as_view())
 ]

@@ -328,7 +328,7 @@ class project(TemplateView):
         file_list = File.objects.filter(valaEntry=project_entry)
         template_context = {
             'entry_id': entry_id,
-            'pageTitle': page_title,
+            'page_title': page_title,
             'project_entry': project_entry,
             'equipment_list': equipment_list,
             'experiment_details': experiment_details,

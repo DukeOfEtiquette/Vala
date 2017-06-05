@@ -1,6 +1,5 @@
 {% extends 'splash/_base.html' %}
 
-
 {% block head %}
   {% load static %}
   <script type="text/javascript" src="/static/splash/js/project.js"></script>
@@ -8,9 +7,8 @@
 {% endblock %}
 
 {% block pageBody %}
-  <header>
-    <h2>{{ page_title }}</h2>
-  </header>
+
+    <h2 id="projectHeader">{{ page_title }}</h2>
 
     {{ query_id }}
   <div id="Summary" class="tabcontent">
@@ -53,6 +51,7 @@
 
     <div>
       <h3 class="tabHeader">Notebooks</h3>
+      {{ project_entry.notebooks }}
     </div>
 <hr />
     <div id="EquipSummary">
