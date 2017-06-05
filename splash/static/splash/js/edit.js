@@ -10,10 +10,9 @@ function getEntryId(){
 function fileOnClick(r) {
   var row;
 
-  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
-  //            "this" to the function like I do in the HTML
-  if(typeof(event.parentNode) === "undefined"){
-    row = event.path[1];
+  //check if element is event or row
+  if( r["originalEvent"] !== undefined ){
+    row = r["currentTarget"];
   }else{
     row = r;
   }
@@ -126,10 +125,9 @@ function save_file(row) {
 function scientistOnClick(r) {
   var row;
 
-  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
-  //            "this" to the function like I do in the HTML
-  if(typeof(event.parentNode) === "undefined"){
-    row = event.path[1];
+  //check if element is event or row
+  if( r["originalEvent"] !== undefined ){
+    row = r["currentTarget"];
   }else{
     row = r;
   }
@@ -247,10 +245,9 @@ function delete_scientist(row) {
 function equipOnClick(r) {
   var row;
 
-  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
-  //            "this" to the function like I do in the HTML
-  if(typeof(event.parentNode) === "undefined"){
-    row = event.path[1];
+  //check if element is event or row
+  if( r["originalEvent"] !== undefined ){
+    row = r["currentTarget"];
   }else{
     row = r;
   }
