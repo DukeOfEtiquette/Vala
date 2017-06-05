@@ -2,76 +2,76 @@
  * Created by Adam DuQuette on 2/11/2017.
  */
 
-/**
- * Found this beauty at http://stackoverflow.com/questions/20729823/jquery-string-format-issue-with-0
- */
-String.prototype.format = function() {
-  var str = this;
-  for (var i = 0; i < arguments.length; i++) {
-    var reg = new RegExp("\\{" + i + "\\}", "gm");
-    str = str.replace(reg, arguments[i]);
-  }
-  return str;
-};
-
 function getEntryId(){
   //Get the project ID
-  var entryId = $(".project_title > h1").attr("id");
-
-  return entryId;
+  return $(".project_title > h1").attr("id");
 }
 
-$( window ).on( "load", function() {
-    function removeButton(){
-        var parent = document.getElementById("file_list");
-        var child = document.getElementById("file1");
-        parent.removeChild(child);
-    }
+function fileOnClick(r) {
+  var row;
 
-    function addFileButton(evt){
-        var addButton = document.createElement("INPUT");
-        addButton.setAttribute("type", "file");
-        var x = document.getElementById("file_list");
-        x.prepend(addButton);
-    }
+  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
+  //            "this" to the function like I do in the HTML
+  if(typeof(event.parentNode) === "undefined"){
+    row = event.path[1];
+  }else{
+    row = r;
+  }
 
-
-});
-
-function fileOnClick(event) {
-  var row = event.currentTarget;
+  var rowID = '#' + row.id;
 
   //Grab the table ID
-  var parentID = event.parentNode.parentNode.parentNode.id;
-  console.log(parentID);
+  var parentID = row.parentNode.parentNode.id;
 
-  //Grab the row that was selected
-  var row = event.parentNode.parentNode;
-  console.log(row);
-
-  //Remove it from current table
-  row.remove();
+  var rowData, tableRow, benchTable, availTable;
 
   //See if we are in the available equipment list, or the workbench
   if(parentID === "availFileList")
   {
-    var workBench = $("#fileListBench");
-    workBench.append(row);
-    save_file();
+    //Grab the table the row is moving OUT of
+    availTable = $("#availFileList").DataTable();
+
+    //Capture the rows data and remove from the table
+    rowData = availTable.row(rowID).data();
+    availTable.row(rowID).remove().draw();
+
+    //Grab the table the row is moving INTO and add it
+    benchTable = $("#fileListBench").DataTable();
+    benchTable.row.add(rowData).draw();
+
+    //Grab the row through datatables API
+    tableRow = benchTable.row(rowID).node();
+
+    //Save to database
+    save_file(row);
 
   }else {
-    var equipList = $("#availFileList");
-    equipList.append(row);
-    row.checked = false;
+    benchTable = $("#fileListBench").DataTable();
+
+    rowData = benchTable.row(rowID).data();
+    benchTable.row(rowID).remove().draw();
+
+    availTable = $("#availFileList").DataTable();
+    availTable.row.add(rowData).draw();
+
+    tableRow = availTable.row(rowID).node();
+
     delete_file(row);
   }
+
+  //Add style and onclick event to row
+  $(tableRow).addClass(" click-row").on("click", fileOnClick);
+
+  //Add id and name classes to children
+  $(tableRow).children()
+      .first().addClass(" fileID")
+      .next().addClass(" fileName");
 }
 
 function delete_file(row){
-  var file_id = row.getElementsByClassName("fileID")[0].innerText;
-
-  //Get the project ID
+  //Get the data we are sending over
   var entryId = getEntryId();
+  var file_id = row.getElementsByClassName("fileID")[0].innerText;
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -95,38 +95,11 @@ function delete_file(row){
   });
 }
 
-function save_file() {
+function save_file(row) {
   //Get the data we are sending over
-  var list_of_ids = $('#fileListBench').find(".fileID");
-  var list_of_names = $('#fileListBench').find(".fileName");
-
-  //Get the project ID
   var entryId = getEntryId();
-
-  //Initialize some arrays to hold the data to be saved
-  var fileIDs = [];
-  var fileNames = [];
-
-  //Add data to a couple arrays
-  for(var i = 0; i < list_of_ids.length; i++)
-  {
-    fileIDs.push(list_of_ids[i].innerText);
-    fileNames.push(list_of_names[i].innerText);
-  }
-
-  // Get all elements with class="tablinks" and find out what tab we are on
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    if(tablinks[i].className.match(" active"))
-    {
-      activeTab = i;
-    }
-  }
-
-  //Save the name of the active tab so we can construct our url
-  if(activeTab != undefined) {
-    var slug = tablinks[activeTab].innerHTML;
-  }
+  var file_id = row.id;
+  var file_name = row.getElementsByClassName("fileName")[0].innerText;
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -142,45 +115,231 @@ function save_file() {
   $.ajax({
     type: "POST",
     url: "/save_file/",
-    data: { entry_id: entryId,
-      'fileIDs[]': fileIDs,
-      'fileNames[]': fileNames }
+    data: {
+      entry_id: entryId,
+      file_id: file_id,
+      file_name: file_name
+    }
+  });
+}
+
+function scientistOnClick(r) {
+  var row;
+
+  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
+  //            "this" to the function like I do in the HTML
+  if(typeof(event.parentNode) === "undefined"){
+    row = event.path[1];
+  }else{
+    row = r;
+  }
+
+  var rowID = '#' + row.id;
+
+  //Grab the table ID
+  var parentID = row.parentNode.parentNode.id;
+
+  var rowData, tableRow, benchTable, availTable;
+
+  //See if we are in the available equipment list, or the workbench
+  if(parentID === "availScientistList") {
+    //Grab the table the row is moving OUT of
+    availTable = $("#availScientistList").DataTable();
+
+    //Capture the rows data and remove from the table
+    rowData = availTable.row(rowID).data();
+    availTable.row(rowID).remove().draw();
+
+    //Grab the table the row is moving INTO and add it
+    benchTable = $("#scientistListBench").DataTable();
+    benchTable.row.add(rowData).draw();
+
+    //Grab the row through datatables API
+    tableRow = benchTable.row(rowID).node();
+
+    //Save to database
+    save_scientist(row);
+
+  }else {
+    benchTable = $("#scientistListBench").DataTable();
+
+    rowData = benchTable.row(rowID).data();
+    benchTable.row(rowID).remove().draw();
+
+    availTable = $("#availScientistList").DataTable();
+    availTable.row.add(rowData).draw();
+
+    tableRow = availTable.row(rowID).node();
+
+    delete_scientist(row);
+  }
+
+  //Add style and onclick event to row
+  $(tableRow).addClass(" click-row").on("click", scientistOnClick);
+
+  //Add id and name classes to children
+  $(tableRow).children()
+      .first().addClass(" sciUsername")
+      .next().addClass(" sciName");
+  return true;
+}
+
+function save_scientist(row) {
+  //Get the data we are sending over
+  var sci_username = row.id;
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/save_scientist/",
+    data: {
+      entry_id: entryId,
+      sci_username: sci_username
+    }
+
+  });
+
+}
+
+function delete_scientist(row) {
+  //Get the data we are sending over
+  var sci_username = row.id;
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/delete_scientist/",
+    data: {
+      entry_id: entryId,
+      sci_username: sci_username
+    }
+
+  });
+
+}
+
+function equipOnClick(r) {
+  var row;
+
+  //Hack(adam): When adding onclick event dynamically I wasn't sure how to pass
+  //            "this" to the function like I do in the HTML
+  if(typeof(event.parentNode) === "undefined"){
+    row = event.path[1];
+  }else{
+    row = r;
+  }
+
+  var rowID = '#' + row.id;
+
+  //Grab the table ID
+  var parentID = row.parentNode.parentNode.id;
+
+  var rowData, tableRow, benchTable, availTable;
+
+  //See if we are in the available equipment list, or the workbench
+  if(parentID === "availEquipmentList") {
+    //Grab the table the row is moving OUT of
+    availTable = $("#availEquipmentList").DataTable();
+
+    //Capture the rows data and remove from the table
+    rowData = availTable.row(rowID).data();
+    availTable.row(rowID).remove().draw();
+
+    //Grab the table the row is moving INTO and add it
+    benchTable = $("#equipListBench").DataTable();
+    benchTable.row.add(rowData).draw();
+
+    //Grab the row through datatables API
+    tableRow = benchTable.row(rowID).node();
+
+    //Save to database
+    save_equip(row);
+
+  }else {
+    benchTable = $("#equipListBench").DataTable();
+
+    rowData = benchTable.row(rowID).data();
+    benchTable.row(rowID).remove().draw();
+
+    availTable = $("#availEquipmentList").DataTable();
+    availTable.row.add(rowData).draw();
+
+    tableRow = availTable.row(rowID).node();
+
+    delete_equip(row);
+  }
+
+  //Add style and onclick event to row
+  $(tableRow).addClass(" click-row").on("click", equipOnClick);
+
+  //Add id and name classes to children
+  $(tableRow).children()
+      .first().addClass(" equipID")
+      .next().addClass(" equipName");
+
+}
+
+function save_equip(row){
+  //Get the data we are sending over
+  var equipment_id = row.id;
+  var equipment_name = row.getElementsByClassName("equipName")[0].innerText;
+
+  //Get the project ID
+  var entryId = getEntryId();
+
+  //Some kind of voodoo, remove this and ajax request won't work
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+        // Only send the token to relative URLs i.e. locally.
+        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+      }
+    }
+  });
+
+  //Make the AJAX post request
+  $.ajax({
+    type: "POST",
+    url: "/save_equipment/",
+    data: {
+      entry_id: entryId,
+      equip_id: equipment_id,
+      equip_name: equipment_name
+    }
 
   });
 }
 
-function equipOnClick(event) {
-  var row = event.currentTarget;
-  console.log(row);
-  //Grab the table ID
-  var parentID = event.parentNode.parentNode.parentNode.id;
-
-  //Grab the row that was selected
-  var row = event.parentNode.parentNode;
-  //console.log(row);
-  //Remove it from current table
-  row.remove();
-
-  //See if we are in the available equipment list, or the workbench
-  if(parentID === "availEquipmentList")
-  {
-    var workBench = $("#equipListBench");
-    workBench.append(row);
-    save_equip();
-
-  }else {
-    var equipList = $("#availEquipmentList");
-    equipList.append(row);
-    row.checked = false;
-    delete_equip(row);
-  }
-}
-
 function delete_equip(row){
-  var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
-
-  //Get the project ID
+  //Get the data we are sending over
   var entryId = getEntryId();
+  var equipment_id = row.getElementsByClassName("equipID")[0].innerText;
 
   //Some kind of voodoo, remove this and ajax request won't work
   $.ajaxSetup({
@@ -200,60 +359,6 @@ function delete_equip(row){
       entry_id: entryId,
       equip_id: equipment_id
     }
-
-  });
-}
-
-function save_equip() {
-  //Get the data we are sending over
-  var list_of_ids = $('#equipListBench').find(".equipID");
-  var list_of_names = $('#equipListBench').find(".equipName");
-
-  //Get the project ID
-  var entryId = getEntryId();
-
-  //Initialize some arrays to hold the data to be saved
-  var equipmentIDs = [];
-  var equipmentNames = [];
-
-  //Add data to a couple arrays
-  for(var i = 0; i < list_of_ids.length; i++)
-  {
-    equipmentIDs.push(list_of_ids[i].innerText);
-    equipmentNames.push(list_of_names[i].innerText);
-  }
-
-  // Get all elements with class="tablinks" and find out what tab we are on
-  tablinks = document.getElementsByClassName("tablinks");
-  for (i = 0; i < tablinks.length; i++) {
-    if(tablinks[i].className.match(" active"))
-    {
-      activeTab = i;
-    }
-  }
-
-  //Save the name of the active tab so we can construct our url
-  if(activeTab != undefined) {
-    var slug = tablinks[activeTab].innerHTML;
-  }
-
-  //Some kind of voodoo, remove this and ajax request won't work
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-      if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-        // Only send the token to relative URLs i.e. locally.
-        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-      }
-    }
-  });
-
-  //Make the AJAX post request
-  $.ajax({
-    type: "POST",
-    url: "/save_equipment/",
-    data: { entry_id: entryId,
-            'equipmentIDs[]': equipmentIDs,
-            'equipmentNames[]': equipmentNames }
 
   });
 }
@@ -291,10 +396,8 @@ function populateEquipment(){
 //Receives json data and adds it to the equipment table
 function addEquipmentData(data){
 
-  //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
-
     //Get the equipmentId we are trying to add
     var equipID = data.results[i].serial_number;
 
@@ -305,21 +408,20 @@ function addEquipmentData(data){
       var equipName = data.results[i].description;
 
       //Construct HTML for a row
-      var newRow = "<li class='tableRow equipment-row'> " +
-          "<span class='tableCell' id='equipCheckCell'><input type='checkbox' class='rowCheckBox' onclick='equipOnClick(this)'/></span> " +
-          "<span class='tableCell equipID' id=" + equipID + ">" + equipID + "</span> "+
-          "<span class='tableCell equipName'>" + equipName + "</span></li>";
+      var dataRow = "<tr class='click-row' id="+equipID+" onclick='equipOnClick(this)'><td class='equipID'>"+equipID+"</td>" +
+                     "<td class='equipName'>"+equipName+"</td></tr>";
 
       //Add the row to the task list
-      $("#availEquipmentList").append(newRow);
+      $("#availEquipBody").append(dataRow);
     }
   }
+  $('#availEquipmentList').DataTable();
 }
 
 function isEquipmentOnBench(equipId)
 {
   //Get all equipment IDs already associated with this project
-  var list_of_ids = $('#equipListBench').find(".equipID");
+  var list_of_ids = $('#benchEquipBody').find(".equipID");
 
   //Iterate over each id...
   for(var i = 0; i < list_of_ids.length; i++)
@@ -351,10 +453,8 @@ function populateFiles(){
 //Receives json data and adds it to the files tab
 function addFileData(data){
 
-  //console.log(data);
   for(var i = 0; i < data.count; i++)
   {
-
     //Get the equipmentId we are trying to add
     var fileID = data.results[i].id;
 
@@ -365,15 +465,14 @@ function addFileData(data){
       var fileName = data.results[i].key;
 
       //Construct HTML for a row
-      var newRow = "<li class='tableRow file-row'> " +
-          "<span class='tableCell' id='fileCheckCell'><input type='checkbox' class='rowCheckBox' onclick='fileOnClick(this)'/></span> " +
-          "<span class='tableCell fileID' id=" + fileID + ">" + fileID + "</span> "+
-          "<span class='tableCell fileName'>" + fileName + "</span></li>";
+      var dataRow = "<tr class='click-row' id="+fileID+" onclick='fileOnClick(this)'><td class='fileID'>"+fileID+"</td>" +
+          "<td class='fileName'>"+fileName+"</td></tr>";
 
       //Add the row to the task list
-      $("#availFileList").append(newRow);
+      $("#availFileBody").append(dataRow);
     }
   }
+  $('#availFileList').DataTable();
 }
 
 function isFileOnBench(fileId)
@@ -400,7 +499,8 @@ $("document").ready(function() {
   populateEquipment();
   populateFiles();
 
-  $(".tablinks").on('click', function() {
+  $('.tablinks').on('click', function() {
+
       // Declare all variables
       var i, tabcontent, tablinks, tableaving;
 
@@ -420,23 +520,97 @@ $("document").ready(function() {
           tablinks[i].className = tablinks[i].className.replace(" active", "");
       }
 
-      if(tableaving != undefined){
-        var slug = tablinks[tableaving].innerHTML;
-        console.log(slug);
-        var csrf_token = getCookie('csrftoken');
-      }
-
       // Show the current tab, and add an "active" class to the link that opened the tab
       document.getElementById(this.textContent).style.display = "inline-block";
       this.className += " active";
+
+      if(this.innerHTML == "Summary")
+        refreshSummary();
   });
 
-  //TODO(Adam): Uncomment after Equipment tab demo
-  //$(".tablinks").first().click();
+  $('.tablinks').first().click();
 
-  //TODO(Adam): Remove after Equipment tab demo
-  $("a:contains('Equipment')").click();
+  $('#equipSummaryTable').DataTable();
+  $('#equipListBench').DataTable();
+  $('#fileListBench').DataTable();
+  $('#fileSummaryTable').DataTable();
+
+  $('#availScientistList').DataTable();
+  $('#scientistListBench').DataTable();
 
 });
 
+function refreshSummary(){
 
+  var summaryTable = $('#equipListBench').clone();
+  summaryTable.attr("id", "equipSummaryTable");
+
+  var $equipSummaryTable = $('#equipSummaryTable');
+  var $EquipSummary = $('#EquipSummary');
+
+  $equipSummaryTable.remove();
+  $EquipSummary.empty();//remove all content in div
+  $EquipSummary.append("<h3 class='tabHeader'>Equipment</h3>");//add header
+  $EquipSummary.append(summaryTable);//add table
+
+  //Remove listener from each row, and click-row styling
+  summaryTable.find(".click-row").each(function(){
+    $(this).removeClass("click-row");
+    $(this).prop('onclick', null).off('click');
+  });
+
+  //If there are no elements in the table this will fail
+  try{
+    $('#equipSummaryTable').DataTable();//go go datatable
+  }catch(e){
+    console.log(e.message);
+  }
+
+
+  summaryTable = $('#fileListBench').clone();
+  summaryTable.attr("id", "fileSummaryTable");
+
+  var $fileSummaryTable = $('#fileSummaryTable');
+  var $FileSummary = $('#FileSummary');
+
+  $fileSummaryTable.remove();
+  $FileSummary.empty();
+  $FileSummary.append("<h3 class='tabHeader'>Files</h3>");
+  $FileSummary.append(summaryTable);
+
+  //Remove listener from each row, and click-row styling
+  summaryTable.find(".click-row").each(function(){
+    $(this).removeClass("click-row");
+    $(this).prop('onclick', null).off('click');
+  });
+
+  try{
+    $('#fileSummaryTable').DataTable();
+  }catch(e){
+    console.log(e.message);
+  }
+
+  summaryTable = $('#scientistListBench').clone();
+  summaryTable.attr("id", "scientistSummaryTable");
+
+  var $scientistSummaryTable = $('#scientistSummaryTable');
+  var $ScientistSummary = $('#ScientistSummary');
+
+  $scientistSummaryTable.remove();
+  $ScientistSummary.empty();
+  $ScientistSummary.append("<h3 class='tabHeader'>Scientist</h3>");
+  $ScientistSummary.append(summaryTable);
+
+  //Remove listener from each row, and click-row styling
+  summaryTable.find(".click-row").each(function(){
+    $(this).removeClass("click-row");
+    $(this).prop('onclick', null).off('click');
+  });
+
+  try{
+    console.log('holl');
+    $('#scientistSummaryTable').DataTable();
+  }catch(e){
+    console.log(e.message);
+  }
+}

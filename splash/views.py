@@ -84,7 +84,7 @@ class delete_file(TemplateView):
 
         file_id = request.POST['file_id']
         print(file_id)
-        res = File.objects.filter(equipmentID=file_id).delete()
+        res = File.objects.filter(fileID=file_id).delete()
         print(res)
 
         return HttpResponseRedirect(return_url)
@@ -105,22 +105,18 @@ class save_file(TemplateView):
         file_type = FileType.objects.get(code=0)
 
         try:
-            # Get our equipment info
-            fileIDs = request.POST.getlist('fileIDs[]')
-            fileNames = request.POST.getlist('fileNames[]')
+            # Get our file info
+            id = request.POST['file_id']
+            name = request.POST['file_name']
 
-            # For each id and name passed, try to add to the db
-            for id, name in zip(fileIDs, fileNames):
-                print id, name
-
-                obj, created = File.objects.get_or_create(
-                    valaEntry=vala_entry,
-                    fileType=file_type,
-                    description="none",
-                    fileID=id,
-                    name=name
-                )
-                print "Created: ", created
+            obj, created = File.objects.get_or_create(
+                valaEntry=vala_entry,
+                fileType=file_type,
+                description="none",
+                fileID=id,
+                name=name
+            )
+            print "Created: ", created
         except:
             print "nothing to add"
 
@@ -163,21 +159,66 @@ class save_equipment(TemplateView):
 
         try:
             # Get our equipment info
-            equipmentIDs = request.POST.getlist('equipmentIDs[]')
-            equipmentNames = request.POST.getlist('equipmentNames[]')
+            id = request.POST['equip_id']
+            name = request.POST['equip_name']
 
-            # For each id and name passed, try to add to the db
-            for id, name in zip(equipmentIDs, equipmentNames):
-                print id, name
+            obj, created = Equipment.objects.get_or_create(
+                valaEntry=vala_entry,
+                equipmentID=id,
+                name=name
+            )
+            print "Created: ", created
 
-                obj, created = Equipment.objects.get_or_create(
-                    valaEntry=vala_entry,
-                    equipmentID=id,
-                    name=name
-                )
-                print "Created: ", created
         except:
             print "nothing to add"
+
+        return HttpResponseRedirect(return_url)
+
+class save_scientist(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        # sanity
+        entry_id = request.POST['entry_id']
+
+        # Construct our return URL
+        return_url = '/edit/' + entry_id + '/'
+
+        # Get the vala entry item associated with this request
+        vala_entry = ValaEntry.objects.get(projectID=entry_id)
+        username = request.POST['sci_username']
+
+        user = User.objects.get(username=username)
+
+        try:
+            vala_entry.scientists.add(user)
+            print 'added scientist'
+        except:
+            print "nothing to add"
+
+        return HttpResponseRedirect(return_url)
+
+class delete_scientist(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        # sanity
+        entry_id = request.POST['entry_id']
+
+        # Construct our return URL
+        return_url = '/edit/' + entry_id + '/'
+
+        # Get the vala entry item associated with this request
+        vala_entry = ValaEntry.objects.get(projectID=entry_id)
+        username = request.POST['sci_username']
+
+        user = User.objects.get(username=username)
+
+        try:
+            vala_entry.scientists.remove(user)
+            print 'removed scientist'
+        except:
+            print "nothing to remove"
 
         return HttpResponseRedirect(return_url)
 
@@ -210,10 +251,9 @@ class editEntry(TemplateView):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
       equipment_list = Equipment.objects.filter(valaEntry=project_entry)
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
-      scientists_list = User.objects.all()
       scientists_in_project = project_entry.scientists.all()
-      print(scientists_in_project)
-      print(scientists_list)
+      user_values = scientists_in_project.values("username")
+      scientists_list = User.objects.exclude(username__in=user_values)
 
       try:
         details = ExperimentDetails.objects.get(valaEntry=project_entry)
@@ -231,7 +271,7 @@ class editEntry(TemplateView):
           'pageTitle': "Edit Vala Entry",
           'project_entry': project_entry,
           'equipment_list': equipment_list,
-          'experiment_dets': experiment_details,
+          'experiment_details': experiment_details,
           'experiment_form': experiment_form,
           'file_list': file_list,
           'scientist_list': scientists_list,

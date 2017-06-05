@@ -155,6 +155,37 @@ li.tableRow.click-row.tableCell {
 }
 
 #id_scientists {
-    width: 50%;
-    margin-left: 2%;
+  width: 50%;
+  margin-left: 2%;
+}
+
+.tabHeader {
+    text-decoration: underline;
+}
+
+.DataTable {
+  display: table;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.DataTable td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.DataTable tr:nth-child(even){
+  background-color: #dddddd;
+}
+
+/* Change the cursor on hover to signal to the user it is a clickable link */
+.click-row {
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+
+.click-row:hover {
+  background: #7ea05f;
 }

@@ -24,9 +24,39 @@
   <li><a href="javascript:void(0)" class="tablinks">Summary</a></li>
 </ul>
 
+<!-- Finalize Project -->
+<div id="Summary" class="tabcontent">
+  <div>
+    <h3 class="tabHeader">Experiment Details</h3>
+
+    {% if experiment_details %}
+      <p><b>Type:</b> {{ experiment_details.experimentType }}</p>
+      <p><b>Hypothesis:</b> {{ experiment_details.hypothesis }}</p>
+
+    {% else %}
+    {% endif %}
+  </div>
+
+  <div id="ScientistSummary">
+    <h3 class="tabHeader">Scientists</h3>
+  </div>
+
+  <div>
+    <h3 class="tabHeader">Notebooks</h3>
+  </div>
+
+  <div id="EquipSummary">
+    <h3 class="tabHeader">Equipment</h3>
+  </div>
+
+  <div id="FileSummary">
+    <h3 class="tabHeader">Files</h3>
+  </div>
+</div>
+
 <!-- Experiments -->
 <div id="Experiments" class="tabcontent">
-  <h2>Experiment Details</h2>
+  <h3 class="tabHeader">Experiment Details</h3>
   <div class="experiment_options">
     <form method="POST" action="">
       {% csrf_token %}
@@ -36,7 +66,65 @@
   </div>
 </div>
 
+<!-- Scientists -->
 <div id="Scientists" class="tabcontent">
+  <h3 class="tabHeader">
+    Click on a row to add to the project
+  </h3>
+
+
+  <!--Main Scientists Context-->
+  <table class="DataTable" id="availScientistList">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+    </tr>
+    </thead>
+    <tbody id="availScientistBody">
+      {% if scientist_list %}
+        {% for scientist in scientist_list %}
+          <tr class="click-row" id="{{ scientist.username }}" onclick="scientistOnClick(this)">
+          <td class="sciUsername">{{ scientist.username }}</td>
+          <td class="sciFirstName">{{ scientist.first_name }}</td>
+          <td class="sciLastName">{{ scientist.last_name }}</td>
+        {% endfor %}
+      {% else %}
+        oops
+      {% endif %}
+    </tbody>
+  </table>
+
+  <!--Scientists added to project -->
+  <div id="ScientistBench">
+    <h3 class="tabHeader">
+      Scientists on project
+    </h3>
+
+    <table class="DataTable" id="scientistListBench">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+      </tr>
+      </thead>
+      <tbody id="benchScientistBody">
+      {% if current_scientists %}
+        {% for scientist in current_scientists %}
+          <tr class="click-row" id="{{ scientist.username }}" onclick="scientistOnClick(this)">
+            <td class="sciUsername">{{ scientist.username }}</td>
+            <td class="sciFirstName">{{ scientist.first_name }}</td>
+            <td class="sciLastName">{{ scientist.last_name }}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+<!--
     <h2>
         Select Key Scientists
     </h2>
@@ -65,7 +153,7 @@
     {% if current_scientists %}
         {% for sci in current_scientists %}
             <table id="all_scientists">
-                <th="tableTitleRow">
+                <th id="tableTitleRow">
                 <td class="tableCell">username</td>
                 <td class="tableCell">First name</td>
                 <td class="tableCell">Last name</td>
@@ -80,14 +168,14 @@
         {% endfor %}
     {% else %}
         Could not retrieve scientist list
-    {% endif %}
+    {% endif %}-->
 </div>
 
 <!-- Notebooks & Pages -->
 <div id="Notebooks" class="tabcontent">
-  <h2>
+  <h3 class="tabHeader">
     Select Notebook Reference
-  </h2>
+  </h3>
   <select name="notebooks"> 
     <option value="Select Notebook(s):">Select Notebook(s)</option>  </select>
   <input type="submit" value="ADD"><br>
@@ -100,125 +188,95 @@
 
 <!-- Equipment -->
 <div id="Equipment" class="tabcontent">
-  <h2>
-    Select Project Equipment Used
-  </h2>
+  <h3 class="tabHeader">
+    Click on a row to add to the project
+  </h3>
+
 
   <!--Main Equipment Context-->
-  <ul id="availEquipmentList">
-    <li class="tableTitleRow">
-      <span class="tableCell" style="width: 0%;"></span>
-      <span class="tableCell">ID</span>
-      <span class="tableCell">Name</span>
-    </li>
-
-    <li class="tableRow">
-        <span class="tableCell" id="equipCheckCell">
-        </span>
-      <span class="tableCell equipID">
-        </span>
-      <span class="tableCell equipName">
-        </span>
-    </li>
-  </ul>
+  <table class="DataTable" id="availEquipmentList">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody id="availEquipBody">
+    </tbody>
+  </table>
 
   <!--Equipment added to project -->
   <div id="EquipmentBench">
-    <h2>
-      Equipment Used on Project
-    </h2>
+    <h3 class="tabHeader">
+      Project Equipment Used
+    </h3>
 
-    <ul id="equipListBench">
-      <li class='tableTitleRow'>
-        <span class="tableCell" style="width: 0%;"></span>
-        <span class="tableCell">ID</span>
-        <span class="tableCell">Name</span>
-      </li>
-
-      {% if equipment_list %}
-        {% for equipment in equipment_list %}
-        <li class="tableRow equipment-row">
-          <span class="tableCell" id="equipCheckCell">
-            <input type='checkbox' onclick="equipOnClick(this)" class="rowCheckbox"/>
-          </span>
-          <span class="tableCell equipID">
-            {{ equipment.equipmentID }}
-          </span>
-          <span class="tableCell equipName">
-            {{ equipment.name }}
-          </span>
-        </li>
-        {% endfor %}
-      {% else %}
-      {% endif %}
-
-    </ul>
+    <table class="DataTable" id="equipListBench">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody id="benchEquipBody">
+        {% if equipment_list %}
+          {% for equipment in equipment_list %}
+            <tr class="click-row" id="{{ equipment.equipmentID }}" onclick="equipOnClick(this)">
+              <td class="equipID">{{ equipment.equipmentID }}</td>
+              <td class="equipName">{{ equipment.name }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
   </div>
 
 </div>
 
 <!-- Add Files/Data -->
 <div id="Files" class="tabcontent">
-  <h2>Add Project File(s)</h2>
+  <h3 class="tabHeader">
+    Click on a row to add to your project
+  </h3>
 
   <!--Main Files Context-->
-  <ul id="availFileList">
-    <li class="tableTitleRow">
-      <span class="tableCell" style="width: 0%;"></span>
-      <span class="tableCell">ID</span>
-      <span class="tableCell">Name</span>
-    </li>
-
-    <li class="tableRow">
-        <span class="tableCell" id="fileCheckCell">
-        </span>
-      <span class="tableCell fileID">
-        </span>
-      <span class="tableCell fileName">
-        </span>
-    </li>
-  </ul>
+  <table class="DataTable" id="availFileList">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody id="availFileBody">
+    </tbody>
+  </table>
 
   <!--Files added to project -->
   <div id="FileBench">
-    <h2>
+    <h3 class="tabHeader">
       Project Files
-    </h2>
+    </h3>
 
-    <ul id="fileListBench">
-      <li class='tableTitleRow'>
-        <span class="tableCell" style="width: 0%;"></span>
-        <span class="tableCell">ID</span>
-        <span class="tableCell">Name</span>
-      </li>
-
+    <table class="DataTable" id="fileListBench">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody id="benchFileBody">
       {% if file_list %}
       {% for file in file_list %}
-      <li class="tableRow file-row">
-          <span class="tableCell" id="fileCheckCell">
-            <input type='checkbox' onclick="fileOnClick(this)" class="rowCheckbox"/>
-          </span>
-        <span class="tableCell fileID">
-            {{ file.fileID }}
-          </span>
-        <span class="tableCell fileName">
-            {{ file.name }}
-          </span>
-      </li>
+      <tr class="click-row" id="{{ file.fileID }}" onclick="fileOnClick(this)">
+        <td class="fileID">{{ file.fileID }}</td>
+        <td class="fileName">{{ file.name }}</td>
+      </tr>
       {% endfor %}
-      {% else %}
       {% endif %}
-
-    </ul>
+      </tbody>
+    </table>
   </div>
 
-</div>
-
-
-
-<!-- Finalize Project -->
-<div id="Summary" class="tabcontent">
-  <h2>Summary</h2>
 </div>
 
 {% endblock %}
