@@ -1,16 +1,3 @@
-#viewSwitch {
-    color: black;
-}
-#viewSwitch a {
-    color: black;
-}
-#viewSwitch span {
-    margin-left: 2%;
-}
-#viewSwitch .active {
-    text-decoration: underline;
-}
-
 /* list table */
 #taskList, #taskListDialog, #taskListBench, #availEquipmentList{
     list-style: none;
@@ -18,20 +5,6 @@
     border-collapse: collapse;
     width: 100%;
     margin-left: auto;
-    margin-right: auto;
-}
-
-#addEquipDialog {
-    height: 50px;
-    width: 50px;
-}
-
-#equipList{
-    list-style: none;
-    display: table;
-    border-collapse: collapse;
-    width: 70%;
-    margin-left: 0;
     margin-right: auto;
 }
 
@@ -43,16 +16,6 @@
 
 .tableRow, .tableRowDialog{
     display: table-row;
-}
-
-.new-project-row{
-    width: 100%;
-    cursor: pointer;
-    color: black;
-}
-
-.new-project-row span{
-    text-decoration: underline;
 }
 
 .tableTitleRow,
@@ -88,12 +51,6 @@ table {
     cursor: pointer;
     text-decoration: none;
     color: black;
-}
-
-/* Change the background color of the row to signal to the user it is a
-   clickable linke */
-.new-project-row:hover{
-    background: #7ea05f;
 }
 
 .click-row:hover {

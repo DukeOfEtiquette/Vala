@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Status( models.Model ):
     code    = models.IntegerField()
@@ -18,6 +19,7 @@ class ValaEntry( models.Model ):
     creationDate    = models.DateTimeField( auto_now_add=True, blank=True )
     projectID       = models.CharField( max_length=16, )#STUB
     reviewer        = models.CharField( max_length=256, null=True)#STUB
+    scientists      = models.ManyToManyField(User)
     class Meta:
         verbose_name_plural = "ValaEntries"
 
@@ -29,10 +31,6 @@ class ExperimentDetails( models.Model ):
     experimentType  = models.ForeignKey( "ExperimentType", null=True )
     hypothesis      = models.CharField( max_length=1024, default="" )
 
-
-class Scientist( models.Model ):
-    valaEntry   = models.ForeignKey( "ValaEntry" )
-    scientistID = models.CharField( max_length=256 )#STUB
 
 class FileType( models.Model ):
     code    = models.IntegerField()

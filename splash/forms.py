@@ -18,6 +18,10 @@ class ValaEntryForm(forms.ModelForm):
     model = ValaEntry
     fields = '__all__'
 
+class ScientistForm(forms.ModelForm):
+  class Meta:
+    model = ValaEntry
+    fields = ['scientists']
 
 class ExperimentDetsForm(forms.ModelForm):
   class Meta:

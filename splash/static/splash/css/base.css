@@ -5,6 +5,7 @@
 
 .nav-bar {
     text-align: center;
+    height: 79px;
 }
 
 .nav-bar img {
@@ -42,6 +43,17 @@
 /* On hover change the text to a horrid color */
 .nav-bar li a:hover {
     color: #7ea05f;
+}
+
+.nav-bar #logout{
+    float: right;
+    margin-top: 2%;
+    margin-right: 2%;
+}
+
+.nav-bar #logout a{
+    text-decoration: none;
+    color: black;
 }
 
 /* Style the Modal (background) */

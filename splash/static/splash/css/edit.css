@@ -153,3 +153,8 @@ li.tableRow.click-row.tableCell {
     text-align: center;
     text-decoration: underline;
 }
+
+#id_scientists {
+    width: 50%;
+    margin-left: 2%;
+}

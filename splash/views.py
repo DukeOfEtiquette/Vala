@@ -5,13 +5,15 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from .models import ValaEntry, Equipment, File, FileType, ExperimentDetails
 from models import Status
-from .forms import NewProject, ExperimentDetsForm
+from .forms import NewProject, ExperimentDetsForm, ScientistForm
 from django.core.urlresolvers import reverse
-import json, urllib2
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.models import User
 
 class new_project(TemplateView):
   # if this is a POST request we need to process the form data
+  @method_decorator(login_required)
   def post(self, request):
     # create a form instance and populate it with data from the request:
     form = NewProject(request.POST)
@@ -23,6 +25,7 @@ class new_project(TemplateView):
       newVala.save()
       experimentDetails = ExperimentDetails(valaEntry=newVala)
       experimentDetails.save()
+      newVala.scientists.add(request.user)
       # redirect to a new URL:
       return HttpResponseRedirect(reverse('edit', args=(newID,)))
 
@@ -30,17 +33,39 @@ class new_project(TemplateView):
 class splashIndex(TemplateView):
   template_name = "splash/index.html"
 
+  @method_decorator(login_required(redirect_field_name='next'))
   def get(self, request):
+    print(request.user)
     page_title = "Vala Project Entry System"
     form = NewProject()
-    entry_list = ValaEntry.objects.order_by('creationDate')
+    viewAll = False
+    if request.GET.get('view', '') == 'all':
+        entry_list = ValaEntry.objects.order_by('creationDate')
+        viewAll = True
+    else:
+        entry_list = ValaEntry.objects.filter(scientists__username__startswith=request.user.username).order_by('creationDate')
     equipment = Equipment.objects.all();
-    template_context = {'pageTitle': page_title, 'entry_list': entry_list, 'equip_list': equipment,
-                        'form': form, }
+    template_context = {
+        'viewAll': viewAll,
+        'pageTitle': page_title,
+        'entry_list': entry_list,
+        'equip_list': equipment,
+        'form': form,
+        'user': request.user,
+    }
     return render(request, self.template_name, template_context)
-  # def post(self, request):
-  #   form = NewProject()
-  #   return HttpResponseRedirect('/')
+
+
+class update_scientists(TemplateView):
+    template_name = 'splash/edit.html'
+
+    def post(self, request):
+        try:
+            print(request.POST)
+        except Exception as e:
+            print (e, "nothing to add")
+
+        return HttpResponseRedirect(return_url)
 
 
 class delete_file(TemplateView):
@@ -159,6 +184,7 @@ class save_equipment(TemplateView):
 class editEntry(TemplateView):
     template_name='splash/edit.html'
 
+    @method_decorator(login_required)
     def post(self, request, entry_id):
       form = ExperimentDetsForm(request.POST)
       vala_entry = ValaEntry.objects.get(projectID=entry_id)
@@ -179,10 +205,15 @@ class editEntry(TemplateView):
         experDetails.save()
       return HttpResponseRedirect(reverse('edit', args=(entry_id,)))
 
+    @method_decorator(login_required)
     def get(self, request, entry_id):
       project_entry = ValaEntry.objects.get(projectID=entry_id)
       equipment_list = Equipment.objects.filter(valaEntry=project_entry)
       experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
+      scientists_list = User.objects.all()
+      scientists_in_project = project_entry.scientists.all()
+      print(scientists_in_project)
+      print(scientists_list)
 
       try:
         details = ExperimentDetails.objects.get(valaEntry=project_entry)
@@ -190,7 +221,9 @@ class editEntry(TemplateView):
       except:
         data = {}
 
+      scientists = ScientistForm()
       experiment_form = ExperimentDetsForm(initial=data)
+      #scientist_list = project_entry.scientists
 
       file_list = File.objects.filter(valaEntry=project_entry)
       template_context = {
@@ -200,7 +233,9 @@ class editEntry(TemplateView):
           'equipment_list': equipment_list,
           'experiment_dets': experiment_details,
           'experiment_form': experiment_form,
-          'file_list': file_list
+          'file_list': file_list,
+          'scientist_list': scientists_list,
+          'current_scientists': scientists_in_project,
       }
       return render(request, self.template_name, template_context)
 
@@ -220,3 +255,24 @@ class reviewEntry(TemplateView):
     page_title = ""
     template_context = {'entry_id': entry_id, 'pageTitle': page_title}
     return render(request, self.template_name, template_context)
+
+
+# copied get from class splashIndex
+class query(TemplateView):
+    template_name = 'splash/query.html'
+
+    def get(self, request):
+        page_title = "Vala Project Entry System"
+        query_list = ValaEntry.objects.order_by('creationDate')
+        equipment = Equipment.objects.all();
+        template_context = {'pageTitle': page_title, 'query_list': query_list, 'equip_list': equipment}
+        return render(request, self.template_name, template_context)
+
+# copied get from class splashIndex
+class project(TemplateView):
+    template_name = 'splash/project.html'
+
+    def get(self, request, entry_id):
+        page_title = "Vala Project Summary"
+        template_context = {'pageTitle': page_title}
+        return render(request, self.template_name, template_context)

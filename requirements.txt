@@ -1,3 +1,4 @@
 Django==1.8.17
 django-cors-headers==2.0.2
+psycopg2==2.7.1
 wheel==0.29.0
