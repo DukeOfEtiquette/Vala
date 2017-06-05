@@ -3,6 +3,7 @@
 }
 #viewSwitch a {
     color: black;
+    text-decoration: none;
 }
 #viewSwitch span {
     margin-left: 2%;
