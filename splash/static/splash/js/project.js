@@ -4,6 +4,10 @@
 
 //Once document is ready...
 $(window).on("load", function () {
+
+  $('#fileListBench').DataTable();
+  $('#scientistListBench').DataTable();
+  $('#equipListBench').DataTable();
 });
 
 

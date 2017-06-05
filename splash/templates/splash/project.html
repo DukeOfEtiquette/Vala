@@ -8,5 +8,95 @@
 {% endblock %}
 
 {% block pageBody %}
+  <header>
+    <h2>{{ page_title }}</h2>
+  </header>
+
     {{ query_id }}
+  <div id="Summary" class="tabcontent">
+    <div>
+      <h3 class="tabHeader">Experiment Details</h3>
+
+      {% if experiment_details %}
+        <p><b>Type:</b> {{ experiment_details.experimentType }}</p>
+        <p><b>Hypothesis:</b> {{ experiment_details.hypothesis }}</p>
+
+      {% else %}
+      {% endif %}
+    </div>
+    <hr />
+
+    <div id="ScientistSummary">
+      <h3 class="tabHeader">Scientists</h3>
+      <table class="DataTable" id="scientistListBench">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+        </tr>
+        </thead>
+        <tbody id="benchScientistBody">
+        {% if current_scientists %}
+          {% for scientist in current_scientists %}
+            <tr class="click-row" id="{{ scientist.username }}" onclick="scientistOnClick(this)">
+              <td class="sciUsername">{{ scientist.username }}</td>
+              <td class="sciFirstName">{{ scientist.first_name }}</td>
+              <td class="sciLastName">{{ scientist.last_name }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <hr />
+
+    <div>
+      <h3 class="tabHeader">Notebooks</h3>
+    </div>
+<hr />
+    <div id="EquipSummary">
+      <h3 class="tabHeader">Equipment</h3>
+      <table class="DataTable" id="equipListBench">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+        </thead>
+        <tbody id="benchEquipBody">
+        {% if equipment_list %}
+          {% for equipment in equipment_list %}
+            <tr class="click-row" id="{{ equipment.equipmentID }}" onclick="equipOnClick(this)">
+              <td class="equipID">{{ equipment.equipmentID }}</td>
+              <td class="equipName">{{ equipment.name }}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
+
+    <div id="FileSummary">
+      <h3 class="tabHeader">Files</h3>
+      <table class="DataTable" id="fileListBench">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+        </tr>
+        </thead>
+      <tbody id="benchFileBody">
+      {% if file_list %}
+        {% for file in file_list %}
+          <tr class="click-row" id="{{ file.fileID }}" onclick="fileOnClick(this)">
+            <td class="fileID">{{ file.fileID }}</td>
+            <td class="fileName">{{ file.name }}</td>
+          </tr>
+        {% endfor %}
+      {% endif %}
+      </tbody>
+      </table>
+    </div>
+  </div>
 {% endblock %}

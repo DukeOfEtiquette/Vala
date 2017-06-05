@@ -65,7 +65,6 @@ class update_scientists(TemplateView):
         except Exception as e:
             print (e, "nothing to add")
 
-        return HttpResponseRedirect(return_url)
 
 
 class delete_file(TemplateView):
@@ -312,7 +311,32 @@ class query(TemplateView):
 class project(TemplateView):
     template_name = 'splash/project.html'
 
+    @method_decorator(login_required)
     def get(self, request, entry_id):
         page_title = "Vala Project Summary"
-        template_context = {'pageTitle': page_title}
+        project_entry = ValaEntry.objects.get(projectID=entry_id)
+        equipment_list = Equipment.objects.filter(valaEntry=project_entry)
+        experiment_details = ExperimentDetails.objects.get(valaEntry=project_entry)
+        scientists_in_project = project_entry.scientists.all()
+        user_values = scientists_in_project.values("username")
+        scientists_list = User.objects.exclude(username__in=user_values)
+        try:
+            details = ExperimentDetails.objects.get(valaEntry=project_entry)
+            data = {'experimentType': details.experimentType, 'hypothesis': details.hypothesis}
+        except:
+            data = {}
+        file_list = File.objects.filter(valaEntry=project_entry)
+        template_context = {
+            'entry_id': entry_id,
+            'pageTitle': page_title,
+            'project_entry': project_entry,
+            'equipment_list': equipment_list,
+            'experiment_details': experiment_details,
+            'file_list': file_list,
+            'scientist_list': scientists_list,
+            'current_scientists': scientists_in_project,
+        }
         return render(request, self.template_name, template_context)
+
+
+

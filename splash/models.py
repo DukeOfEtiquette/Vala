@@ -20,6 +20,7 @@ class ValaEntry( models.Model ):
     projectID       = models.CharField( max_length=16, )#STUB
     reviewer        = models.CharField( max_length=256, null=True)#STUB
     scientists      = models.ManyToManyField(User)
+    notebooks       = models.CharField(max_length=2048, null=True)#STUB
     class Meta:
         verbose_name_plural = "ValaEntries"
 
